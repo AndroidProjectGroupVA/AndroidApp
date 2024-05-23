@@ -1,14 +1,21 @@
 package com.example.androidapp.activities;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.widget.ScrollView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
 import com.example.androidapp.databinding.ActivityFirstMainBinding;
 
@@ -21,6 +28,20 @@ public class FirstMainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         binding = ActivityFirstMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        ScrollView scrollView = findViewById(R.id.first_main);
+        Glide.with(this)
+                .load(R.drawable.background1) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        scrollView.setBackground(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
         setListeners();
 //        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.first_main), (v, insets) -> {
 //            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
