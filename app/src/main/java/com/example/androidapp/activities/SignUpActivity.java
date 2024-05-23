@@ -118,7 +118,7 @@ public class SignUpActivity extends AppCompatActivity {
                     preferenceManager.putString(Constants.KEY_EMAIL, binding.signUpEdtEmail.getText().toString());
                     preferenceManager.putString(Constants.KEY_PHONE, binding.signUpEdtPhone.getText().toString());
                     //tao intent
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
                     //tao 1 task moi de chuyen den MainActivity va xoa cac activity truoc do
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
@@ -165,7 +165,16 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
     );
+    public boolean isNumeric(String str) {
+        if (str == null || str.isEmpty()) {
+            return false;
+        }
+        return str.matches("\\d+");
+    }
     private Boolean isValidSignupDetail(){
+        String pass = binding.signUpEdtPassword.getText().toString();
+        String phone = binding.signUpEdtPhone.getText().toString();
+        int lengthPass = pass.length();
         if(binding.signUpEdtUsername.getText().toString().isEmpty()){
             showToast("Bạn chưa nhập tên đăng nhập");
             return false;
@@ -174,12 +183,20 @@ public class SignUpActivity extends AppCompatActivity {
             showToast("Bạn chưa nhập mật khẩu");
             return false;
         }
+        else if (lengthPass < 8){
+            showToast("Mật khẩu tối thiểu 8 kí tự");
+            return false;
+        }
         else if (!Patterns.EMAIL_ADDRESS.matcher(binding.signUpEdtEmail.getText().toString()).matches()) {
             showToast("Email không hợp lệ");
             return false;
         }
         else if(binding.signUpEdtPhone.getText().toString().isEmpty()){
             showToast("Bạn chưa nhập số điện thoại");
+            return false;
+        }
+        else if (phone.length() < 10 || !isNumeric(phone)){
+            showToast("Số điện thoại không hợp lệ");
             return false;
         }
         return true;
