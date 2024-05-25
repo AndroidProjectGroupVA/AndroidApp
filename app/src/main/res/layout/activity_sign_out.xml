@@ -167,7 +167,7 @@
             android:paddingStart="50dp">
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/ibtnSignOut"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@android:color/transparent"
@@ -177,7 +177,7 @@
                 app:srcCompat="@android:drawable/ic_lock_power_off" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/txtSignOut"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đăng xuất"
