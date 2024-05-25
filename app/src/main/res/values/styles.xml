@@ -1,0 +1,15 @@
+<resources>
+    <style name="MenuItemStyle">
+        <item name="android:background">#74B9FF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="NavigationViewStyle" parent="Widget.Design.NavigationView">
+        <item name="itemTextAppearance">@style/MenuItemStyle</item>
+        <item name="itemIconTint">#FFFFFF</item>
+    </style>
+
+</resources>
