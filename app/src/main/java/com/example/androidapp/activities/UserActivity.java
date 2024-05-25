@@ -9,15 +9,12 @@ import android.widget.ImageButton;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.androidapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class SignOutActivity extends AppCompatActivity {
+public class UserActivity extends AppCompatActivity {
     ImageButton ibtnSignOut;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
@@ -26,7 +23,7 @@ public class SignOutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_sign_out);
+        setContentView(R.layout.activity_user);
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
@@ -34,7 +31,7 @@ public class SignOutActivity extends AppCompatActivity {
         ibtnSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SignOutActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this);
                 View dialogView = getLayoutInflater().inflate(R.layout.sign_out_dialog, null);
                 builder.setView(dialogView);
                 AlertDialog dialog = builder.create();
@@ -46,7 +43,7 @@ public class SignOutActivity extends AppCompatActivity {
                 abortButton.setOnClickListener(vbtn -> dialog.dismiss());
                 acceptButton.setOnClickListener(vbtn -> {
                     mAuth.signOut();
-                    Intent intent = new Intent(SignOutActivity.this, MainActivity.class);
+                    Intent intent = new Intent(UserActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                     dialog.dismiss();
