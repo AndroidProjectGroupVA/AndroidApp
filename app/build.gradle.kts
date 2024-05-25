@@ -45,7 +45,6 @@ dependencies {
     implementation(libs.glide)
     annotationProcessor(libs.compiler)
 
-
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
     implementation(libs.firebaseAnalytics)
