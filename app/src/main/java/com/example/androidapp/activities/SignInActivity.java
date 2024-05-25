@@ -11,9 +11,6 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
@@ -22,12 +19,9 @@ import com.example.androidapp.R;
 import com.example.androidapp.activities.firebase.SessionManager;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
-import com.example.androidapp.databinding.ActivityFirstMainBinding;
 import com.example.androidapp.databinding.ActivitySignInBinding;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
 
 public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
@@ -68,8 +62,6 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
     private void setListeners() {
-        binding.signInBtnSignIn.setOnClickListener(v ->
-                startActivity(new Intent(getApplicationContext(), SignInActivity.class)));
         binding.signInBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,7 +89,7 @@ public class SignInActivity extends AppCompatActivity {
 //                        sessionManager.setLoggedIn(true);
 //                        sessionManager.setUserId(documentSnapshot.getId());
                         showToast("Login successfull");
-                        Intent i1 = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent i1 = new Intent(getApplicationContext(), HomeActivity.class);
                         i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i1);
                     }else {
