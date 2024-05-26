@@ -54,4 +54,7 @@ dependencies {
 
     //Multidex
     implementation(libs.multidex)
+
+    implementation("com.makeramen:roundedimageview:2.3.0");
+
 }

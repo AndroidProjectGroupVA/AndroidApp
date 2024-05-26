@@ -1,5 +1,6 @@
 package com.example.androidapp.activities.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.androidapp.R;
+import com.example.androidapp.activities.UsersActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +28,8 @@ public class ChatFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private FloatingActionButton fbtn;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -55,6 +60,9 @@ public class ChatFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        fbtn = (FloatingActionButton) getView().findViewById(R.id.fabNewChat);
+        fbtn.setOnClickListener(v->
+                startActivity(new Intent(getActivity(), UsersActivity.class)));
     }
 
     @Override
