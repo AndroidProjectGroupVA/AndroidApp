@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.FirstMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
@@ -32,12 +34,13 @@ public class UserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private android.widget.ImageButton ImageButton;
 
     ImageButton ibtnSignOut;
-    TextView txtSignOut;
+    TextView txtSignOut, txtUserName;
+    ImageView imgUser;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
+    FirebaseUser currentUser;
 
     public UserFragment() {
         // Required empty public constructor
@@ -76,6 +79,8 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_user, container, false);
+        txtUserName = rootView.findViewById(R.id.txtUserName);
+        imgUser = rootView.findViewById(R.id.imgUserAvatar);
         txtSignOut = rootView.findViewById(R.id.txtSignOut);
         txtSignOut.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,5 +108,13 @@ public class UserFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        currentUser = mAuth.getCurrentUser();
+
     }
 }

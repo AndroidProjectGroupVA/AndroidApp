@@ -17,6 +17,7 @@ import com.example.androidapp.activities.fragments.HomeFragment;
 import com.example.androidapp.activities.fragments.LibraryFragment;
 import com.example.androidapp.activities.fragments.NotifyFragment;
 import com.example.androidapp.activities.fragments.UserFragment;
+import com.example.androidapp.activities.fragments.UserTokenFragment;
 import com.example.androidapp.databinding.ActivityFirstMainBinding;
 import com.example.androidapp.databinding.ActivityHomeBinding;
 import com.example.androidapp.databinding.ActivitySignInBinding;
@@ -52,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
 
             int itemId = item.getItemId();
             if (itemId == R.id.bottom_menu_user) {
-                replaceFragment(new UserFragment());
+                replaceFragment(new UserTokenFragment());
             } else if (itemId == R.id.bottom_menu_chat) {
                 replaceFragment(new ChatFragment());
             } else if (itemId == R.id.bottom_menu_notify) {
