@@ -55,7 +55,7 @@
         android:layout_below="@+id/linearLayout2"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="0dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="60dp"
         android:gravity="center"
         android:orientation="vertical">
 
