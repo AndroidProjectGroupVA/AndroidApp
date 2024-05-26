@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.FirstMainActivity;
@@ -34,6 +35,7 @@ public class UserFragment extends Fragment {
     private android.widget.ImageButton ImageButton;
 
     ImageButton ibtnSignOut;
+    TextView txtSignOut;
     FirebaseAuth mAuth;
     FirebaseFirestore db;
 
@@ -74,6 +76,17 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_user, container, false);
+        txtSignOut = rootView.findViewById(R.id.txtSignOut);
+        txtSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mAuth.getCurrentUser()!= null)
+                    mAuth.signOut();
+                Intent intent = new Intent(getActivity(), FirstMainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
 
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
