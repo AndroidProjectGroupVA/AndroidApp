@@ -21,12 +21,13 @@
             android:id="@+id/toolbar"
             android:elevation="4dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+            android:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:background="@color/colorToolbar" />
 
         <FrameLayout
+            android:id="@+id/frame_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/frame_layout"/>
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
@@ -37,11 +38,14 @@
         android:layout_gravity="start"
         android:background="#74B9FF"
         android:fitsSystemWindows="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="48dp"
         app:headerLayout="@layout/nav_header"
         app:itemBackground="@color/white"
         app:itemTextAppearance="@style/MenuItemStyle"
         app:itemTextColor="#74B9FF"
-        app:menu="@menu/nav_menu" />
+        app:menu="@menu/nav_menu"
+        />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
