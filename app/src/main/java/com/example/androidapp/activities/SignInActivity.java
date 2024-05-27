@@ -89,7 +89,7 @@ public class SignInActivity extends AppCompatActivity {
 //                        sessionManager.setLoggedIn(true);
 //                        sessionManager.setUserId(documentSnapshot.getId());
                         showToast("Login successfull");
-                        Intent i1 = new Intent(getApplicationContext(), HomeActivity.class);
+                        Intent i1 = new Intent(getApplicationContext(), MainActivity.class);
                         i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i1);
                     }else {
