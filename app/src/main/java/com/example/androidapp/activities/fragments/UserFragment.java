@@ -95,6 +95,71 @@ public class UserFragment extends Fragment {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+        Glide.with(this)
+                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnUserInfo.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.two_people) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnFriends.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.group_icon) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnGroup.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.red_warning) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnReport.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.ic_logout) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnSignOut.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
         return binding.getRoot();
     }
 
