@@ -13,6 +13,7 @@ firebaseMessaging = "24.0.0"
 firebaseBom = "33.0.0"
 firebaseFirestore = "25.0.0"
 multidex = "2.0.1"
+mediarouter = "1.7.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,6 +30,7 @@ firebaseAnalytics = { group = "com.google.firebase", name = "firebase-analytics"
 firebaseAuth = { group = "com.google.firebase", name = "firebase-auth"}
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
 multidex = { group = "androidx.multidex", name = "multidex", version.ref = "multidex" }
+mediarouter = { group = "androidx.mediarouter", name = "mediarouter", version.ref = "mediarouter" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

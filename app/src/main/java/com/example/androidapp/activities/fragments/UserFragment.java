@@ -1,14 +1,26 @@
 package com.example.androidapp.activities.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.example.androidapp.R;
+import com.example.androidapp.activities.SignInActivity;
+import com.example.androidapp.activities.utilities.Constants;
+import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.databinding.FragmentUserBinding;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +37,8 @@ public class UserFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private FragmentUserBinding binding;
+    private PreferenceManager preferenceManager;
 
     public UserFragment() {
         // Required empty public constructor
@@ -36,7 +50,7 @@ public class UserFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment UserFragment.
+     * @return A new instance of fragment UserTokenFragment.
      */
     // TODO: Rename and change types and number of parameters
     public static UserFragment newInstance(String param1, String param2) {
@@ -55,12 +69,54 @@ public class UserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_user, container, false);
+        binding = FragmentUserBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        preferenceManager = new PreferenceManager(getContext());
+        loadUserDetail();
+        setListeners();
+    }
+
+    private void setListeners() {
+
+        binding.ibtnSignOut.setOnClickListener(v -> signOut());
+        binding.txtSignOut.setOnClickListener(v -> signOut());
+    }
+
+    private void loadUserDetail() {
+        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME));
+
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void signOut() {
+        showToast("Signing out...");
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference docRef = db.collection(Constants.KEY_COLLECTION_USERS).document(
+                preferenceManager.getString(Constants.KEY_USER_ID));
+        HashMap<String, Object> updates = new HashMap<>();
+        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
+        docRef.update(updates)
+                .addOnSuccessListener(unused -> {
+                    showToast("Signed out successfully");
+                    preferenceManager.clear();
+                    startActivity(new Intent(requireContext(), SignInActivity.class)); // Use requireContext()
+                    getActivity().finish();
+                })
+                .addOnFailureListener(e -> showToast("Failed to sign out"));
     }
 }

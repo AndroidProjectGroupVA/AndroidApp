@@ -43,7 +43,7 @@ public class UserActivity extends AppCompatActivity {
                 abortButton.setOnClickListener(vbtn -> dialog.dismiss());
                 acceptButton.setOnClickListener(vbtn -> {
                     mAuth.signOut();
-                    Intent intent = new Intent(UserActivity.this, HomeActivity.class);
+                    Intent intent = new Intent(UserActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                     dialog.dismiss();
