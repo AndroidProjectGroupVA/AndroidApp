@@ -3,6 +3,8 @@ package com.example.androidapp.activities.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.UsersActivity;
+import com.example.androidapp.databinding.FragmentChatBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
@@ -44,6 +47,8 @@ public class ChatFragment extends Fragment {
      * @return A new instance of fragment ChatFragment.
      */
     // TODO: Rename and change types and number of parameters
+
+    FragmentChatBinding binding;
     public static ChatFragment newInstance(String param1, String param2) {
         ChatFragment fragment = new ChatFragment();
         Bundle args = new Bundle();
@@ -53,16 +58,24 @@ public class ChatFragment extends Fragment {
         return fragment;
     }
 
+    //@Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        if (getArguments() != null) {
+//            mParam1 = getArguments().getString(ARG_PARAM1);
+//            mParam2 = getArguments().getString(ARG_PARAM2);
+//        }
+//        fbtn = (FloatingActionButton) view.findViewById(R.id.fabNewChat);
+//        fbtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), UsersActivity.class)));
+//    }
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-        fbtn = (FloatingActionButton) getView().findViewById(R.id.fabNewChat);
-        fbtn.setOnClickListener(v->
-                startActivity(new Intent(getActivity(), UsersActivity.class)));
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        FloatingActionButton fabNewChat = view.findViewById(R.id.fabNewChat);
+        fabNewChat.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), UsersActivity.class);
+            startActivity(intent);
+        });
     }
 
     @Override

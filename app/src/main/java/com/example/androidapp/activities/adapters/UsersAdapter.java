@@ -29,7 +29,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
                 LayoutInflater.from(parent.getContext()),
                 parent,
                 false);
-
         return new UserViewHolder(itemContainerUserBinding);
     }
 
@@ -55,9 +54,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
         //set user data
         void setUserData(User user){
-            binding.tvName.setText(user.name);
-            binding.tvEmail.setText(user.email);
-            binding.imgVAvata.setImageBitmap(getUserImage(user.image));
+            binding.tvUserName.setText(user.name);
+            binding.tvUserEmail.setText(user.email);
+            //binding.imgVAvata.setImageBitmap(getUserImage(user.image));
         }
     }
 
