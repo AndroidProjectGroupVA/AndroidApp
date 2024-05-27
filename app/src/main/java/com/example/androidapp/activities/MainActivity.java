@@ -1,15 +1,10 @@
 package com.example.androidapp.activities;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -21,13 +16,11 @@ import com.example.androidapp.activities.fragments.HomeFragment;
 import com.example.androidapp.activities.fragments.LibraryFragment;
 import com.example.androidapp.activities.fragments.NotifyFragment;
 import com.example.androidapp.activities.fragments.UserFragment;
-import com.example.androidapp.databinding.ActivityFirstMainBinding;
-import com.example.androidapp.databinding.ActivityHomeBinding;
-import com.example.androidapp.databinding.ActivitySignInBinding;
+import com.example.androidapp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HomeActivity extends AppCompatActivity {
-    private ActivityHomeBinding binding;
+public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
     DrawerLayout drawerLayout;
     BottomNavigationView bottomNavigationView;
 
@@ -35,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.toolbar);
