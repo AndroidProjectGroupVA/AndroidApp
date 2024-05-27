@@ -2,59 +2,56 @@ package com.example.androidapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.widget.Toast;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
-import com.example.androidapp.databinding.ActivityUserBinding;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
+import com.example.androidapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.HashMap;
 
 public class UserActivity extends AppCompatActivity {
+    ImageButton ibtnSignOut;
+    FirebaseAuth mAuth;
+    FirebaseFirestore db;
 
-    private ActivityUserBinding binding;
-    private PreferenceManager preferenceManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityUserBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        preferenceManager = new PreferenceManager(getApplicationContext());
-        setListeners();
-    }
+        setContentView(R.layout.activity_user);
 
-    private void setListeners() {
-        binding.ibtnSignOut.setOnClickListener(v -> signOut());
-    }
+        db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+        ibtnSignOut = findViewById(R.id.ibtnSignOut);
+        ibtnSignOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(UserActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.sign_out_dialog, null);
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
-    private void showToast(String message) {
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-    }
+                Button abortButton = dialogView.findViewById(R.id.abortButton);
+                Button acceptButton = dialogView.findViewById(R.id.acceptButton);
 
-    private void signOut() {
-        showToast("Signing out...");
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference docRef = db.collection(Constants.KEY_COLLECTION_USERS).document(
-                preferenceManager.getString(Constants.KEY_USER_ID));
-        HashMap<String, Object> updates = new HashMap<>();
-        updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
-        docRef.update(updates)
-                .addOnSuccessListener(unused -> {
-                    showToast("Signed out successfully");
-                    preferenceManager.clear();
-                    startActivity(new Intent(getApplicationContext(), SignInActivity.class));
-                })
-                .addOnFailureListener(e -> showToast("Failed to sign out"));
+                abortButton.setOnClickListener(vbtn -> dialog.dismiss());
+                acceptButton.setOnClickListener(vbtn -> {
+                    mAuth.signOut();
+                    Intent intent = new Intent(UserActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                    dialog.dismiss();
+                });
 
+
+            }
+        });
     }
 
 }
