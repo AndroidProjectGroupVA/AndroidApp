@@ -149,7 +149,7 @@ public class UserFragment extends Fragment {
                     }
                 });
         Glide.with(this)
-                .load(R.drawable.ic_logout) // Đường dẫn đến hình ảnh của bạn
+                .load(R.drawable.log_out) // Đường dẫn đến hình ảnh của bạn
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
