@@ -145,11 +145,13 @@ public class SignUpImgActivity extends AppCompatActivity {
         String password = bundle.getString("password");
         String email = bundle.getString("email");
         String phone = bundle.getString("phone");
+        String nameDisplay = binding.signUpImgEdtName.getText().toString();
         user.put(Constants.KEY_NAME, username);
         user.put(Constants.KEY_PASSWORD, password);
         user.put(Constants.KEY_EMAIL, email);
         user.put(Constants.KEY_PHONE, phone);
         user.put(Constants.KEY_IMAGE, endcodeedImage);
+        user.put(Constants.KEY_NAME_DISPLAY, nameDisplay);
 
         //tham chieu toi collection users trong firebase de luu tru thong tin
         database.collection(Constants.KEY_COLLECTION_USERS)
@@ -163,6 +165,7 @@ public class SignUpImgActivity extends AppCompatActivity {
                     preferenceManager.putString(Constants.KEY_EMAIL, email);
                     preferenceManager.putString(Constants.KEY_PHONE, phone);
                     preferenceManager.putString(Constants.KEY_IMAGE, endcodeedImage);
+                    preferenceManager.putString(Constants.KEY_NAME_DISPLAY, nameDisplay);
                     //tao intent
                     Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
                     //tao 1 task moi de chuyen den MainActivity va xoa cac activity truoc do

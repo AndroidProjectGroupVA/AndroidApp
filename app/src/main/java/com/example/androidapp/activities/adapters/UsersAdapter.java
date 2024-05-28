@@ -55,7 +55,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
         //set user data
         void setUserData(User user){
-            binding.tvUserName.setText(user.name);
+            if (user.nameDisplay == null){
+                binding.tvUserName.setText("Nguoi dung");
+            }
+            else{
+                binding.tvUserName.setText(user.nameDisplay);
+            }
             binding.tvUserEmail.setText(user.email);
             if (getUserImage(user.image) != null){
                 binding.imgUserAvatar.setImageBitmap(getUserImage(user.image));
