@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
+import com.example.androidapp.activities.FirstMainActivity;
 import com.example.androidapp.activities.SignInActivity;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
@@ -197,7 +198,7 @@ public class UserFragment extends Fragment {
                 .addOnSuccessListener(unused -> {
                     showToast("Signed out successfully");
                     preferenceManager.clear();
-                    startActivity(new Intent(requireContext(), SignInActivity.class)); // Use requireContext()
+                    startActivity(new Intent(requireContext(), FirstMainActivity.class)); // Use requireContext()
                     getActivity().finish();
                 })
                 .addOnFailureListener(e -> showToast("Failed to sign out"));
