@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.androidapp.R;
 import com.example.androidapp.activities.models.User;
 import com.example.androidapp.databinding.ItemContainerUserBinding;
 
@@ -56,12 +57,22 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         void setUserData(User user){
             binding.tvUserName.setText(user.name);
             binding.tvUserEmail.setText(user.email);
+            if (getUserImage(user.image) != null){
+                binding.imgUserAvatar.setImageBitmap(getUserImage(user.image));
+            }
+            else{
+                binding.imgUserAvatar.setImageResource(R.drawable.null_user_avata);
+            }
             //binding.imgVAvata.setImageBitmap(getUserImage(user.image));
         }
     }
 
     //get image from string
     private Bitmap getUserImage(String encodeImage){
+        if (encodeImage == null || encodeImage.isEmpty()) {
+            // Trả về một hình ảnh mặc định hoặc null nếu encodeImage là null hoặc trống
+            return null;
+        }
         byte[] bytes = Base64.decode(encodeImage, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }

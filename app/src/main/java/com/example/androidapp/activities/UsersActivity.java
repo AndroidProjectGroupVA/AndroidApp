@@ -67,6 +67,7 @@ public class UsersActivity extends AppCompatActivity {
                             //get data
                             user.name  = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                             user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
+                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             //add to list
                             users.add(user);

@@ -29,8 +29,7 @@
                 android:id="@+id/signIn_ImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:scaleType="fitCenter"
-                app:srcCompat="@drawable/logo" />
+                android:scaleType="fitCenter" />
 
         </androidx.cardview.widget.CardView>
 
@@ -67,6 +66,7 @@
                         android:scaleType="fitCenter" />
 
                     <TextView
+                        android:id="@+id/textAddImg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -92,11 +92,11 @@
                 android:ems="10"
                 android:hint="Họ và Tên"
                 android:imeOptions="actionDone"
-                android:inputType="number|numberDecimal"
+                android:inputType="text"
                 android:textAlignment="center"
                 android:textColor="@color/text"
                 android:textSize="15sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/signUp_img_btnSignUp"
