@@ -2,6 +2,7 @@ package com.example.androidapp.activities.fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -60,7 +61,11 @@ public class NotifyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflate the layout for this fragment.
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if(activity !=null){
+            activity.getSupportActionBar().setTitle("Thông báo");
+        }
         return inflater.inflate(R.layout.fragment_notify, container, false);
     }
 }

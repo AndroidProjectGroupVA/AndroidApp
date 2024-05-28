@@ -2,6 +2,7 @@ package com.example.androidapp.activities.fragments;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -61,6 +62,13 @@ public class LibraryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_library, container, false);
+        View view = inflater.inflate(R.layout.fragment_library, container, false);
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if(activity !=null){
+            activity.getSupportActionBar().setTitle("Tài liệu");
+        }
+        return view;
     }
 }
+
