@@ -16,14 +16,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/first_ImageView"
-            android:layout_width="90dp"
-            android:layout_height="90dp"
+        <androidx.cardview.widget.CardView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_gravity="center"
+            android:shape="ring"
             android:layout_marginTop="200dp"
-            android:background="@drawable/rounded_corners"
-            app:srcCompat="@drawable/logo" />
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="20dp">
+
+            <ImageView
+                android:id="@+id/first_ImageView"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/logo" />
+
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,5 +75,17 @@
                 android:textStyle="bold"
                 app:backgroundTint="@null" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/first_signUpGiasu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="65dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="15dp"
+            android:text="Đăng kí làm gia sư"
+            android:textColor="#74B9FF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
     </LinearLayout>
 </ScrollView>
