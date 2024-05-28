@@ -1,6 +1,7 @@
 package com.example.androidapp.activities.fragments;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.example.androidapp.R;
+import com.example.androidapp.activities.FirstMainActivity;
 import com.example.androidapp.activities.SignInActivity;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
@@ -77,6 +83,84 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentUserBinding.inflate(inflater, container, false);
+        Glide.with(this)
+                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.imgUserAvatar.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnUserInfo.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.two_people) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnFriends.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.group_icon) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnGroup.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.red_warning) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnReport.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+        Glide.with(this)
+                .load(R.drawable.ic_logout) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.ibtnSignOut.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
         return binding.getRoot();
     }
 
@@ -114,7 +198,7 @@ public class UserFragment extends Fragment {
                 .addOnSuccessListener(unused -> {
                     showToast("Signed out successfully");
                     preferenceManager.clear();
-                    startActivity(new Intent(requireContext(), SignInActivity.class)); // Use requireContext()
+                    startActivity(new Intent(requireContext(), FirstMainActivity.class)); // Use requireContext()
                     getActivity().finish();
                 })
                 .addOnFailureListener(e -> showToast("Failed to sign out"));
