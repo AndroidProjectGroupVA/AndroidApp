@@ -1,17 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:elevation="20dp"
     tools:context=".activities.fragments.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Home"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:layout_height="200dp"
+        app:cardBackgroundColor="@color/first_button_color"
+        app:cardElevation="20dp">
 
-</FrameLayout>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/slide_img" />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btnFindTutor"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/cardView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="@color/first_button_color"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Tìm kiếm gia sư"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="30dp" />
+
+    <Button
+        android:id="@+id/btnNews"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/cardView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/first_button_color"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Diễn đàn tin tức"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="30dp" />
+
+    <Button
+        android:id="@+id/btnMaterial"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/btnFindTutor"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="@color/first_button_color"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Tài liệu"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="30dp" />
+
+    <Button
+        android:id="@+id/btnSchedule"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/btnNews"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="40dp"
+        android:backgroundTint="@color/first_button_color"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="Lịch"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:cornerRadius="30dp" />
+
+
+</RelativeLayout>

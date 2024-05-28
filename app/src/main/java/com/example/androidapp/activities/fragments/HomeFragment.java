@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.androidapp.activities.utilities.PreferenceManager;
 import com.example.androidapp.databinding.FragmentHomeBinding;
 
 /**
@@ -29,7 +28,6 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private FragmentHomeBinding binding;
-    private PreferenceManager preferenceManager;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -63,8 +61,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -72,7 +69,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 
 }
