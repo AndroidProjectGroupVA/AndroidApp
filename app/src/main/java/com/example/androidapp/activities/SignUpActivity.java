@@ -139,10 +139,9 @@ public class SignUpActivity extends AppCompatActivity {
                         loading(false);
                     }
                     else{
-                        addDataToFirestore();
+                        nextActivity();
                     }
                 });
-
     }
 
     private void addDataToFirestore() {
@@ -180,6 +179,21 @@ public class SignUpActivity extends AppCompatActivity {
                     loading(false);
                     showToast(e.toString());
                 });
+    }
+
+    private void nextActivity(){
+        String username = binding.signUpEdtUsername.getText().toString();
+        String password = binding.signUpEdtPassword.getText().toString();
+        String email = binding.signUpEdtEmail.getText().toString();
+        String phone = binding.signUpEdtPhone.getText().toString();
+        Intent setimg = new Intent(getApplicationContext(), SignUpImgActivity.class);
+        Bundle user = new Bundle();
+        user.putString("username", username);
+        user.putString("password", password);
+        user.putString("email", email);
+        user.putString("phone", phone);
+        setimg.putExtra("newUser", user);
+        startActivity(setimg);
     }
 
     //set kich thuoc image

@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
 
     <application
         android:allowBackup="true"
@@ -24,7 +27,13 @@
         <activity android:name=".activities.utilities.utili_test"
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
-            ></activity>
+            />
+
+        <activity
+            android:name=".activities.SignUpImgActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            />
 
         <activity
             android:name=".activities.SignInActivity"
