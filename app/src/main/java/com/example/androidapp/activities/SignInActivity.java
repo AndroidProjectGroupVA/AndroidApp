@@ -1,9 +1,17 @@
 package com.example.androidapp.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.InputType;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -27,6 +35,7 @@ public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
     private SessionManager sessionManager;
+    boolean passwordVisible = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,23 @@ public class SignInActivity extends AppCompatActivity {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+
+        // Hien thi mat khau
+        binding.signInBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordVisible) {
+                    // Ẩn mật khẩu
+                    binding.signInEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    binding.signInBtnImg.setImageResource(R.drawable.eyesolid); // Đặt hình ảnh "ẩn mật khẩu"
+                } else {
+                    // Hiển thị mật khẩu
+                    binding.signInEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    binding.signInBtnImg.setImageResource(R.drawable.eyeslashsolid); // Đặt hình ảnh "hiển thị mật khẩu"
+                }
+                passwordVisible = !passwordVisible;
+            }
+        });
     }
     private void setListeners() {
         binding.signInBtnSignIn.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +136,30 @@ public class SignInActivity extends AppCompatActivity {
             return false;
         } else {
             return true;
+        }
+    }
+
+    // Tat ban phim ao khi bam ra ngoai
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    hideKeyboard(v);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
