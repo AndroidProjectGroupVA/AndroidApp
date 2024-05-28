@@ -95,6 +95,57 @@ public class SignUpActivity extends AppCompatActivity {
         //animation btn signup -- se thiet ke sau
         loading(true);
 
+//        //khai bao doi tuong firebase
+//        FirebaseFirestore database = FirebaseFirestore.getInstance();
+//        //Tao hash map luu tru thong tin tu textview
+//        HashMap<String, Object> user = new HashMap<>();
+//        //put value tu textview vao hashmap
+//        user.put(Constants.KEY_NAME, binding.signUpEdtUsername.getText().toString());
+//        user.put(Constants.KEY_PASSWORD, binding.signUpEdtPassword.getText().toString());
+//        user.put(Constants.KEY_EMAIL, binding.signUpEdtEmail.getText().toString());
+//        user.put(Constants.KEY_PHONE, binding.signUpEdtPhone.getText().toString());
+//
+//        //tham chieu toi collection users trong firebase de luu tru thong tin
+//        database.collection(Constants.KEY_COLLECTION_USERS)
+//                .add(user)
+//                .addOnSuccessListener(documentReference -> {
+//                    loading(false);
+//                    //luu thong tin vao preference(Sharepreference_
+//                    //preference luu thong tin dang ki vao 1 tep tin trong ung dung
+//                    preferenceManager.putBoolean(Constants.KEY_IS_SIGNED_IN, true);
+//                    preferenceManager.putString(Constants.KEY_USER_ID, documentReference.getId());
+//                    preferenceManager.putString(Constants.KEY_NAME, binding.signUpEdtUsername.getText().toString());
+//                    preferenceManager.putString(Constants.KEY_EMAIL, binding.signUpEdtEmail.getText().toString());
+//                    preferenceManager.putString(Constants.KEY_PHONE, binding.signUpEdtPhone.getText().toString());
+//                    //tao intent
+//                    Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+//                    //tao 1 task moi de chuyen den MainActivity va xoa cac activity truoc do
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    startActivity(intent);
+//                    Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+//                    finish();
+//                })
+//                .addOnFailureListener(e -> {
+//                    loading(false);
+//                    showToast(e.toString());
+//                });
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo(Constants.KEY_NAME, binding.signUpEdtUsername.getText().toString())
+                .get()
+                .addOnCompleteListener(task -> {
+                    if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
+                        Toast.makeText(this, "Tên đăng nhập đã tồn tại", Toast.LENGTH_SHORT).show();
+                        loading(false);
+                    }
+                    else{
+                        addDataToFirestore();
+                    }
+                });
+
+    }
+
+    private void addDataToFirestore() {
         //khai bao doi tuong firebase
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         //Tao hash map luu tru thong tin tu textview
@@ -122,6 +173,7 @@ public class SignUpActivity extends AppCompatActivity {
                     //tao 1 task moi de chuyen den MainActivity va xoa cac activity truoc do
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
+                    Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
@@ -129,7 +181,6 @@ public class SignUpActivity extends AppCompatActivity {
                     showToast(e.toString());
                 });
     }
-
 
     //set kich thuoc image
     private String enCodeImage(Bitmap bitmap){

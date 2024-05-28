@@ -83,9 +83,9 @@ public class MainActivity extends AppCompatActivity {
         DocumentReference docRef = database.collection(Constants.KEY_COLLECTION_USERS).document(
                 preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnSuccessListener(unused -> {
-                    showToast("Token updated successfully");
-                })
+//                .addOnSuccessListener(unused -> {
+//                    showToast("Token updated successfully");
+//                })
                 .addOnFailureListener(e -> {
                     showToast("Unable to update token");
                 });
