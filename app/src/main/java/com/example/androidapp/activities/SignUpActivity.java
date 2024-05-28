@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Patterns;
 import android.view.MotionEvent;
@@ -45,6 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private PreferenceManager preferenceManager;
     private String endcodeedImage;
+    boolean passwordVisible = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,23 @@ public class SignUpActivity extends AppCompatActivity {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+
+        // Hien thi mat khau
+        binding.signUpBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordVisible) {
+                    // Ẩn mật khẩu
+                    binding.signUpEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    binding.signUpBtnImg.setImageResource(R.drawable.eyesolid); // Đặt hình ảnh "ẩn mật khẩu"
+                } else {
+                    // Hiển thị mật khẩu
+                    binding.signUpEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    binding.signUpBtnImg.setImageResource(R.drawable.eyeslashsolid); // Đặt hình ảnh "hiển thị mật khẩu"
+                }
+                passwordVisible = !passwordVisible;
+            }
+        });
     }
 
     //set event btn signup
