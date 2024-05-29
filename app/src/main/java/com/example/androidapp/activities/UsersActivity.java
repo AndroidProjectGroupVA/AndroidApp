@@ -78,7 +78,7 @@ public class UsersActivity extends AppCompatActivity {
                             binding.usersRecycleView.setAdapter(userAdapter);
                             binding.usersRecycleView.setVisibility(View.VISIBLE);
                         }else{
-                            showErrorMessage("No user available");
+                            showErrorMessage("Không có người dùng nào");
                         }
                     }
                     else{
@@ -89,7 +89,7 @@ public class UsersActivity extends AppCompatActivity {
 
     //show error
     private void showErrorMessage(String message){
-        binding.textErrorMessage.setText(String.format("%s", "No user available"));
+        binding.textErrorMessage.setText(String.format("%s", message));
         binding.textErrorMessage.setVisibility(View.VISIBLE);
     }
 

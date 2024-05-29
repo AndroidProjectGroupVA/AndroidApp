@@ -184,7 +184,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadUserDetail() {
-        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME));
+        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
         String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
         if (base64Image != null && !base64Image.isEmpty()) {
             // ... (decoding and setting image code)
