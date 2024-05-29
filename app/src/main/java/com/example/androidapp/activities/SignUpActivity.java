@@ -1,14 +1,20 @@
 package com.example.androidapp.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -40,6 +46,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private PreferenceManager preferenceManager;
     private String endcodeedImage;
+    boolean passwordVisible = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +78,23 @@ public class SignUpActivity extends AppCompatActivity {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+
+        // Hien thi mat khau
+        binding.signUpBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordVisible) {
+                    // Ẩn mật khẩu
+                    binding.signUpEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    binding.signUpBtnImg.setImageResource(R.drawable.eyesolid); // Đặt hình ảnh "ẩn mật khẩu"
+                } else {
+                    // Hiển thị mật khẩu
+                    binding.signUpEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    binding.signUpBtnImg.setImageResource(R.drawable.eyeslashsolid); // Đặt hình ảnh "hiển thị mật khẩu"
+                }
+                passwordVisible = !passwordVisible;
+            }
+        });
     }
 
     //set event btn signup
@@ -272,6 +297,30 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else{
             binding.signUpBtnSignUp.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // Tat ban phim ao khi bam ra ngoai
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    hideKeyboard(v);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
