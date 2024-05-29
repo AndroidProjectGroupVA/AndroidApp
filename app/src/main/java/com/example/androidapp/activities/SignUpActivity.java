@@ -35,6 +35,10 @@ import com.example.androidapp.R;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignUpBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;

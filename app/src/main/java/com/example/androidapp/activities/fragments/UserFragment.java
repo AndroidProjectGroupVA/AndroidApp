@@ -195,7 +195,6 @@ public class UserFragment extends Fragment {
             // Handle the case where there's no image data (e.g., show a default image)
             binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
         }
-
     }
 
     private void showToast(String message) {

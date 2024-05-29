@@ -89,8 +89,8 @@
                 android:elevation="20dp"
                 android:onClick="buttonRotate"
                 android:scaleType="fitCenter"
-                app:tint="#FEFEFE"
-                app:srcCompat="@drawable/rotate_icon" />
+                app:srcCompat="@drawable/rotate_icon"
+                app:tint="#FEFEFE" />
 
             <EditText
                 android:id="@+id/signUp_img_edtName"
