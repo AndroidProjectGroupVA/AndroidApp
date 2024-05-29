@@ -178,5 +178,10 @@ public class SignUpImgActivity extends AppCompatActivity {
                     showToast(e.toString());
                 });
     }
+    public void buttonRotate(View view) {
+        binding.signUpImgUserAvatar.setRotation(binding.signUpImgUserAvatar.getRotation() + 90);
+        // reassign encodedimage to the rotated image
+
+    }
 
 }

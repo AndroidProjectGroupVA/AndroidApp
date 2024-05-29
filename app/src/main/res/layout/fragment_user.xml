@@ -33,7 +33,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/first_button_color"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
 
                 />
 <!--            app:srcCompat="@drawable/user_solid_240"-->
