@@ -184,7 +184,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadUserDetail() {
-        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME));
+        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
         String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
         if (base64Image != null && !base64Image.isEmpty()) {
             // ... (decoding and setting image code)
@@ -195,9 +195,7 @@ public class UserFragment extends Fragment {
             // Handle the case where there's no image data (e.g., show a default image)
             binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
         }
-        byte[] bytes = android.util.Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        binding.imgUserAvatar.setImageBitmap(bitmap);
+
     }
 
     private void showToast(String message) {

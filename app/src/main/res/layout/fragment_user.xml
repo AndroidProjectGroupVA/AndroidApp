@@ -32,7 +32,7 @@
                 android:id="@+id/imgUserAvatar"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:background="@color/first_button_color"
+                android:background="@color/input_background"
                 android:scaleType="centerCrop"
 
                 />
