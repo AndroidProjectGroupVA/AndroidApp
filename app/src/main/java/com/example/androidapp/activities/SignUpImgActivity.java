@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -181,6 +183,17 @@ public class SignUpImgActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> {
                     showToast(e.toString());
                 });
+    }
+    private Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+    }
+    public void buttonRotate(View view) {
+        Bitmap originalBitmap = ((BitmapDrawable) binding.signUpImgUserAvatar.getDrawable()).getBitmap();
+        Bitmap rotatedBitmap = rotateImage(originalBitmap, 90);
+        binding.signUpImgUserAvatar.setImageBitmap(rotatedBitmap);
+        endcodeedImage = enCodeImage(rotatedBitmap);
     }
 
     // Tat ban phim ao khi bam ra ngoai
