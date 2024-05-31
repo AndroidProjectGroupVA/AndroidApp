@@ -1,11 +1,16 @@
 package com.example.androidapp.activities;
 
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -13,19 +18,23 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.fragments.ChatFragment;
+import com.example.androidapp.activities.fragments.ForumFragment;
+import com.example.androidapp.activities.fragments.GiaSuFragment;
 import com.example.androidapp.activities.fragments.HomeFragment;
 import com.example.androidapp.activities.fragments.LibraryFragment;
 import com.example.androidapp.activities.fragments.NotifyFragment;
+import com.example.androidapp.activities.fragments.SupportFragment;
 import com.example.androidapp.activities.fragments.UserFragment;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivityMainBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private ActivityMainBinding binding;
     DrawerLayout drawerLayout;
     PreferenceManager preferenceManager;
@@ -48,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
             binding.bottomNavigationView.setSelectedItemId(R.id.bottom_menu_home);
+            binding.navView.setNavigationItemSelectedListener(this);
         }
 
         replaceFragment(new HomeFragment());
@@ -69,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
     }
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
@@ -96,4 +107,25 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.nav_menu_giasu) {
+            replaceFragment(new GiaSuFragment());
+        } else if (itemId == R.id.nav_menu_chat) {
+            replaceFragment(new ChatFragment());
+        } else if (itemId == R.id.nav_menu_diendan) {
+            replaceFragment(new ForumFragment());
+        } else if (itemId == R.id.nav_menu_tailieu) {
+            replaceFragment(new LibraryFragment());
+        } else if (itemId==R.id.nav_menu_hotro) {
+            replaceFragment(new SupportFragment());
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+
 }

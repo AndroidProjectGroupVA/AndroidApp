@@ -6,13 +6,126 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.fragments.LibraryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="Library"
-        android:textSize="30sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <!-- Spinner -->
+
+            <!-- ImageButton (btnRefresh) -->
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="145dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/dropdown_menu"
+                />
+
+            <!-- item_spinner.xml -->
+            <ImageButton
+                android:id="@+id/btnRefresh"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_restore"
+                android:background="@drawable/rectangle_8"/>
+
+            <!-- EditText -->
+            <EditText
+                android:id="@+id/editText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_8"
+                android:hint="Tìm kiếm"
+                android:padding="10dp"
+                android:textColor="@color/text"/>
+
+            <!-- ImageButton (btnSearch) -->
+            <ImageButton
+                android:id="@+id/btnSearch"
+                android:layout_width="45dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_search"
+                android:background="@color/white" />
+
+        </LinearLayout>
+        <!-- TODO: Update blank fragment layout -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:background="@drawable/rectangle_8"
+                android:id="@+id/linearTailieu"
+                >
+
+                <View
+                    android:id="@+id/btn_pic"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/avt_library"
+                    android:backgroundTint="@color/colorToolbar" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tai lieu 1"
+                        android:textSize="20sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/group_ic" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="123"
+                            android:textSize="18sp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:layout_marginTop="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:text="Miễn phí"
+                        android:textColor="@color/colorToolbar"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+        </RelativeLayout>
+    </LinearLayout>
+
 
 </FrameLayout>

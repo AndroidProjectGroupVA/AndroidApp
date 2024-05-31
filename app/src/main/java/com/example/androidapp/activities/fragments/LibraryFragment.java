@@ -1,13 +1,18 @@
 package com.example.androidapp.activities.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 
 import com.example.androidapp.R;
 
@@ -59,16 +64,38 @@ public class LibraryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_library, container, false);
+        LinearLayout linearTailieu = view.findViewById(R.id.linearTailieu);
+        linearTailieu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Xử lý khi LinearLayout được nhấn vào
+                // Ví dụ: Chuyển hướng sang một trang mới
+                Fragment fragment = new Library2Fragment();
+                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.frame_layout, fragment); // R.id.fragment_container is the ID of the container where you want to replace the fragment
+                transaction.addToBackStack(null); // Add transaction to back stack to allow back navigation
+                transaction.commit();
+            }
+        });
 
+
+        // Set up the spinner
+        Spinner dropdown = view.findViewById(R.id.spinner);
+        String[] items = new String[]{"Theo tên", "Theo ngày"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+
+        // Set the title of the action bar if available
         AppCompatActivity activity = (AppCompatActivity) getActivity();
-        if(activity !=null){
+        if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle("Tài liệu");
         }
+
         return view;
     }
+
 }
 
