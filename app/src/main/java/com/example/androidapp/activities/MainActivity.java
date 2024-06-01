@@ -34,10 +34,11 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
+
     private ActivityMainBinding binding;
-    DrawerLayout drawerLayout;
-    PreferenceManager preferenceManager;
+    private DrawerLayout drawerLayout;
+    private PreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
             binding.bottomNavigationView.setSelectedItemId(R.id.bottom_menu_home);
-            binding.navView.setNavigationItemSelectedListener(this);
         }
-
-        replaceFragment(new HomeFragment());
 
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-
             int itemId = item.getItemId();
             if (itemId == R.id.bottom_menu_user) {
                 replaceFragment(new UserFragment());
@@ -80,52 +77,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
 
+        binding.navView.setNavigationItemSelectedListener(menuItem -> {
+            int itemId = menuItem.getItemId();
+            if (itemId == R.id.nav_menu_chat) {
+                replaceFragment(new HomeFragment());
+            } else if (itemId == R.id.nav_menu_diendan) {
+                replaceFragment(new ForumFragment());
+            } else if (itemId == R.id.nav_menu_giasu) {
+                replaceFragment(new GiaSuFragment());
+            } else if (itemId == R.id.nav_menu_hotro) {
+                replaceFragment(new SupportFragment());
+            }
+            drawerLayout.closeDrawer(GravityCompat.START); // Đóng DrawerLayout ở đây
+            return true;
+        });
     }
+
     private void showToast(String message) {
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
+
     private void getToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnSuccessListener(this::updateToken);
     }
 
-    private void updateToken (String token) {
+    private void updateToken(String token) {
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference docRef = database.collection(Constants.KEY_COLLECTION_USERS).document(
                 preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.update(Constants.KEY_FCM_TOKEN, token)
-//                .addOnSuccessListener(unused -> {
-//                    showToast("Token updated successfully");
-//                })
                 .addOnFailureListener(e -> {
                     showToast("Unable to update token");
                 });
     }
-    private  void replaceFragment(Fragment fragment) {
+
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.nav_menu_giasu) {
-            replaceFragment(new GiaSuFragment());
-        } else if (itemId == R.id.nav_menu_chat) {
-            replaceFragment(new ChatFragment());
-        } else if (itemId == R.id.nav_menu_diendan) {
-            replaceFragment(new ForumFragment());
-        } else if (itemId == R.id.nav_menu_tailieu) {
-            replaceFragment(new LibraryFragment());
-        } else if (itemId==R.id.nav_menu_hotro) {
-            replaceFragment(new SupportFragment());
-        }
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
-
 }
+
+
