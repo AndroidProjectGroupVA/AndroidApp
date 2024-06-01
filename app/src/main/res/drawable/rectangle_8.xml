@@ -1,0 +1,24 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Trạng thái khi nút được nhấn -->
+    <item android:state_pressed="true">
+        <shape>
+            <!-- Màu nền xanh -->
+            <solid android:color="#07D5F1"/>
+            <!-- Bán kính ở mỗi góc là 10dp -->
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+    <!-- Trạng thái mặc định -->
+    <item>
+        <shape>
+            <!-- Đường viền với màu trắng -->
+            <stroke
+                android:width="2dp"
+                android:color="#C1C1C1"/>
+            <!-- Màu nền trong suốt -->
+            <solid android:color="@android:color/transparent"/>
+            <!-- Bán kính ở mỗi góc là 10dp -->
+            <corners android:radius="10dp"/>
+        </shape>
+    </item>
+</selector>
