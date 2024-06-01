@@ -67,7 +67,9 @@ public class UsersActivity extends AppCompatActivity {
                             //get data
                             user.name  = queryDocumentSnapshot.getString(Constants.KEY_NAME);
                             user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
+                            user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                            user.nameDisplay = queryDocumentSnapshot.getString(Constants.KEY_NAME_DISPLAY);
                             //add to list
                             users.add(user);
                         }
@@ -76,7 +78,7 @@ public class UsersActivity extends AppCompatActivity {
                             binding.usersRecycleView.setAdapter(userAdapter);
                             binding.usersRecycleView.setVisibility(View.VISIBLE);
                         }else{
-                            showErrorMessage("No user available");
+                            showErrorMessage("Không có người dùng nào");
                         }
                     }
                     else{
@@ -87,7 +89,7 @@ public class UsersActivity extends AppCompatActivity {
 
     //show error
     private void showErrorMessage(String message){
-        binding.textErrorMessage.setText(String.format("%s", "No user available"));
+        binding.textErrorMessage.setText(String.format("%s", message));
         binding.textErrorMessage.setVisibility(View.VISIBLE);
     }
 

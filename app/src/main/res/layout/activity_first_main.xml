@@ -86,6 +86,8 @@
             android:text="Đăng kí làm gia sư"
             android:textColor="#74B9FF"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:autoLink="web"
+            android:linksClickable="true"/>
     </LinearLayout>
 </ScrollView>

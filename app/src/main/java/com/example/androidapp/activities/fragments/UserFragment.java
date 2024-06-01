@@ -1,6 +1,8 @@
 package com.example.androidapp.activities.fragments;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -9,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,6 +87,7 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentUserBinding.inflate(inflater, container, false);
+
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity !=null){
             activity.getSupportActionBar().setTitle("Người dùng");
@@ -101,6 +105,20 @@ public class UserFragment extends Fragment {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+
+//        Glide.with(this)
+//                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
+//                .into(new CustomTarget<Drawable>() {
+//                    @Override
+//                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+//                        binding.imgUserAvatar.setImageDrawable(resource);
+//                    }
+//
+//                    @Override
+//                    public void onLoadCleared(@Nullable Drawable placeholder) {
+//                        // Xử lý khi hình ảnh bị xóa khỏi view
+//                    }
+//                });
         Glide.with(this)
                 .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
                 .into(new CustomTarget<Drawable>() {
@@ -154,7 +172,9 @@ public class UserFragment extends Fragment {
                     }
                 });
         Glide.with(this)
-                .load(R.drawable.ic_logout) // Đường dẫn đến hình ảnh của bạn
+
+                .load(R.drawable.log_out) // Đường dẫn đến hình ảnh của bạn
+
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
@@ -184,8 +204,17 @@ public class UserFragment extends Fragment {
     }
 
     private void loadUserDetail() {
-        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME));
-
+        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
+        String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
+        if (base64Image != null && !base64Image.isEmpty()) {
+            // ... (decoding and setting image code)
+            byte[] bytes = android.util.Base64.decode(base64Image, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            binding.imgUserAvatar.setImageBitmap(bitmap);
+        } else {
+            // Handle the case where there's no image data (e.g., show a default image)
+            binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
+        }
     }
 
     private void showToast(String message) {

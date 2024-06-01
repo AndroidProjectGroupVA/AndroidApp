@@ -72,11 +72,11 @@ public class ChatFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        FloatingActionButton fabNewChat = view.findViewById(R.id.fabNewChat);
-        fabNewChat.setOnClickListener(v -> {
-            Intent intent = new Intent(requireActivity(), UsersActivity.class);
-            startActivity(intent);
-        });
+//        FloatingActionButton fabNewChat = view.findViewById(R.id.fabNewChat);
+//        fabNewChat.setOnClickListener(v -> {
+//            Intent intent = new Intent(requireActivity(), UsersActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     @Override

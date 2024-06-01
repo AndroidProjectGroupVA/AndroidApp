@@ -1,5 +1,6 @@
 package com.example.androidapp.activities.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.activities.UsersActivity;
 import com.example.androidapp.databinding.FragmentHomeBinding;
 
 /**
@@ -30,7 +31,6 @@ public class HomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private FragmentHomeBinding binding;
-    private PreferenceManager preferenceManager;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -64,8 +64,7 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity !=null){
@@ -77,7 +76,13 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        binding.btnFindTutor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireActivity(), UsersActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }

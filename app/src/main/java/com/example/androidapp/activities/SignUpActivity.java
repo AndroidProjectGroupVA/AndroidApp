@@ -1,14 +1,20 @@
 package com.example.androidapp.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Base64;
 import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -29,6 +35,10 @@ import com.example.androidapp.R;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignUpBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
@@ -40,6 +50,8 @@ public class SignUpActivity extends AppCompatActivity {
     private ActivitySignUpBinding binding;
     private PreferenceManager preferenceManager;
     private String endcodeedImage;
+    boolean passwordVisible = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +82,23 @@ public class SignUpActivity extends AppCompatActivity {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+
+        // Hien thi mat khau
+        binding.signUpBtnImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (passwordVisible) {
+                    // Ẩn mật khẩu
+                    binding.signUpEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                    binding.signUpBtnImg.setImageResource(R.drawable.eyesolid); // Đặt hình ảnh "ẩn mật khẩu"
+                } else {
+                    // Hiển thị mật khẩu
+                    binding.signUpEdtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    binding.signUpBtnImg.setImageResource(R.drawable.eyeslashsolid); // Đặt hình ảnh "hiển thị mật khẩu"
+                }
+                passwordVisible = !passwordVisible;
+            }
+        });
     }
 
     //set event btn signup
@@ -139,10 +168,9 @@ public class SignUpActivity extends AppCompatActivity {
                         loading(false);
                     }
                     else{
-                        addDataToFirestore();
+                        nextActivity();
                     }
                 });
-
     }
 
     private void addDataToFirestore() {
@@ -180,6 +208,21 @@ public class SignUpActivity extends AppCompatActivity {
                     loading(false);
                     showToast(e.toString());
                 });
+    }
+
+    private void nextActivity(){
+        String username = binding.signUpEdtUsername.getText().toString();
+        String password = binding.signUpEdtPassword.getText().toString();
+        String email = binding.signUpEdtEmail.getText().toString();
+        String phone = binding.signUpEdtPhone.getText().toString();
+        Intent setimg = new Intent(getApplicationContext(), SignUpImgActivity.class);
+        Bundle user = new Bundle();
+        user.putString("username", username);
+        user.putString("password", password);
+        user.putString("email", email);
+        user.putString("phone", phone);
+        setimg.putExtra("newUser", user);
+        startActivity(setimg);
     }
 
     //set kich thuoc image
@@ -258,6 +301,30 @@ public class SignUpActivity extends AppCompatActivity {
         }
         else{
             binding.signUpBtnSignUp.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // Tat ban phim ao khi bam ra ngoai
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int) event.getRawX(), (int) event.getRawY())) {
+                    v.clearFocus();
+                    hideKeyboard(v);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        if (inputMethodManager != null) {
+            inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 }
