@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.util.Base64;
@@ -86,6 +87,25 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentUserBinding.inflate(inflater, container, false);
+
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if(activity !=null){
+            activity.getSupportActionBar().setTitle("Người dùng");
+        }
+        Glide.with(this)
+                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
+                .into(new CustomTarget<Drawable>() {
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        binding.imgUserAvatar.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                        // Xử lý khi hình ảnh bị xóa khỏi view
+                    }
+                });
+
 //        Glide.with(this)
 //                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
 //                .into(new CustomTarget<Drawable>() {
@@ -195,9 +215,6 @@ public class UserFragment extends Fragment {
             // Handle the case where there's no image data (e.g., show a default image)
             binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
         }
-        byte[] bytes = android.util.Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), Base64.DEFAULT);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-        binding.imgUserAvatar.setImageBitmap(bitmap);
     }
 
     private void showToast(String message) {

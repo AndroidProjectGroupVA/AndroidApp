@@ -1,13 +1,17 @@
 package com.example.androidapp.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -28,6 +32,11 @@ import com.example.androidapp.activities.firebase.SessionManager;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignInBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -36,6 +45,7 @@ public class SignInActivity extends AppCompatActivity {
     private PreferenceManager preferenceManager;
     private SessionManager sessionManager;
     boolean passwordVisible = false;
+    private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +94,62 @@ public class SignInActivity extends AppCompatActivity {
                     binding.signInBtnImg.setImageResource(R.drawable.eyeslashsolid); // Đặt hình ảnh "hiển thị mật khẩu"
                 }
                 passwordVisible = !passwordVisible;
+            }
+        });
+
+        auth = FirebaseAuth.getInstance();
+        binding.signInTxtForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot, null);
+                EditText nameBox = dialogView.findViewById(R.id.dialogForgot_edtUsername);
+                EditText emailBox = dialogView.findViewById(R.id.dialogForgot_edtEmail);
+
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
+
+                dialogView.findViewById(R.id.dialogForgot_btnForgot).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String name = nameBox.getText().toString();
+                        String email = emailBox.getText().toString();
+
+                        if (TextUtils.isEmpty(name) || !Patterns.EMAIL_ADDRESS.matcher(email).matches() || TextUtils.isEmpty(email)) {
+                            Toast.makeText(SignInActivity.this, "Thông tin không hợp lệ", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        else {
+                            auth.sendPasswordResetEmail(email)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Toast.makeText(SignInActivity.this, "Email đặt lại mật khẩu đã được gửi", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(SignInActivity.this, "Email gửi không thành công", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        }
+                                    });
+                        }
+                    }
+                });
+
+                dialogView.findViewById(R.id.dialogForgot_btnCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                }
+                dialog.show();
             }
         });
     }

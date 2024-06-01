@@ -63,7 +63,7 @@
                         android:id="@+id/signUp_img_UserAvatar"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
-                        android:scaleType="fitCenter" />
+                        android:scaleType="centerCrop" />
 
                     <TextView
                         android:id="@+id/textAddImg"
@@ -77,6 +77,20 @@
                 </androidx.cardview.widget.CardView>
 
             </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:elevation="20dp"
+                android:onClick="buttonRotate"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/rotate_icon"
+                app:tint="#FEFEFE" />
 
             <EditText
                 android:id="@+id/signUp_img_edtName"
