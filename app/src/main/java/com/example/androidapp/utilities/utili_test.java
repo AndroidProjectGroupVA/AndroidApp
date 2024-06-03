@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.utilities;
+package utilities;
 
 import android.app.Activity;
 

@@ -1,6 +1,5 @@
-package com.example.androidapp.activities.fragments;
+package fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activities.UsersActivity;
 import com.example.androidapp.databinding.FragmentChatBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

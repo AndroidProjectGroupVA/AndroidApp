@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.firebase;
+package firebase;
 
 import android.content.Context;
 import android.content.SharedPreferences;

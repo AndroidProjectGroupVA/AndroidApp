@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.utilities;
+package utilities;
 
 public class Constants {
     public static final String KEY_COLLECTION_USERS = "users";

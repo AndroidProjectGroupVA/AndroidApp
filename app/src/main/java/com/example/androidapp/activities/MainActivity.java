@@ -1,11 +1,8 @@
-package com.example.androidapp.activities;
+package activities;
 
 import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
-
-import android.view.Gravity;
-import android.view.MenuItem;
 
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,10 +10,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -26,19 +21,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activities.fragments.ChatFragment;
-import com.example.androidapp.activities.fragments.ForumFragment;
-import com.example.androidapp.activities.fragments.GiaSuFragment;
-import com.example.androidapp.activities.fragments.HomeFragment;
-import com.example.androidapp.activities.fragments.LibraryFragment;
-import com.example.androidapp.activities.fragments.NotifyFragment;
-import com.example.androidapp.activities.fragments.SupportFragment;
-import com.example.androidapp.activities.fragments.UserFragment;
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
+import fragments.ChatFragment;
+import fragments.ForumFragment;
+import fragments.GiaSuFragment;
+import fragments.HomeFragment;
+import fragments.LibraryFragment;
+import fragments.NotifyFragment;
+import fragments.SupportFragment;
+import fragments.UserFragment;
+import utilities.Constants;
+import utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
