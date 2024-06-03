@@ -1,4 +1,4 @@
-package activities;
+package com.example.androidapp.activities;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

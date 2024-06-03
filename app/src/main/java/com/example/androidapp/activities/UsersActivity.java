@@ -1,4 +1,4 @@
-package activities;
+package com.example.androidapp.activities;
 
 import android.os.Bundle;
 import android.view.View;
@@ -10,10 +10,10 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.androidapp.R;
-import adapters.UsersAdapter;
-import models.User;
-import utilities.Constants;
-import utilities.PreferenceManager;
+import com.example.androidapp.adapters.UsersAdapter;
+import com.example.androidapp.models.User;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivityUsersBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;

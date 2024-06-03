@@ -1,4 +1,4 @@
-package activities;
+package com.example.androidapp.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -26,9 +26,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
-import firebase.SessionManager;
-import utilities.Constants;
-import utilities.PreferenceManager;
+import com.example.androidapp.firebase.SessionManager;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignInBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

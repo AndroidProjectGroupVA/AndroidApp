@@ -1,4 +1,4 @@
-package adapters;
+package com.example.androidapp.adapters;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.androidapp.R;
-import models.User;
+import com.example.androidapp.models.User;
 import com.example.androidapp.databinding.ItemContainerUserBinding;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package activities;
+package com.example.androidapp.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -30,8 +30,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
-import utilities.Constants;
-import utilities.PreferenceManager;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 
 import com.example.androidapp.databinding.ActivitySignUpImgBinding;
 import com.google.firebase.firestore.FirebaseFirestore;

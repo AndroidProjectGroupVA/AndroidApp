@@ -1,4 +1,4 @@
-package activities;
+package com.example.androidapp.activities;
 
 import android.app.Activity;
 import android.graphics.Rect;
@@ -21,16 +21,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.androidapp.R;
-import fragments.ChatFragment;
-import fragments.ForumFragment;
-import fragments.GiaSuFragment;
-import fragments.HomeFragment;
-import fragments.LibraryFragment;
-import fragments.NotifyFragment;
-import fragments.SupportFragment;
-import fragments.UserFragment;
-import utilities.Constants;
-import utilities.PreferenceManager;
+import com.example.androidapp.fragments.ChatFragment;
+import com.example.androidapp.fragments.ForumFragment;
+import com.example.androidapp.fragments.GiaSuFragment;
+import com.example.androidapp.fragments.HomeFragment;
+import com.example.androidapp.fragments.LibraryFragment;
+import com.example.androidapp.fragments.NotifyFragment;
+import com.example.androidapp.fragments.SupportFragment;
+import com.example.androidapp.fragments.UserFragment;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivityMainBinding;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;

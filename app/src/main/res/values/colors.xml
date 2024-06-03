@@ -13,4 +13,6 @@
     <color name="hint_text">#090D16</color>
     <color name="text">#090D16</color>
     <color name="colorToolbar">#74B9FF</color>
+    <color name="colorTheme">#74B9FF</color>
+    <color name="textReceived">#D9D9D9</color>
 </resources>

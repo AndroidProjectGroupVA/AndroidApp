@@ -1,4 +1,4 @@
-package fragments;
+package com.example.androidapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import activities.UsersActivity;
+import com.example.androidapp.activities.UsersActivity;
 import com.example.androidapp.databinding.FragmentHomeBinding;
 
 /**
