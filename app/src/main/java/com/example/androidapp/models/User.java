@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.models;
+package com.example.androidapp.models;
 
 import java.io.Serializable;
 

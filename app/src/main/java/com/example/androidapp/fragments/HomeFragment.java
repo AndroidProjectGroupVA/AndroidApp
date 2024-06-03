@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.fragments;
+package com.example.androidapp.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
