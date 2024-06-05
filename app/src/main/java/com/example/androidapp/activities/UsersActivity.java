@@ -10,13 +10,12 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activities.adapters.UsersAdapter;
-import com.example.androidapp.activities.models.User;
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.adapters.UsersAdapter;
+import com.example.androidapp.models.User;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivityUsersBinding;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;

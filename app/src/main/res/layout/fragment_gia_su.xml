@@ -3,8 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< HEAD
     android:id="@+id/frag_giasu"
     tools:context=".activities.fragments.GiaSuFragment">
+=======
+    tools:context=".fragments.GiaSuFragment">
+>>>>>>> 095e84339e5eb6404ef624061d448c43a2e832e5
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

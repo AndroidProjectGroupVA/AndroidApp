@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.fragments;
+package com.example.androidapp.fragments;
 
 import android.os.Bundle;
 
@@ -13,10 +13,10 @@ import com.example.androidapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Library2Fragment#newInstance} factory method to
+ * Use the {@link ForumFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Library2Fragment extends Fragment {
+public class ForumFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -27,7 +27,7 @@ public class Library2Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Library2Fragment() {
+    public ForumFragment() {
         // Required empty public constructor
     }
 
@@ -37,11 +37,11 @@ public class Library2Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Library2Fragment.
+     * @return A new instance of fragment ForumFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Library2Fragment newInstance(String param1, String param2) {
-        Library2Fragment fragment = new Library2Fragment();
+    public static ForumFragment newInstance(String param1, String param2) {
+        ForumFragment fragment = new ForumFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,10 +61,12 @@ public class Library2Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if (activity != null && activity.getSupportActionBar() != null) {
-            activity.getSupportActionBar().setTitle("Tài liệu");
+            activity.getSupportActionBar().setTitle("Diễn đàn");
         }
-        return inflater.inflate(R.layout.fragment_library2, container, false);
+        return inflater.inflate(R.layout.fragment_forum, container, false);
     }
 }

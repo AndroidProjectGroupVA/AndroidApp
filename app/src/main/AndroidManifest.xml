@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -18,44 +17,43 @@
         android:theme="@style/Theme.AndroidApp"
         tools:targetApi="31">
         <activity
-            android:name=".activities.UsersActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-
-        <activity
-            android:name=".activities.SignUpActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden"/>
-
-        <activity android:name=".activities.utilities.utili_test"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
-
-        <activity
-            android:name=".activities.SignUpImgActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            />
-
-        <activity
-            android:name=".activities.SignInActivity"
-            android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
-
-        <activity
-            android:name=".activities.FirstMainActivity"
-            android:exported="true">
+            android:name=".activities.ChatActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.UsersActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".utilities.utili_test"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activities.SignUpImgActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activities.SignInActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activities.FirstMainActivity"
+            android:exported="true">
 
+        </activity>
         <activity android:name=".activities.MainActivity" />
+
         <service
-            android:name=".activities.firebase.MessagingService"
+            android:name=".firebase.MessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
