@@ -16,6 +16,8 @@ multidex = "2.0.1"
 mediarouter = "1.7.0"
 navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
+androidMail = "1.6.7"
+androidActivation = "1.6.7"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -35,6 +37,8 @@ multidex = { group = "androidx.multidex", name = "multidex", version.ref = "mult
 mediarouter = { group = "androidx.mediarouter", name = "mediarouter", version.ref = "mediarouter" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
+androidMail = { group = "com.sun.mail", name = "android-mail", version.ref = "androidMail" }
+androidActivation = { group = "com.sun.mail", name = "android-activation", version.ref = "androidActivation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

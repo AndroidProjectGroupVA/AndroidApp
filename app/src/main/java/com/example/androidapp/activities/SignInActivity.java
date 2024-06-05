@@ -9,8 +9,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
@@ -31,14 +29,15 @@ import com.example.androidapp.R;
 import com.example.androidapp.activities.firebase.SessionManager;
 import com.example.androidapp.activities.utilities.Constants;
 import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.activities.zohoMail.SendEmailTask;
+import com.example.androidapp.activities.zohoMail.getPassword;
 import com.example.androidapp.databinding.ActivitySignInBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.concurrent.atomic.AtomicReference;
+
 
 public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
@@ -97,13 +96,12 @@ public class SignInActivity extends AppCompatActivity {
             }
         });
 
-        auth = FirebaseAuth.getInstance();
         binding.signInTxtForgotPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
                 View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot, null);
-                EditText nameBox = dialogView.findViewById(R.id.dialogForgot_edtUsername);
+                //EditText nameBox = dialogView.findViewById(R.id.dialogForgot_edtUsername);
                 EditText emailBox = dialogView.findViewById(R.id.dialogForgot_edtEmail);
 
                 builder.setView(dialogView);
@@ -112,29 +110,52 @@ public class SignInActivity extends AppCompatActivity {
                 dialogView.findViewById(R.id.dialogForgot_btnForgot).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String name = nameBox.getText().toString();
-                        String email = emailBox.getText().toString();
+                        AtomicReference<String> name = new AtomicReference<>();
+                        String toMail = emailBox.getText().toString().trim();
+                        getPassword passwordRetrieval = new getPassword();
 
-                        if (TextUtils.isEmpty(name) || !Patterns.EMAIL_ADDRESS.matcher(email).matches() || TextUtils.isEmpty(email)) {
+
+                        if (TextUtils.isEmpty(toMail) || !Patterns.EMAIL_ADDRESS.matcher(toMail).matches()) {
                             Toast.makeText(SignInActivity.this, "Thông tin không hợp lệ", Toast.LENGTH_SHORT).show();
                             return;
-                        }
-                        else {
-                            auth.sendPasswordResetEmail(email)
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void unused) {
-                                            Toast.makeText(SignInActivity.this, "Email đặt lại mật khẩu đã được gửi", Toast.LENGTH_SHORT).show();
-                                            dialog.dismiss();
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Toast.makeText(SignInActivity.this, "Email gửi không thành công", Toast.LENGTH_SHORT).show();
-                                            dialog.dismiss();
-                                        }
-                                    });
+                        } else {
+                            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                            firestore.collection(Constants.KEY_COLLECTION_USERS)
+                                            .whereEqualTo(Constants.KEY_EMAIL, toMail)
+                                            .get()
+                                            .addOnSuccessListener(task -> {
+                                                if (!task.isEmpty()) {
+                                                    DocumentSnapshot documentSnapshot = task.getDocuments().get(0);
+                                                    name.set(documentSnapshot.getString(Constants.KEY_NAME_DISPLAY));
+                                                }
+                                            });
+                            passwordRetrieval.getPass(toMail, new getPassword.FirestoreCallback() {
+                                @Override
+                                public void onCallback(String password) {
+                                    if (password != null) {
+                                        String username = "cloudcomputing@zohomail.com";
+                                        String passwordMail = "nhom3cloud@";
+                                        String smtpHost = "smtp.zoho.com";
+                                        int smtpPort = 587; // Or "587" if using TLS
+
+                                        //String toMail = "hdquy2003@gmail.com";
+                                        String subject = "Password Reset Request";
+                                        String body = "Dear " + name + ",\n\n"
+                                                + "We have received a request to reset your password for our Gia sư TLU app.\n"
+                                                + "Your password is: " + password + "\n\n"
+                                                + "If you didn't request this change, please contact us immediately.\n\n"
+                                                + "Best regards,\n"
+                                                + "Gia sư TLU team";
+                                        new SendEmailTask(SignInActivity.this, toMail, subject, body, username, passwordMail, smtpHost, smtpPort).execute();
+                                        dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "Mật khẩu của bạn đã được gửi đến email của bạn", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Email không tồn tại hoặc có lỗi", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
                         }
                     }
                 });
@@ -152,7 +173,11 @@ public class SignInActivity extends AppCompatActivity {
                 dialog.show();
             }
         });
+
+
     }
+
+
     private void setListeners() {
         binding.signInBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
