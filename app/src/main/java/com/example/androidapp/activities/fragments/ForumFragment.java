@@ -3,6 +3,7 @@ package com.example.androidapp.activities.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -64,6 +65,10 @@ public class ForumFragment extends Fragment {
                              Bundle savedInstanceState) {
 
 
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        if (activity != null && activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setTitle("Diễn đàn");
+        }
         return inflater.inflate(R.layout.fragment_forum, container, false);
     }
 }
