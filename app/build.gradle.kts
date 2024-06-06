@@ -3,6 +3,7 @@ plugins {
     id("com.google.gms.google-services")
 }
 
+
 android {
     namespace = "com.example.androidapp"
     compileSdk = 34
@@ -31,6 +32,13 @@ android {
     buildFeatures{
         viewBinding = true
     }
+
+    packaging {
+        resources {
+            excludes.add("META-INF/NOTICE.md")
+            excludes.add("META-INF/LICENSE.md")
+        }
+    }
 }
 
 dependencies {
@@ -54,6 +62,9 @@ dependencies {
     implementation(libs.firebaseAuth)
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidMail)
+    implementation(libs.androidActivation)
+
 
     //Multidex
     implementation(libs.multidex)
