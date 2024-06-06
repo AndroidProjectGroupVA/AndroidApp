@@ -4,6 +4,12 @@
     <string name="close_nav">Close Navigation Drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="facebook_app_id">1112180316752604</string>
+    <string name="fb_login_protocol_scheme">fb1112180316752604</string>
+    <string name="facebook_client_token">4470cdbf7a3b390412f4ecb8f5060427</string>
+
+
     <string name="noi_dung_tailieu">Nội dung tài liệu</string>
     <string name="ten_tailieu">Tên tài liệu</string>
     <string name="xem_tailieu">Xem tài liệu</string>

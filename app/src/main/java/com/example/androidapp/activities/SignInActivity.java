@@ -36,6 +36,11 @@ import com.example.androidapp.firebase.SessionManager;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignInBinding;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,10 +50,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.concurrent.atomic.AtomicReference;
 
 
+import java.util.Arrays;
+
 public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
     private SessionManager sessionManager;
+    CallbackManager callbackManager;
     boolean passwordVisible = false;
     private FirebaseAuth auth;
     @Override
@@ -62,6 +70,26 @@ public class SignInActivity extends AppCompatActivity {
 //            finish(); // Đóng SignInActivity
 //        }
         EdgeToEdge.enable(this);
+        callbackManager = CallbackManager.Factory.create();
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+                        finish();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setListeners();
@@ -193,6 +221,19 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }
         });
+        binding.signInBtnFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //login to facebook
+                LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile"));
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
     private void signIn(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
