@@ -1,10 +1,8 @@
-package com.example.androidapp.activities.zohoMail;
+package com.example.androidapp.zohoMail;
 
 import android.util.Log;
-import android.os.AsyncTask;
 
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.androidapp.activities.SignInActivity;
