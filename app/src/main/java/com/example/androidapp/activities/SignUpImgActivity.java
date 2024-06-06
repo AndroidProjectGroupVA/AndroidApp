@@ -1,5 +1,7 @@
 package com.example.androidapp.activities;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,6 +14,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Base64;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -34,6 +37,11 @@ import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
 
 import com.example.androidapp.databinding.ActivitySignUpImgBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.ByteArrayOutputStream;
@@ -45,6 +53,7 @@ public class SignUpImgActivity extends AppCompatActivity {
     private ActivitySignUpImgBinding binding;
     private String endcodeedImage;
     private PreferenceManager preferenceManager;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +62,9 @@ public class SignUpImgActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         binding = ActivitySignUpImgBinding.inflate(getLayoutInflater());
         preferenceManager = new PreferenceManager(this);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
         setContentView(binding.getRoot());
         ScrollView scrollView = findViewById(R.id.signUp_img_main);
         Glide.with(this)
@@ -159,6 +171,24 @@ public class SignUpImgActivity extends AppCompatActivity {
         user.put(Constants.KEY_IMAGE, endcodeedImage);
         user.put(Constants.KEY_NAME_DISPLAY, nameDisplay);
 
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            //logcat fixbug
+                            Log.d(TAG, "createUserWithEmail:success");
+                            //FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            //logcat fixbug
+                            Log.w(TAG, "createUserWithEmail:failure", task.getException());
+//                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+//                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
         //tham chieu toi collection users trong firebase de luu tru thong tin
         database.collection(Constants.KEY_COLLECTION_USERS)
                 .add(user)
