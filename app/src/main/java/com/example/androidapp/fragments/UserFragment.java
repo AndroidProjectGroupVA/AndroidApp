@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.fragments;
+package com.example.androidapp.fragments;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,9 +22,9 @@ import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
 import com.example.androidapp.activities.FirstMainActivity;
-import com.example.androidapp.activities.SignInActivity;
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
+
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.FragmentUserBinding;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;

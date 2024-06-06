@@ -4,16 +4,13 @@ import android.app.Activity;
 import android.graphics.Rect;
 import android.os.Bundle;
 
-import android.view.Gravity;
 import android.view.MenuItem;
-
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -26,24 +23,23 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.androidapp.R;
-import com.example.androidapp.activities.fragments.ChatFragment;
-import com.example.androidapp.activities.fragments.ForumFragment;
-import com.example.androidapp.activities.fragments.GiaSuFragment;
-import com.example.androidapp.activities.fragments.HomeFragment;
-import com.example.androidapp.activities.fragments.LibraryFragment;
-import com.example.androidapp.activities.fragments.NotifyFragment;
-import com.example.androidapp.activities.fragments.SupportFragment;
-import com.example.androidapp.activities.fragments.UserFragment;
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.fragments.ChatFragment;
+import com.example.androidapp.fragments.ForumFragment;
+import com.example.androidapp.fragments.GiaSuFragment;
+import com.example.androidapp.fragments.HomeFragment;
+import com.example.androidapp.fragments.LibraryFragment;
+import com.example.androidapp.fragments.NotifyFragment;
+import com.example.androidapp.fragments.SupportFragment;
+import com.example.androidapp.fragments.UserFragment;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivityMainBinding;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
@@ -68,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new HomeFragment()).commit();
             binding.bottomNavigationView.setSelectedItemId(R.id.bottom_menu_home);
         }
+        binding.navView.setNavigationItemSelectedListener(this);
 
         binding.bottomNavigationView.setBackground(null);
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -86,20 +83,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
-        binding.navView.setNavigationItemSelectedListener(menuItem -> {
-            int itemId = menuItem.getItemId();
-            if (itemId == R.id.nav_menu_chat) {
-                replaceFragment(new HomeFragment());
-            } else if (itemId == R.id.nav_menu_diendan) {
-                replaceFragment(new ForumFragment());
-            } else if (itemId == R.id.nav_menu_giasu) {
-                replaceFragment(new GiaSuFragment());
-            } else if (itemId == R.id.nav_menu_hotro) {
-                replaceFragment(new SupportFragment());
-            }
-            drawerLayout.closeDrawer(GravityCompat.START); // Đóng DrawerLayout ở đây
-            return true;
-        });
+
     }
 
     private void showToast(String message) {
@@ -126,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);
         fragmentTransaction.commit();
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     // Tat ban phim ao khi bam ra ngoai
@@ -151,6 +136,41 @@ public class MainActivity extends AppCompatActivity {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.nav_menu_chat) {
+            replaceFragment(new ChatFragment());
+        } else if (id == R.id.nav_menu_giasu) {
+            replaceFragment(new GiaSuFragment());
+        } else if (id == R.id.nav_menu_diendan) {
+            replaceFragment(new ForumFragment());
+        } else if (id == R.id.nav_menu_hotro) {
+            replaceFragment(new SupportFragment());
+        } else if (id == R.id.nav_menu_tailieu) {
+            replaceFragment(new LibraryFragment());
+        } else {
+            return false;
+        }
+
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+        } else {
+            super.onBackPressed();
+        }
+
+    }
+
 }
 
 
