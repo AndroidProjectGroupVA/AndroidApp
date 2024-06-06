@@ -10,4 +10,7 @@
     <string name="facebook_client_token">4470cdbf7a3b390412f4ecb8f5060427</string>
 
 
+    <string name="noi_dung_tailieu">Nội dung tài liệu</string>
+    <string name="ten_tailieu">Tên tài liệu</string>
+    <string name="xem_tailieu">Xem tài liệu</string>
 </resources>

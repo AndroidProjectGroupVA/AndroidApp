@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="20dp"
+    android:padding="20dp"
+    android:id="@+id/dialogForgot"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:orientation="vertical"
+        android:layout_marginStart="45dp"
+        android:layout_marginEnd="45dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/rectangle_7"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:id="@+id/dialogForgot_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Quên mật khẩu"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+<!--        <EditText-->
+<!--            android:id="@+id/dialogForgot_edtUsername"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="15dp"-->
+<!--            android:layout_marginLeft="15dp"-->
+<!--            android:layout_marginTop="10dp"-->
+<!--            android:layout_marginEnd="15dp"-->
+<!--            android:layout_marginRight="15dp"-->
+<!--            android:background="@drawable/rectangle_6"-->
+<!--            android:ems="10"-->
+<!--            android:hint="Tên đăng nhập"-->
+<!--            android:imeOptions="actionNext"-->
+<!--            android:paddingStart="10dp"-->
+<!--            android:paddingLeft="10dp"-->
+<!--            android:textColor="@color/text"-->
+<!--            android:textColorHint="#757575"-->
+<!--            android:textSize="15sp" />-->
+
+        <EditText
+            android:id="@+id/dialogForgot_edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/rectangle_6"
+            android:ems="10"
+            android:hint="Email"
+            android:inputType="text|textEmailAddress"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/text"
+            android:textColorHint="#757575"
+            android:textSize="15sp" />
+
+
+
+        <Button
+            android:id="@+id/dialogForgot_btnForgot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/rectangle_1"
+            android:text="Xác nhận"
+            android:textColor="#74B9FF"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/dialogForgot_btnCancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/rectangle_1"
+            android:text="Huỷ"
+            android:textColor="#74B9FF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

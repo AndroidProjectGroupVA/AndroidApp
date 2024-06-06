@@ -32,10 +32,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignUpBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -155,18 +161,55 @@ public class SignUpActivity extends AppCompatActivity {
 //                    showToast(e.toString());
 //                });
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection(Constants.KEY_COLLECTION_USERS)
-                .whereEqualTo(Constants.KEY_NAME, binding.signUpEdtUsername.getText().toString())
-                .get()
-                .addOnCompleteListener(task -> {
-                    if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
-                        Toast.makeText(this, "Tên đăng nhập đã tồn tại", Toast.LENGTH_SHORT).show();
-                        loading(false);
-                    }
-                    else{
-                        nextActivity();
-                    }
-                });
+//        firestore.collection(Constants.KEY_COLLECTION_USERS)
+//                .whereEqualTo(Constants.KEY_NAME, binding.signUpEdtUsername.getText().toString())
+//                .get()
+//                .addOnCompleteListener(task -> {
+//                    if(task.isSuccessful() && task.getResult() != null && task.getResult().getDocuments().size() > 0){
+//                        Toast.makeText(this, "Tên đăng nhập đã tồn tại", Toast.LENGTH_SHORT).show();
+//                        loading(false);
+//                    }
+//                    else{
+//                        nextActivity();
+//                    }
+//                });
+        String username = binding.signUpEdtUsername.getText().toString();
+        String email = binding.signUpEdtEmail.getText().toString();
+
+        //tao truy van username trong collection users trong firestore
+        Task<QuerySnapshot> queryUsernameTask = firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo(Constants.KEY_NAME, username)
+                .get();
+        //tao truy van email trong collection users trong firestore
+        Task<QuerySnapshot> queryEmailTask = firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .whereEqualTo(Constants.KEY_EMAIL, email)
+                .get();
+
+        //chay 2 truy van trong 1 lan
+        Tasks.whenAllComplete(queryUsernameTask, queryEmailTask).addOnCompleteListener(task->{
+            boolean usernameExits = false;
+            boolean emailExits = false;
+            if (queryUsernameTask.isSuccessful() && queryUsernameTask.getResult() != null) {
+                //kiem tra ket qua truy van username neu chua co trong collection tra ve faslse
+                usernameExits = !queryUsernameTask.getResult().isEmpty();
+            }
+            if (queryEmailTask.isSuccessful() && queryEmailTask.getResult() != null) {
+                //kiem tra ket qua truy van email neu chua co trong collection tra ve faslse
+                emailExits = !queryEmailTask.getResult().isEmpty();
+            }
+
+            if(usernameExits){
+                Toast.makeText(this, "Tên đăng nhập đã tồn tại", Toast.LENGTH_SHORT).show();
+                loading(false);
+            }
+            else if(emailExits){
+                Toast.makeText(this, "Email đã tồn tại", Toast.LENGTH_SHORT).show();
+                loading(false);
+            }
+            else{
+                nextActivity();
+            }
+        });
     }
 
     private void addDataToFirestore() {

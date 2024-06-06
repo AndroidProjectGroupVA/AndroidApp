@@ -73,22 +73,23 @@
                         android:textSize="25sp"
                         android:textStyle="bold" />
 
-
                 </androidx.cardview.widget.CardView>
-                <ImageButton
-                    android:id="@+id/imageButton2"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="end|bottom"
-                    android:background="@android:color/transparent"
-                    android:layout_marginEnd="30dp"
-                    android:elevation="20dp"
-                    android:onClick="buttonRotate"
-                    android:scaleType="fitCenter"
-                    app:tint="#FEFEFE"
-                    app:srcCompat="@drawable/rotate_icon" />
 
             </FrameLayout>
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="10dp"
+                android:background="@android:color/transparent"
+                android:elevation="20dp"
+                android:onClick="buttonRotate"
+                android:scaleType="fitCenter"
+                app:srcCompat="@drawable/rotate_icon"
+                app:tint="#FEFEFE" />
 
             <EditText
                 android:id="@+id/signUp_img_edtName"

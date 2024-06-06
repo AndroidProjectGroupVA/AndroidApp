@@ -1,13 +1,15 @@
 package com.example.androidapp.activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.method.HideReturnsTransformationMethod;
-import android.text.method.PasswordTransformationMethod;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,17 +26,29 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
-import com.example.androidapp.activities.firebase.SessionManager;
-import com.example.androidapp.activities.utilities.Constants;
-import com.example.androidapp.activities.utilities.PreferenceManager;
+//import com.example.androidapp.activities.firebase.SessionManager;
+//import com.example.androidapp.activities.utilities.Constants;
+//import com.example.androidapp.activities.utilities.PreferenceManager;
+import com.example.androidapp.activities.zohoMail.SendEmailTask;
+import com.example.androidapp.activities.zohoMail.getPassword;
+import com.example.androidapp.databinding.ActivitySignInBinding;
+import com.example.androidapp.firebase.SessionManager;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignInBinding;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.concurrent.atomic.AtomicReference;
+
 
 import java.util.Arrays;
 
@@ -44,6 +58,7 @@ public class SignInActivity extends AppCompatActivity {
     private SessionManager sessionManager;
     CallbackManager callbackManager;
     boolean passwordVisible = false;
+    private FirebaseAuth auth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +129,89 @@ public class SignInActivity extends AppCompatActivity {
                 passwordVisible = !passwordVisible;
             }
         });
+
+        binding.signInTxtForgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_forgot, null);
+                //EditText nameBox = dialogView.findViewById(R.id.dialogForgot_edtUsername);
+                EditText emailBox = dialogView.findViewById(R.id.dialogForgot_edtEmail);
+
+                builder.setView(dialogView);
+                AlertDialog dialog = builder.create();
+
+                dialogView.findViewById(R.id.dialogForgot_btnForgot).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AtomicReference<String> name = new AtomicReference<>();
+                        String toMail = emailBox.getText().toString().trim();
+                        getPassword passwordRetrieval = new getPassword();
+
+
+                        if (TextUtils.isEmpty(toMail) || !Patterns.EMAIL_ADDRESS.matcher(toMail).matches()) {
+                            Toast.makeText(SignInActivity.this, "Thông tin không hợp lệ", Toast.LENGTH_SHORT).show();
+                            return;
+                        } else {
+                            FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                            firestore.collection(Constants.KEY_COLLECTION_USERS)
+                                            .whereEqualTo(Constants.KEY_EMAIL, toMail)
+                                            .get()
+                                            .addOnSuccessListener(task -> {
+                                                if (!task.isEmpty()) {
+                                                    DocumentSnapshot documentSnapshot = task.getDocuments().get(0);
+                                                    name.set(documentSnapshot.getString(Constants.KEY_NAME_DISPLAY));
+                                                }
+                                            });
+                            passwordRetrieval.getPass(toMail, new getPassword.FirestoreCallback() {
+                                @Override
+                                public void onCallback(String password) {
+                                    if (password != null) {
+                                        String username = "cloudcomputing@zohomail.com";
+                                        String passwordMail = "nhom3cloud@";
+                                        String smtpHost = "smtp.zoho.com";
+                                        int smtpPort = 587; // Or "587" if using TLS
+
+                                        //String toMail = "hdquy2003@gmail.com";
+                                        String subject = "Password Reset Request";
+                                        String body = "Dear " + name + ",\n\n"
+                                                + "We have received a request to reset your password for our Gia sư TLU app.\n"
+                                                + "Your password is: " + password + "\n\n"
+                                                + "If you didn't request this change, please contact us immediately.\n\n"
+                                                + "Best regards,\n"
+                                                + "Gia sư TLU team";
+                                        new SendEmailTask(SignInActivity.this, toMail, subject, body, username, passwordMail, smtpHost, smtpPort).execute();
+                                        dialog.dismiss();
+                                        Toast.makeText(getApplicationContext(), "Mật khẩu của bạn đã được gửi đến email của bạn", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(), "Email không tồn tại hoặc có lỗi", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+                });
+
+                dialogView.findViewById(R.id.dialogForgot_btnCancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0));
+                }
+                dialog.show();
+            }
+        });
+
+
     }
+
+
     private void setListeners() {
         binding.signInBtnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
