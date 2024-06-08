@@ -87,7 +87,6 @@ public class UserFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -95,7 +94,6 @@ public class UserFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentUserBinding.inflate(inflater, container, false);
-
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity !=null){
             activity.getSupportActionBar().setTitle("Người dùng");
@@ -107,6 +105,7 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                         binding.imgUserAvatar.setImageDrawable(resource);
+                        loadUserDetail();
                     }
 
                     @Override
@@ -114,7 +113,6 @@ public class UserFragment extends Fragment {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
-
         Glide.with(this)
                 .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
                 .into(new CustomTarget<Drawable>() {
@@ -180,6 +178,7 @@ public class UserFragment extends Fragment {
                     @Override
                     public void onLoadCleared(@Nullable Drawable placeholder) {
                         // Xử lý khi hình ảnh bị xóa khỏi view
+
                     }
                 });
         binding.txtUserInfo.setOnClickListener(new View.OnClickListener() {
@@ -198,7 +197,7 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        preferenceManager = new PreferenceManager(getContext());
+        preferenceManager = new PreferenceManager(requireContext());
         loadUserDetail();
         setListeners();
     }
@@ -210,7 +209,7 @@ public class UserFragment extends Fragment {
     }
 
     private void loadUserDetail() {
-        binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
+
         String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
         //Toast.makeText(getContext(), base64Image, Toast.LENGTH_SHORT).show();
         if(base64Image != null){
@@ -219,6 +218,15 @@ public class UserFragment extends Fragment {
         }
         else{
             binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
+        }
+        String userName = preferenceManager.getString(Constants.KEY_NAME_DISPLAY);
+
+        // Hiển thị tên người dùng nếu có
+        if (userName != null) {
+            binding.txtUserName.setText(userName);
+        } else {
+            // Xử lý trường hợp tên người dùng chưa được đặt
+            binding.txtUserName.setText("Tên người dùng");
         }
     }
 
@@ -250,5 +258,19 @@ public class UserFragment extends Fragment {
                     getActivity().finish();
                 })
                 .addOnFailureListener(e -> showToast("Failed to sign out"));
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Lấy tên người dùng từ SharedPreferences
+        String userName = preferenceManager.getString(Constants.KEY_NAME_DISPLAY);
+
+        // Hiển thị tên người dùng nếu có
+        if (userName != null) {
+            binding.txtUserName.setText(userName);
+        } else {
+            // Xử lý trường hợp tên người dùng chưa được đặt
+            binding.txtUserName.setText("Tên người dùng");
+        }
     }
 }
