@@ -9,12 +9,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +27,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
 import com.example.androidapp.activities.FirstMainActivity;
 
+import com.example.androidapp.activities.MainActivity;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.FragmentUserBinding;
@@ -49,6 +54,9 @@ public class UserFragment extends Fragment {
     private String mParam2;
     private FragmentUserBinding binding;
     private PreferenceManager preferenceManager;
+
+
+    TextView txtUserInfo;
 
     public UserFragment() {
         // Required empty public constructor
@@ -186,8 +194,18 @@ public class UserFragment extends Fragment {
                         // Xử lý khi hình ảnh bị xóa khỏi view
                     }
                 });
+        binding.txtUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceFragment(new InfUserFragment());
+                }
+            }
+        });
         return binding.getRoot();
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -206,7 +224,7 @@ public class UserFragment extends Fragment {
     private void loadUserDetail() {
         binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
         String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
-        Toast.makeText(getContext(), base64Image, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), base64Image, Toast.LENGTH_SHORT).show();
         if(base64Image != null){
             Bitmap bitmap = getUserImage(base64Image);
             binding.imgUserAvatar.setImageBitmap(bitmap);

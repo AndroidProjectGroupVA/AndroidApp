@@ -209,6 +209,9 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
                         preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
                         preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
+                        preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(Constants.KEY_EMAIL));
+                        preferenceManager.putString(Constants.KEY_PASSWORD, documentSnapshot.getString(Constants.KEY_PASSWORD));
+                        preferenceManager.putString(Constants.KEY_NAME_DISPLAY, documentSnapshot.getString(Constants.KEY_NAME_DISPLAY));
 //                        sessionManager.setLoggedIn(true);
 //                        sessionManager.setUserId(documentSnapshot.getId());
                         showToast("Login successfull");
