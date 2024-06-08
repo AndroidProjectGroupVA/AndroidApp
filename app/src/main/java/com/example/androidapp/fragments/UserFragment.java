@@ -92,19 +92,19 @@ public class UserFragment extends Fragment {
         if(activity !=null){
             activity.getSupportActionBar().setTitle("Người dùng");
         }
-        Glide.with(this)
-                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
-                .into(new CustomTarget<Drawable>() {
-                    @Override
-                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        binding.imgUserAvatar.setImageDrawable(resource);
-                    }
-
-                    @Override
-                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                        // Xử lý khi hình ảnh bị xóa khỏi view
-                    }
-                });
+//        Glide.with(this)
+//                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
+//                .into(new CustomTarget<Drawable>() {
+//                    @Override
+//                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+//                        binding.imgUserAvatar.setImageDrawable(resource);
+//                    }
+//
+//                    @Override
+//                    public void onLoadCleared(@Nullable Drawable placeholder) {
+//                        // Xử lý khi hình ảnh bị xóa khỏi view
+//                    }
+//                });
 
 //        Glide.with(this)
 //                .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
@@ -206,15 +206,23 @@ public class UserFragment extends Fragment {
     private void loadUserDetail() {
         binding.txtUserName.setText(preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
         String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
-        if (base64Image != null && !base64Image.isEmpty()) {
-            // ... (decoding and setting image code)
-            byte[] bytes = android.util.Base64.decode(base64Image, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        Toast.makeText(getContext(), base64Image, Toast.LENGTH_SHORT).show();
+        if(base64Image != null){
+            Bitmap bitmap = getUserImage(base64Image);
             binding.imgUserAvatar.setImageBitmap(bitmap);
-        } else {
-            // Handle the case where there's no image data (e.g., show a default image)
+        }
+        else{
             binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
         }
+    }
+
+    private Bitmap getUserImage(String encodeImage){
+        if (encodeImage == null || encodeImage.isEmpty()) {
+            // Trả về một hình ảnh mặc định hoặc null nếu encodeImage là null hoặc trống
+            return null;
+        }
+        byte[] bytes = Base64.decode(encodeImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     private void showToast(String message) {
