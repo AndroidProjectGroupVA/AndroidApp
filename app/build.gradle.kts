@@ -58,6 +58,7 @@ dependencies {
 
     //Firebase
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-auth")
     implementation(libs.firebaseAnalytics)
     implementation(libs.firebaseAuth)
     implementation(libs.firebase.messaging)
@@ -65,6 +66,9 @@ dependencies {
     implementation(libs.androidMail)
     implementation(libs.androidActivation)
 
+
+    //Facebook
+    implementation("com.facebook.android:facebook-android-sdk:15.2.0")
 
     //Multidex
     implementation(libs.multidex)
