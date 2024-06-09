@@ -9,12 +9,16 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -23,6 +27,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
 import com.example.androidapp.activities.FirstMainActivity;
 
+import com.example.androidapp.activities.MainActivity;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.FragmentUserBinding;
@@ -49,6 +54,9 @@ public class UserFragment extends Fragment {
     private String mParam2;
     private FragmentUserBinding binding;
     private PreferenceManager preferenceManager;
+
+
+    TextView txtUserInfo;
 
     public UserFragment() {
         // Required empty public constructor
@@ -90,6 +98,7 @@ public class UserFragment extends Fragment {
         if(activity !=null){
             activity.getSupportActionBar().setTitle("Người dùng");
         }
+
         Glide.with(this)
                 .load(R.drawable.user_solid_240) // Đường dẫn đến hình ảnh của bạn
                 .into(new CustomTarget<Drawable>() {
@@ -172,8 +181,18 @@ public class UserFragment extends Fragment {
 
                     }
                 });
+        binding.txtUserInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).replaceFragment(new InfUserFragment());
+                }
+            }
+        });
         return binding.getRoot();
     }
+
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -192,13 +211,12 @@ public class UserFragment extends Fragment {
     private void loadUserDetail() {
 
         String base64Image = preferenceManager.getString(Constants.KEY_IMAGE);
-        if (base64Image != null && !base64Image.isEmpty()) {
-            // ... (decoding and setting image code)
-            byte[] bytes = android.util.Base64.decode(base64Image, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+        //Toast.makeText(getContext(), base64Image, Toast.LENGTH_SHORT).show();
+        if(base64Image != null){
+            Bitmap bitmap = getUserImage(base64Image);
             binding.imgUserAvatar.setImageBitmap(bitmap);
-        } else {
-            // Handle the case where there's no image data (e.g., show a default image)
+        }
+        else{
             binding.imgUserAvatar.setImageResource(R.drawable.user_solid_240);
         }
         String userName = preferenceManager.getString(Constants.KEY_NAME_DISPLAY);
@@ -210,6 +228,15 @@ public class UserFragment extends Fragment {
             // Xử lý trường hợp tên người dùng chưa được đặt
             binding.txtUserName.setText("Tên người dùng");
         }
+    }
+
+    private Bitmap getUserImage(String encodeImage){
+        if (encodeImage == null || encodeImage.isEmpty()) {
+            // Trả về một hình ảnh mặc định hoặc null nếu encodeImage là null hoặc trống
+            return null;
+        }
+        byte[] bytes = Base64.decode(encodeImage, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
     }
 
     private void showToast(String message) {
