@@ -26,21 +26,18 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.androidapp.R;
-//import com.example.androidapp.activities.firebase.SessionManager;
-//import com.example.androidapp.activities.utilities.Constants;
-//import com.example.androidapp.activities.utilities.PreferenceManager;
-import com.example.androidapp.activities.zohoMail.SendEmailTask;
-import com.example.androidapp.activities.zohoMail.getPassword;
 import com.example.androidapp.databinding.ActivitySignInBinding;
 import com.example.androidapp.firebase.SessionManager;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
 import com.example.androidapp.databinding.ActivitySignInBinding;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
+//import com.facebook.CallbackManager;
+//import com.facebook.FacebookCallback;
+//import com.facebook.FacebookException;
+//import com.facebook.login.LoginManager;
+//import com.facebook.login.LoginResult;
+import com.example.androidapp.zohoMail.SendEmailTask;
+import com.example.androidapp.zohoMail.getPassword;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,13 +47,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.concurrent.atomic.AtomicReference;
 
 
-import java.util.Arrays;
-
 public class SignInActivity extends AppCompatActivity {
     private ActivitySignInBinding binding;
     private PreferenceManager preferenceManager;
     private SessionManager sessionManager;
-    CallbackManager callbackManager;
     boolean passwordVisible = false;
     private FirebaseAuth auth;
     @Override
@@ -70,26 +64,6 @@ public class SignInActivity extends AppCompatActivity {
 //            finish(); // Đóng SignInActivity
 //        }
         EdgeToEdge.enable(this);
-        callbackManager = CallbackManager.Factory.create();
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        // App code
-                        startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                        finish();
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         setListeners();
@@ -221,19 +195,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
             }
         });
-        binding.signInBtnFacebook.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //login to facebook
-                LoginManager.getInstance().logInWithReadPermissions(SignInActivity.this, Arrays.asList("public_profile"));
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-        super.onActivityResult(requestCode, resultCode, data);
     }
     private void signIn(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -250,7 +211,9 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_USER_ID, documentSnapshot.getId());
                         preferenceManager.putString(Constants.KEY_NAME, documentSnapshot.getString(Constants.KEY_NAME));
                         preferenceManager.putString(Constants.KEY_IMAGE, documentSnapshot.getString(Constants.KEY_IMAGE));
+                        preferenceManager.putString(Constants.KEY_PASSWORD, documentSnapshot.getString(Constants.KEY_PASSWORD));
                         preferenceManager.putString(Constants.KEY_EMAIL, documentSnapshot.getString(Constants.KEY_EMAIL));
+                        preferenceManager.putString(Constants.KEY_PHONE, documentSnapshot.getString(Constants.KEY_PHONE));
                         preferenceManager.putString(Constants.KEY_NAME_DISPLAY, documentSnapshot.getString(Constants.KEY_NAME_DISPLAY));
 //                        sessionManager.setLoggedIn(true);
 //                        sessionManager.setUserId(documentSnapshot.getId());

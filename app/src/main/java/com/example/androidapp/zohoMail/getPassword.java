@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.zohoMail;
+package com.example.androidapp.zohoMail;
 
 import com.example.androidapp.utilities.Constants;
 import com.google.firebase.firestore.DocumentSnapshot;
