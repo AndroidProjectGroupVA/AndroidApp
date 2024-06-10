@@ -1,4 +1,4 @@
-package com.example.androidapp.activities.zohoMail;
+package com.example.androidapp.zohoMail;
 
 import android.util.Log;
 
