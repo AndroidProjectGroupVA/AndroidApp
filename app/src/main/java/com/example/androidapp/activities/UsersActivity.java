@@ -1,5 +1,6 @@
 package com.example.androidapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapters.UsersAdapter;
+import com.example.androidapp.listener.UserListener;
 import com.example.androidapp.models.User;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
@@ -21,7 +23,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
@@ -69,11 +71,12 @@ public class UsersActivity extends AppCompatActivity {
                             user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
                             user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
                             user.nameDisplay = queryDocumentSnapshot.getString(Constants.KEY_NAME_DISPLAY);
+                            user.id = queryDocumentSnapshot.getId();
                             //add to list
                             users.add(user);
                         }
                         if (users.size() > 0){
-                            UsersAdapter userAdapter = new UsersAdapter(users);
+                            UsersAdapter userAdapter = new UsersAdapter(users, this);
                             binding.usersRecycleView.setAdapter(userAdapter);
                             binding.usersRecycleView.setVisibility(View.VISIBLE);
                         }else{
@@ -100,5 +103,13 @@ public class UsersActivity extends AppCompatActivity {
         }else{
             binding.progressBar.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+        finish();
     }
 }
