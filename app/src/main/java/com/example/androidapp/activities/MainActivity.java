@@ -83,6 +83,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return true;
         });
 
+        if (getIntent().getBooleanExtra("openChatFragment", false)) {
+            replaceFragment(new ChatFragment());
+        }
 
     }
 
