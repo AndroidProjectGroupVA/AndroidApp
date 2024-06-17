@@ -18,6 +18,7 @@ navigationFragment = "2.7.7"
 navigationUi = "2.7.7"
 androidMail = "1.6.7"
 androidActivation = "1.6.7"
+firebaseStorage = "21.0.0"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +40,7 @@ navigation-fragment = { group = "androidx.navigation", name = "navigation-fragme
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 androidMail = { group = "com.sun.mail", name = "android-mail", version.ref = "androidMail" }
 androidActivation = { group = "com.sun.mail", name = "android-activation", version.ref = "androidActivation" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
