@@ -1,10 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.InfDocumentActivity">
+    tools:context=".fragments.SupportFragment"
+    android:id="@+id/inf_document_layout">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/colorToolbar"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                app:cardCornerRadius="50dp">
+
+                <ImageView
+                    android:id="@+id/iv_inf_document_avt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="40dp"
+                android:layout_weight="2"
+                android:orientation="vertical"
+
+                >
+
+                <TextView
+                    android:id="@+id/tv_documentt_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tên tài liệu: "
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_document_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:text="Thuộc môn học:"
+                    android:textColor="@color/hint_text"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_document_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày đăng: "
+                        android:textColor="@color/hint_text"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_document_owner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Người đăng: "
+                    android:textColor="@color/primary"
+                    android:textSize="15dp"
+                    tools:ignore="TextSizeCheck,TextSizeCheck" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="18dp"
+                android:text="Thông tin tài liệu"
+                android:textColor="@color/hint_text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+
+                        <TextView
+                            android:id="@+id/tv_inf_document_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="Thông tin chi tiết về tài liệu"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+                </ScrollView>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <Button
+                        android:id="@+id/btn_inf_document_dowload"
+                        android:layout_width="120dp"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="35dp"
+                        android:backgroundTint="#938B8B"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Tải xuống"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/btn_inf_document_view"
+                        android:layout_width="120dp"
+                        android:layout_height="60dp"
+                        android:layout_marginEnd="35dp"
+                        android:backgroundTint="@color/colorToolbar"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Xem  tài liệu"
+                        android:textSize="13sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>

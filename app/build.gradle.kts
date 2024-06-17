@@ -76,4 +76,7 @@ dependencies {
 
     implementation("com.makeramen:roundedimageview:2.3.0");
 
+    //pdfView
+    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1");
+
 }

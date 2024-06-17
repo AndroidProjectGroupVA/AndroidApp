@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -41,6 +42,8 @@ import com.example.androidapp.R;
 import com.example.androidapp.activities.InfDocumentActivity;
 import com.example.androidapp.adapters.DocumentAdapter;
 import com.example.androidapp.models.Document;
+import com.example.androidapp.utilities.Constants;
+import com.example.androidapp.utilities.PreferenceManager;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -52,6 +55,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -76,16 +80,45 @@ public class LibraryFragment extends Fragment {
     Button add_Document_clear_select;
     TextView tv_Document_name_select, tv_Format_fileformat, tv_Format_date;
     EditText edt_Document_name, edt_Format_description;
+    AutoCompleteTextView acv_subject;
     ImageView add_Document_ilogo_file, add_Document_img;
     CardView add_Document_card, add_Document_card_img;
     ListView lv_Document_list;
     DocumentAdapter documentAdapter;
+    ArrayAdapter adapterSubject;
     ArrayList<Document> documents = new ArrayList<>();
+    ArrayList<String> listSubjects = new ArrayList<>(Arrays.asList(
+            "Nhập môn Công nghệ Thông tin",
+            "Toán cao cấp",
+            "Đại số tuyến tính",
+            "Cấu trúc dữ liệu",
+            "Thuật toán",
+            "Hệ điều hành",
+            "Hệ quản trị cơ sở dữ liệu",
+            "Công nghệ phần mềm",
+            "Trí tuệ nhân tạo",
+            "Máy học",
+            "Mạng máy tính",
+            "Toán rời rạc",
+            "Phát triển web",
+            "Phát triển ứng dụng di động",
+            "Tương tác người-máy",
+            "Thiết kế logic số",
+            "Thiết kế trình biên dịch",
+            "Đồ họa máy tính",
+            "An ninh mạng",
+            "Điện toán đám mây",
+            "Phân tích dữ liệu lớn",
+            "Internet vạn vật (IoT)",
+            "Phát triển trò chơi",
+            "Đạo đức trong công nghệ"
+    ));
     FirebaseStorage storage;
     StorageReference storageRef;
     FirebaseFirestore db;
     Uri fileUri;
     Context context;
+    PreferenceManager pref;
 
     private String encodedImage;
     private static final int PICK_FILE_REQUEST = 1;
@@ -141,6 +174,7 @@ public class LibraryFragment extends Fragment {
 //                transaction.commit();
 //            }
 //        });
+        pref = new PreferenceManager(requireContext());
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
         db = FirebaseFirestore.getInstance();
@@ -175,6 +209,7 @@ public class LibraryFragment extends Fragment {
         add_Document_clear_select = customLayout.findViewById(R.id.add_Document_clear_select);
         edt_Document_name = customLayout.findViewById(R.id.edt_Document_name);
         edt_Format_description = customLayout.findViewById(R.id.edt_Format_description);
+        acv_subject = customLayout.findViewById(R.id.acv_subject);
 
         Button btn_select_file = customLayout.findViewById(R.id.add_Document_btn_select_file);
         Button btn_cancel = customLayout.findViewById(R.id.add_Document_btn_cancel);
@@ -191,6 +226,22 @@ public class LibraryFragment extends Fragment {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             pickImage.launch(intent);
+        });
+
+        edt_Document_name.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus && edt_Document_name.getText().toString().trim().isEmpty()) {
+                Toast.makeText(LibraryFragment.this.getContext(), "Vui lòng nhập tên file", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        adapterSubject = new ArrayAdapter<>(requireContext(), android.R.layout.simple_dropdown_item_1line, listSubjects);
+        acv_subject.setAdapter(adapterSubject);
+        acv_subject.setThreshold(1);
+        acv_subject.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                acv_subject.showDropDown();
+            }
         });
 
         // chon file tu thiet bi
@@ -210,12 +261,13 @@ public class LibraryFragment extends Fragment {
         });
 
         //cancel add document
-        btn_cancel.setOnClickListener(v -> dialog.show());
+        btn_cancel.setOnClickListener(v -> dialog.dismiss());
 
         //upload file
         btn_upload.setOnClickListener(v -> {
             String fileName = getFileName(fileUri);
             String nameFileDisplay = edt_Document_name.getText().toString().trim();
+            String subject = acv_subject.getText().toString().trim();
             StorageReference fileRef = storageRef.child("files/" + fileName);
             UploadTask uploadTask = fileRef.putFile(fileUri);
 
@@ -234,13 +286,12 @@ public class LibraryFragment extends Fragment {
                 }
 
                 Map<String, Object> contentValues = new HashMap<>();
-                contentValues.put("fileID", "");
                 contentValues.put("fileNameDisplay", nameFileDisplay);
-                contentValues.put("fileName", fileName);
+                contentValues.put("fileSubject", subject);
                 contentValues.put("fileType", fileType);
                 contentValues.put("fileUrl", downloadUrl);
                 contentValues.put("fileDate", date);
-                contentValues.put("fileOwner", "");
+                contentValues.put("fileOwner", pref.getString(Constants.KEY_NAME_DISPLAY));
                 contentValues.put("fileDescription", fileDescription);
                 contentValues.put("fileIcon", fileIcon);
 
@@ -260,18 +311,18 @@ public class LibraryFragment extends Fragment {
                 Document document = documents.get(position);
                 Intent intent = new Intent(LibraryFragment.this.getContext(), InfDocumentActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putString("fileID", "");
-                //bundle.putString("fileName", document.getName());
                 bundle.putString("fileNameDisplay", document.getName());
+                bundle.putString("fileSubject", document.getSubject());
                 bundle.putString("fileType", document.getType());
                 bundle.putString("fileUrl", document.getUrl());
                 bundle.putString("fileDate", document.getUpLoadTimeStamp());
                 bundle.putString("fileOwner", document.getOwner());
                 bundle.putString("fileDescription", document.getDescription());
+                bundle.putString("fileOwner", document.getOwner());
                 bundle.putString("fileIcon", document.getLogo());
                 intent.putExtra("document", bundle);
                 startActivity(intent);
-                Toast.makeText(LibraryFragment.this.getContext(), "Click item " + document.getName(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LibraryFragment.this.getContext(), "Click item " + document.getName(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -305,15 +356,15 @@ public class LibraryFragment extends Fragment {
             if (task.isSuccessful() && task.getResult() != null) {
                 documents.clear();
                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                    String fileID = documentSnapshot.getString("fileID");
-                    String fileNameDisplay = documentSnapshot.getString("fileName");
+                    String fileNameDisplay = documentSnapshot.getString("fileNameDisplay");
+                    String fileSubject = documentSnapshot.getString("fileSubject");
                     String fileType = documentSnapshot.getString("fileType");
                     String fileUrl = documentSnapshot.getString("fileUrl");
                     String fileDate = documentSnapshot.getString("fileDate");
                     String fileOwner = documentSnapshot.getString("fileOwner");
                     String fileDescription = documentSnapshot.getString("fileDescription");
                     String fileIcon = documentSnapshot.getString("fileIcon");
-                    Document document = new Document(fileNameDisplay," ", fileType, fileUrl, fileDate, fileOwner, fileDescription, fileIcon);
+                    Document document = new Document(fileNameDisplay,fileSubject, fileType, fileUrl, fileDate, fileOwner, fileDescription, fileIcon);
                     documents.add(document);
                 }
                 documentAdapter.notifyDataSetChanged();
