@@ -21,6 +21,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,9 +58,11 @@ import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,7 +83,7 @@ public class LibraryFragment extends Fragment {
     ImageButton img_btn_viewadd;
     Button add_Document_clear_select;
     TextView tv_Document_name_select, tv_Format_fileformat, tv_Format_date;
-    EditText edt_Document_name, edt_Format_description;
+    EditText edt_Document_name, edt_Format_description, edt_lib_search;
     AutoCompleteTextView acv_subject;
     ImageView add_Document_ilogo_file, add_Document_img;
     CardView add_Document_card, add_Document_card_img;
@@ -181,13 +185,13 @@ public class LibraryFragment extends Fragment {
         lv_Document_list = view.findViewById(R.id.lv_Document);
         documentAdapter = new DocumentAdapter(context, documents);
         lv_Document_list.setAdapter(documentAdapter);
-
         img_btn_viewadd = view.findViewById(R.id.imgbtn_viewadd);
+        edt_lib_search = (EditText) view.findViewById(R.id.edt_lib_search);
 
 
         // Set up the spinner
         Spinner dropdown = view.findViewById(R.id.spinner);
-        String[] items = new String[]{"Theo tên", "Theo ngày"};
+        String[] items = new String[]{"Theo tên A-Z", "Theo tên Z-A", "Theo thời gian - tăng dần", "Theo thời gian - giảm dần"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
@@ -196,6 +200,23 @@ public class LibraryFragment extends Fragment {
         if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle("Tài liệu");
         }
+
+        edt_lib_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lib_search_document();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 //        LayoutInflater inflater = getLayoutInflater();
         View customLayout = inflater.inflate(R.layout.diaglog_add_document, null);
@@ -217,6 +238,37 @@ public class LibraryFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(LibraryFragment.this.getContext());
         builder.setView(customLayout);
         AlertDialog dialog = builder.create();
+
+        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:{
+                        Collections.sort(documents, (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+                        break;
+                    }
+                    case 1:{
+                        Collections.sort(documents, (p1, p2) -> p2.getName().compareToIgnoreCase(p1.getName()));
+                        break;
+                    }
+                    case 2:{
+                        Collections.sort(documents, (p1, p2) -> p1.getUpLoadTimeStamp().compareToIgnoreCase(p2.getUpLoadTimeStamp()));
+                        break;
+                    }
+                    case 3:{
+                        Collections.sort(documents, (p1, p2) -> p2.getUpLoadTimeStamp().compareToIgnoreCase(p1.getUpLoadTimeStamp()));
+                        break;
+                    }
+                }
+                documentAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Collections.sort(documents, (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+                documentAdapter.notifyDataSetChanged();
+            }
+        });
 
         //show alertdialog add document
         img_btn_viewadd.setOnClickListener(v -> dialog.show());
@@ -266,6 +318,7 @@ public class LibraryFragment extends Fragment {
         //upload file
         btn_upload.setOnClickListener(v -> {
             String fileName = getFileName(fileUri);
+            String fileID = generateUniqueID();
             String nameFileDisplay = edt_Document_name.getText().toString().trim();
             String subject = acv_subject.getText().toString().trim();
             StorageReference fileRef = storageRef.child("files/" + fileName);
@@ -286,6 +339,7 @@ public class LibraryFragment extends Fragment {
                 }
 
                 Map<String, Object> contentValues = new HashMap<>();
+                contentValues.put("fileID", fileID);
                 contentValues.put("fileNameDisplay", nameFileDisplay);
                 contentValues.put("fileSubject", subject);
                 contentValues.put("fileType", fileType);
@@ -299,6 +353,15 @@ public class LibraryFragment extends Fragment {
                         .addOnSuccessListener(documentReference -> {
                             Toast.makeText(LibraryFragment.this.getContext(), "Upload successful", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
+                            add_Document_card.setVisibility(View.GONE);
+                            add_Document_ilogo_file.setVisibility(View.GONE);
+                            tv_Document_name_select.setVisibility(View.GONE);
+                            tv_Format_fileformat.setText("");
+                            tv_Format_date.setText("");
+                            edt_Document_name.setText("");
+                            edt_Format_description.setText("");
+                            acv_subject.setText("");
+                            add_Document_img.setImageResource(R.drawable.avt_library);
                             loadDocuments();
                         })
                         .addOnFailureListener(e -> Toast.makeText(LibraryFragment.this.getContext(), "Upload failed", Toast.LENGTH_SHORT).show());
@@ -311,6 +374,7 @@ public class LibraryFragment extends Fragment {
                 Document document = documents.get(position);
                 Intent intent = new Intent(LibraryFragment.this.getContext(), InfDocumentActivity.class);
                 Bundle bundle = new Bundle();
+                bundle.putString("fileID", document.getId());
                 bundle.putString("fileNameDisplay", document.getName());
                 bundle.putString("fileSubject", document.getSubject());
                 bundle.putString("fileType", document.getType());
@@ -356,6 +420,7 @@ public class LibraryFragment extends Fragment {
             if (task.isSuccessful() && task.getResult() != null) {
                 documents.clear();
                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                    String fileID = documentSnapshot.getId();
                     String fileNameDisplay = documentSnapshot.getString("fileNameDisplay");
                     String fileSubject = documentSnapshot.getString("fileSubject");
                     String fileType = documentSnapshot.getString("fileType");
@@ -364,11 +429,41 @@ public class LibraryFragment extends Fragment {
                     String fileOwner = documentSnapshot.getString("fileOwner");
                     String fileDescription = documentSnapshot.getString("fileDescription");
                     String fileIcon = documentSnapshot.getString("fileIcon");
-                    Document document = new Document(fileNameDisplay,fileSubject, fileType, fileUrl, fileDate, fileOwner, fileDescription, fileIcon);
+                    Document document = new Document(fileID, fileNameDisplay,fileSubject, fileType, fileUrl, fileDate, fileOwner, fileDescription, fileIcon);
                     documents.add(document);
                 }
+                Collections.sort(documents, (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
                 documentAdapter.notifyDataSetChanged();
-                Toast.makeText(LibraryFragment.this.getContext(), "Đã lấy dữ liệu " + documents.size(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(LibraryFragment.this.getContext(), "Đã lấy dữ liệu " + documents.size(), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(LibraryFragment.this.getContext(), "Lỗi truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void lib_search_document(){
+        String searchText = edt_lib_search.getText().toString().trim();
+        db.collection("documents").get().addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                documents.clear();
+                for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                    String fileNameDisplay = documentSnapshot.getString("fileNameDisplay");
+                    if (fileNameDisplay.contains(searchText)){
+                        String fileID = documentSnapshot.getId();
+                        String fileSubject = documentSnapshot.getString("fileSubject");
+                        String fileType = documentSnapshot.getString("fileType");
+                        String fileUrl = documentSnapshot.getString("fileUrl");
+                        String fileDate = documentSnapshot.getString("fileDate");
+                        String fileOwner = documentSnapshot.getString("fileOwner");
+                        String fileDescription = documentSnapshot.getString("fileDescription");
+                        String fileIcon = documentSnapshot.getString("fileIcon");
+                        Document document = new Document(fileID, fileNameDisplay,fileSubject, fileType, fileUrl, fileDate, fileOwner, fileDescription, fileIcon);
+                        documents.add(document);
+                    }
+                }
+                Collections.sort(documents, (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+                documentAdapter.notifyDataSetChanged();
+                //Toast.makeText(LibraryFragment.this.getContext(), "Đã lấy dữ liệu " + documents.size(), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(LibraryFragment.this.getContext(), "Lỗi truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
             }
@@ -452,6 +547,10 @@ public class LibraryFragment extends Fragment {
                 }
             }
     );
+
+    public static String generateUniqueID() {
+        return UUID.randomUUID().toString();
+    }
 
 }
 

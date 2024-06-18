@@ -39,6 +39,7 @@ public class DocumentAdapter extends ArrayAdapter<Document> {
             viewHolder = new ViewHolder();
             viewHolder.tv_name = convertView.findViewById(R.id.tv_Document_Name);
             viewHolder.tv_date = convertView.findViewById(R.id.tv_Document_date);
+            viewHolder.tv_subject = convertView.findViewById(R.id.tv_Document_subject);
             viewHolder.img_logo = convertView.findViewById(R.id.iv_Document_img);
             convertView.setTag(viewHolder);
         } else {
@@ -47,6 +48,7 @@ public class DocumentAdapter extends ArrayAdapter<Document> {
 
         Document currentItem = itemList.get(position);
         viewHolder.tv_name.setText(currentItem.getName());
+        viewHolder.tv_subject.setText(currentItem.getSubject());
         viewHolder.tv_date.setText(currentItem.getUpLoadTimeStamp());
         Bitmap imageBitmap = getImageView(currentItem.getLogo());
         if (imageBitmap != null) {
@@ -83,6 +85,7 @@ public class DocumentAdapter extends ArrayAdapter<Document> {
     static class ViewHolder{
         TextView tv_name;
         TextView tv_date;
+        TextView tv_subject;
         ImageView img_logo;
     }
 }
