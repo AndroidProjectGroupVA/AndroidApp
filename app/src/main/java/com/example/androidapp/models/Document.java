@@ -1,9 +1,10 @@
 package com.example.androidapp.models;
 
 public class Document {
-    private String name, subject, type, url, upLoadTimeStamp, owner, description, logo;
+    private String id, name, subject, type, url, upLoadTimeStamp, owner, description, logo;
 
-    public Document(String name, String subject, String type, String url, String upLoadTimeStamp, String owner, String description, String logo) {
+    public Document(String id, String name, String subject, String type, String url, String upLoadTimeStamp, String owner, String description, String logo) {
+        this.id = id;
         this.name = name;
         this.subject = subject;
         this.type = type;
@@ -12,6 +13,14 @@ public class Document {
         this.owner = owner;
         this.description = description;
         this.logo = logo;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
