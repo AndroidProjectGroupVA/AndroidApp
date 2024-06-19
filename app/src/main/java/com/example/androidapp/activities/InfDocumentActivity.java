@@ -73,6 +73,15 @@ public class InfDocumentActivity extends AppCompatActivity {
         String fileOwner = tv_document_owner.getText().toString() + bundle.getString("fileOwner");
         String fileDescription = bundle.getString("fileDescription");
         String fileIcon = bundle.getString("fileIcon");
+        Toast.makeText(this, fileType, Toast.LENGTH_SHORT).show();
+
+        if(fileType != null && !fileType.equals("application/pdf")){
+            btn_inf_document_view.setEnabled(false);
+        }
+        else if(fileType == null){
+            btn_inf_document_view.setEnabled(false);
+            btn_inf_document_dowload.setEnabled(false);
+        }
 
         tv_documentt_name.setText(nameDisplay);
         tv_document_subject.setText(subject);
