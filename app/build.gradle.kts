@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.mediarouter)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -74,5 +75,8 @@ dependencies {
     implementation(libs.multidex)
 
     implementation("com.makeramen:roundedimageview:2.3.0");
+
+    //pdfView
+    implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1");
 
 }

@@ -29,7 +29,7 @@
 
             <!-- item_spinner.xml -->
             <ImageButton
-                android:id="@+id/btnRefresh"
+                android:id="@+id/btnRecent"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -38,7 +38,7 @@
 
             <!-- EditText -->
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/edt_lib_search"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
@@ -57,75 +57,39 @@
                 android:background="@color/white" />
 
         </LinearLayout>
-        <!-- TODO: Update blank fragment layout -->
-        <RelativeLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <ImageButton
+                android:id="@+id/imgbtn_viewadd"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="end"
+                android:layout_marginTop="7dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="7dp"
+                app:srcCompat="@drawable/ic_add" />
+
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:orientation="horizontal"
-                android:weightSum="3"
-                android:background="@drawable/rectangle_8"
-                android:id="@+id/linearTailieu"
-                >
-
-                <View
-                    android:id="@+id/btn_pic"
-                    android:layout_marginLeft="10dp"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/avt_library"
-                    android:backgroundTint="@color/colorToolbar" />
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="vertical"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="20dp"
+                    android:orientation="vertical">
 
-                    >
-
-                    <TextView
+                    <ListView
+                        android:id="@+id/lv_Document"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Tai lieu 1"
-                        android:textSize="20sp"
-                        android:textStyle="bold"/>
-
-                    <LinearLayout
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="match_parent"
-                            android:src="@drawable/group_ic" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="123"
-                            android:textSize="18sp"/>
-                    </LinearLayout>
-                    <TextView
-                        android:layout_marginTop="5dp"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="15dp"
-                        android:text="Miễn phí"
-                        android:textColor="@color/colorToolbar"
-                        />
+                        android:layout_height="600dp" />
                 </LinearLayout>
-            </LinearLayout>
+            </ScrollView>
+        </LinearLayout>
 
-        </RelativeLayout>
     </LinearLayout>
 
 
