@@ -1,12 +1,12 @@
 package com.example.androidapp.activities;
 
-import static androidx.core.content.ContentProviderCompat.requireContext;
 
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -25,13 +26,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.androidapp.R;
-import com.example.androidapp.utilities.PreferenceManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 public class InfDocumentActivity extends AppCompatActivity {
 
@@ -40,6 +42,7 @@ public class InfDocumentActivity extends AppCompatActivity {
     Button btn_inf_document_dowload, btn_inf_document_view;
 
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
+    private static final int PERMISSION_REQUEST_CODE = 1;
     private String fileUrl;
 
     @Override
@@ -112,8 +115,18 @@ public class InfDocumentActivity extends AppCompatActivity {
 
         });
     }
+
     private void downloadFile(String fileUrl) {
-        new Thread(() -> {
+        new DownloadFileTask().execute(fileUrl);
+    }
+
+    private class DownloadFileTask extends AsyncTask<String, Void, String> {
+
+        private String filePath;
+
+        @Override
+        protected String doInBackground(String... params) {
+            String fileUrl = params[0];
             try {
                 URL url = new URL(fileUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -121,17 +134,19 @@ public class InfDocumentActivity extends AppCompatActivity {
 
                 if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
                     Log.e(InfDocumentActivity.class.getSimpleName(), "Server returned HTTP " + connection.getResponseCode() + " " + connection.getResponseMessage());
-                    return;
+                    return "Server returned HTTP " + connection.getResponseCode() + " " + connection.getResponseMessage();
                 }
 
                 InputStream inputStream = connection.getInputStream();
                 String fileName = getFileNameFromUrl(fileUrl);
+                fileName = sanitizeFileName(fileName); // Sanitize the file name to remove special characters
                 File directory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                 if (!directory.exists()) {
                     directory.mkdirs();
                 }
 
                 File file = new File(directory, fileName);
+                filePath = file.getAbsolutePath(); // Store the file path
                 FileOutputStream outputStream = new FileOutputStream(file);
 
                 byte[] buffer = new byte[4096];
@@ -143,17 +158,50 @@ public class InfDocumentActivity extends AppCompatActivity {
                 outputStream.close();
                 inputStream.close();
 
-                runOnUiThread(() -> Toast.makeText(InfDocumentActivity.this, "File downloaded", Toast.LENGTH_SHORT).show());
+                return "File downloaded";
 
             } catch (Exception e) {
                 Log.e(InfDocumentActivity.class.getSimpleName(), "Error downloading file", e);
-                runOnUiThread(() -> Toast.makeText(InfDocumentActivity.this, "Download failed", Toast.LENGTH_SHORT).show());
+                return "Download failed: " + e.getMessage();
             }
-        }).start();
+        }
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(InfDocumentActivity.this, result, Toast.LENGTH_SHORT).show();
+            if (result.equals("File downloaded")) {
+                Toast.makeText(InfDocumentActivity.this, "File saved at: " + filePath, Toast.LENGTH_LONG).show();
+                Log.i(InfDocumentActivity.class.getSimpleName(), "File saved at: " + filePath);
+            }
+        }
     }
 
-    private String getFileNameFromUrl(String url) {
-        return url.substring(url.lastIndexOf('/') + 1);
+    private String getFileNameFromUrl(String fileUrl) {
+        try {
+            String decodedUrl = URLDecoder.decode(fileUrl, StandardCharsets.UTF_8.name());
+            String fileName = decodedUrl.substring(decodedUrl.lastIndexOf('/') + 1, decodedUrl.indexOf("?"));
+            return fileName;
+        } catch (Exception e) {
+            Log.e(InfDocumentActivity.class.getSimpleName(), "Error decoding URL", e);
+            return "default_filename.pdf";
+        }
+    }
+
+    private String sanitizeFileName(String fileName) {
+        return fileName.replaceAll("[^a-zA-Z0-9\\.\\-]", "_");
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                downloadFile("your_file_url_here");
+            } else {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private Bitmap getImageView(String encodeImage) {
