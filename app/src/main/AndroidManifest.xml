@@ -20,6 +20,9 @@
         android:theme="@style/Theme.AndroidApp"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ViewRecentDocActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ReadDocumentActivity"
             android:exported="false" />
         <activity

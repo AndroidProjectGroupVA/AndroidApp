@@ -17,7 +17,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
@@ -34,7 +33,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,6 +40,7 @@ import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.InfDocumentActivity;
+import com.example.androidapp.activities.ViewRecentDocActivity;
 import com.example.androidapp.adapters.DocumentAdapter;
 import com.example.androidapp.models.Document;
 import com.example.androidapp.utilities.Constants;
@@ -80,7 +79,7 @@ public class LibraryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ImageButton img_btn_viewadd;
+    ImageButton img_btn_viewadd, btnRecent;
     Button add_Document_clear_select;
     TextView tv_Document_name_select, tv_Format_fileformat, tv_Format_date;
     EditText edt_Document_name, edt_Format_description, edt_lib_search;
@@ -186,7 +185,8 @@ public class LibraryFragment extends Fragment {
         documentAdapter = new DocumentAdapter(context, documents);
         lv_Document_list.setAdapter(documentAdapter);
         img_btn_viewadd = view.findViewById(R.id.imgbtn_viewadd);
-        edt_lib_search = (EditText) view.findViewById(R.id.edt_lib_search);
+        edt_lib_search =  view.findViewById(R.id.edt_lib_search);
+        btnRecent = view.findViewById(R.id.btnRecent);
 
 
         // Set up the spinner
@@ -200,6 +200,11 @@ public class LibraryFragment extends Fragment {
         if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle("Tài liệu");
         }
+
+        btnRecent.setOnClickListener(v -> {
+            Intent intent = new Intent(LibraryFragment.this.getContext(), ViewRecentDocActivity.class);
+            startActivity(intent);
+        });
 
         edt_lib_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -385,6 +390,33 @@ public class LibraryFragment extends Fragment {
                 bundle.putString("fileOwner", document.getOwner());
                 bundle.putString("fileIcon", document.getLogo());
                 intent.putExtra("document", bundle);
+
+                //add document to recent
+                String username = pref.getString(Constants.KEY_NAME);
+                Date timeNow = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+                String dateRecent = formatter.format(timeNow);
+                Map<String, Object> values = new HashMap<>();
+                values.put(username, dateRecent);
+
+                db.collection("recentDocument").document(document.getId())
+                        .get().addOnCompleteListener(task -> {
+                            DocumentSnapshot docResult = task.getResult();
+                            if (docResult.exists()) {
+                                if(docResult.contains(username)){
+                                    Map<String, Object> updateUserData = new HashMap<>();
+                                    updateUserData.put(username, dateRecent);
+                                    db.collection("recentDocument").document(document.getId())
+                                            .update(updateUserData);
+                                }
+                            }
+                            else{
+                                Map<String, Object> newData = new HashMap<>();
+                                newData.put(username, dateRecent);
+                                db.collection("recentDocument").document(document.getId())
+                                        .set(newData);
+                            }
+                        });
                 startActivity(intent);
                 //Toast.makeText(LibraryFragment.this.getContext(), "Click item " + document.getName(), Toast.LENGTH_SHORT).show();
             }
