@@ -403,20 +403,38 @@ public class LibraryFragment extends Fragment {
                         .get().addOnCompleteListener(task -> {
                             DocumentSnapshot docResult = task.getResult();
                             if (docResult.exists()) {
-                                if(docResult.contains(username)){
-                                    Map<String, Object> updateUserData = new HashMap<>();
-                                    updateUserData.put(username, dateRecent);
-                                    db.collection("recentDocument").document(document.getId())
-                                            .update(updateUserData);
-                                }
-                            }
-                            else{
+                                Map<String, Object> updateUserData = new HashMap<>();
+                                updateUserData.put(username, dateRecent);
+                                db.collection("recentDocument").document(document.getId())
+                                        .update(updateUserData)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Handle success
+                                            //Toast.makeText(LibraryFragment.this.getContext(), "Document updated successfully", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Handle failure
+                                            Toast.makeText(LibraryFragment.this.getContext(), "Failed to update document", Toast.LENGTH_SHORT).show();
+                                        });
+                            } else {
                                 Map<String, Object> newData = new HashMap<>();
                                 newData.put(username, dateRecent);
                                 db.collection("recentDocument").document(document.getId())
-                                        .set(newData);
+                                        .set(newData)
+                                        .addOnSuccessListener(aVoid -> {
+                                            // Handle success
+                                            //Toast.makeText(LibraryFragment.this.getContext(), "Document created successfully", Toast.LENGTH_SHORT).show();
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            // Handle failure
+                                            Toast.makeText(LibraryFragment.this.getContext(), "Failed to create document", Toast.LENGTH_SHORT).show();
+                                        });
                             }
+                        })
+                        .addOnFailureListener(e -> {
+                            // Handle failure in getting the document
+                            Toast.makeText(LibraryFragment.this.getContext(), "Failed to retrieve document", Toast.LENGTH_SHORT).show();
                         });
+
                 startActivity(intent);
                 //Toast.makeText(LibraryFragment.this.getContext(), "Click item " + document.getName(), Toast.LENGTH_SHORT).show();
             }
