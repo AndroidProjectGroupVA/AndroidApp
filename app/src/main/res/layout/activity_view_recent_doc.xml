@@ -31,7 +31,7 @@
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/spinner2"
+                android:id="@+id/sp_sort_recent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="15dp"
@@ -41,7 +41,7 @@
                 android:gravity="center" />
 
             <EditText
-                android:id="@+id/editTextText"
+                android:id="@+id/edt_search_recentDoc"
                 android:layout_width="230dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
