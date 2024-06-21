@@ -79,7 +79,8 @@ public class InfDocumentActivity extends AppCompatActivity {
         String nameDisplay = tv_documentt_name.getText().toString() + bundle.getString("fileNameDisplay");
         String subject = tv_document_subject.getText().toString() + bundle.getString("fileSubject");
         String fileType = bundle.getString("fileType");
-        String fileUrl = bundle.getString("fileUrl");
+        fileUrl = bundle.getString("fileUrl");
+        fileName = getFileNameFromUrl(fileUrl);
         String fileDate = tv_document_date.getText().toString() + bundle.getString("fileDate");
         String fileOwner = tv_document_owner.getText().toString() + bundle.getString("fileOwner");
         String fileDescription = bundle.getString("fileDescription");
@@ -123,7 +124,6 @@ public class InfDocumentActivity extends AppCompatActivity {
                             Manifest.permission.READ_MEDIA_AUDIO}, PERMISSION_REQUEST_CODE);
                 } else {
                     // Permission already granted
-                    fileName = getFileNameFromUrl(fileUrl);
                     starDownload(fileUrl, fileName);
                 }
             } else {
@@ -134,7 +134,6 @@ public class InfDocumentActivity extends AppCompatActivity {
                             Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
                 } else {
                     // Permission already granted
-                    fileName = getFileNameFromUrl(fileUrl);
                     starDownload(fileUrl, fileName);
                 }
             }
