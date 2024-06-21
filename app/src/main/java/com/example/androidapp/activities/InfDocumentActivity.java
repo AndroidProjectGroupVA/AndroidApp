@@ -14,6 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
@@ -49,7 +50,7 @@ public class InfDocumentActivity extends AppCompatActivity {
     Button btn_inf_document_dowload, btn_inf_document_view;
 
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
-    private static final int PERMISSION_REQUEST_CODE = 1;
+    private static final int PERMISSION_REQUEST_CODE = 100;
     private String fileUrl, fileName;
 
     @Override
@@ -113,13 +114,29 @@ public class InfDocumentActivity extends AppCompatActivity {
         });
 
         btn_inf_document_dowload.setOnClickListener(v -> {
-            if (ContextCompat.checkSelfPermission(InfDocumentActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(InfDocumentActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION_CODE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // For Android 13 and above
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO}, PERMISSION_REQUEST_CODE);
+                } else {
+                    // Permission already granted
+                    fileName = getFileNameFromUrl(fileUrl);
+                    starDownload(fileUrl, fileName);
+                }
             } else {
-                //downloadFile(fileUrl);
-                fileName = getFileNameFromUrl(fileUrl);
-                starDownload(fileUrl, fileName);
+                // For Android 12 and below
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                } else {
+                    // Permission already granted
+                    fileName = getFileNameFromUrl(fileUrl);
+                    starDownload(fileUrl, fileName);
+                }
             }
         });
     }
@@ -232,15 +249,24 @@ public class InfDocumentActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                downloadFile(fileUrl);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            boolean allPermissionsGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+            if (allPermissionsGranted) {
+                fileName = getFileNameFromUrl(fileUrl);
                 starDownload(fileUrl, fileName);
             } else {
+                // Handle the case where the user denies the permission
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show();
             }
         }
     }
+
 
     private Bitmap getImageView(String encodeImage) {
         if (encodeImage == null || encodeImage.isEmpty()) {
