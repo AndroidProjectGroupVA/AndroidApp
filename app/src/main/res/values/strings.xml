@@ -13,4 +13,6 @@
     <string name="noi_dung_tailieu">Nội dung tài liệu</string>
     <string name="ten_tailieu">Tên tài liệu: </string>
     <string name="xem_tailieu">Xem tài liệu</string>
+    <string name="prevMonth"><![CDATA[<-]]></string>
+    <string name="nextMonth"><![CDATA[->]]></string>
 </resources>

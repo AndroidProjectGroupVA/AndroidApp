@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.androidapp.activities.CalendarActivity;
 import com.example.androidapp.activities.UsersActivity;
 import com.example.androidapp.databinding.FragmentHomeBinding;
 
@@ -80,6 +81,14 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(requireActivity(), UsersActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        binding.btnCalendar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(requireActivity(), CalendarActivity.class);
                 startActivity(intent);
             }
         });
