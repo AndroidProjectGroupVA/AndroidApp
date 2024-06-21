@@ -30,16 +30,39 @@
             app:srcCompat="@drawable/user_solid_240"
             android:layout_gravity="center"/>
 
-        <TextView
-            android:id="@+id/chat_Name"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Tên người dùng"
-            android:textColor="#FFFFFF"
-            android:textSize="23sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chat_Name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Tên người dùng"
+                android:textColor="#FFFFFF"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:backgroundTint="#008000"
+                android:backgroundTintMode="add"
+                android:id="@+id/textAvailability"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/online_txt"
+                android:gravity="center"
+                android:padding="2sp"
+                android:text="Online"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="visible" />
+        </LinearLayout>
+
 
         <ImageView
             android:id="@+id/chat_Call"
@@ -89,9 +112,9 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
 
-        </androidx.recyclerview.widget.RecyclerView>
+            />
 
         <ProgressBar
             android:id="@+id/progressBar"
