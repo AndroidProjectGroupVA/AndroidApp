@@ -48,10 +48,15 @@ public class InfDocumentActivity extends AppCompatActivity {
     ImageView iv_inf_document_avt;
     TextView tv_documentt_name, tv_document_subject, tv_document_date, tv_document_owner, tv_inf_document_content;
     Button btn_inf_document_dowload, btn_inf_document_view;
+    BroadcastReceiver onComplete;
 
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
     private static final int PERMISSION_REQUEST_CODE = 100;
     private String fileUrl, fileName;
+    private static long downloadId;
+    public static long getDownloadId() {
+        return downloadId;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,70 +145,6 @@ public class InfDocumentActivity extends AppCompatActivity {
         });
     }
 
-//    private void downloadFile(String fileUrl) {
-//        new DownloadFileTask().execute(fileUrl);
-//    }
-//
-//
-//    private class DownloadFileTask extends AsyncTask<String, Void, String> {
-//
-//        private String filePath;
-//        private boolean downloadSuccess = false;
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            String fileUrl = params[0];
-//            try {
-//                URL url = new URL(fileUrl);
-//                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-//                connection.connect();
-//
-//                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-//                    Log.e(InfDocumentActivity.class.getSimpleName(), "Server returned HTTP " + connection.getResponseCode() + " " + connection.getResponseMessage());
-//                    return "Server returned HTTP " + connection.getResponseCode() + " " + connection.getResponseMessage();
-//                }
-//
-//                InputStream inputStream = connection.getInputStream();
-//                String fileName = getFileNameFromUrl(fileUrl);
-//                fileName = sanitizeFileName(fileName); // Sanitize the file name to remove special characters
-//
-//                // Get the public Downloads directory
-//                File directory = getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
-//                if (!directory.exists()) {
-//                    directory.mkdirs(); // Ensure directories are created
-//                }
-//
-//                File file = new File(directory, fileName);
-//                filePath = file.getAbsolutePath(); // Store the file path
-//                FileOutputStream outputStream = new FileOutputStream(file);
-//
-//                byte[] buffer = new byte[4096];
-//                int bytesRead;
-//                while ((bytesRead = inputStream.read(buffer)) != -1) {
-//                    outputStream.write(buffer, 0, bytesRead);
-//                }
-//
-//                outputStream.close();
-//                inputStream.close();
-//
-//                downloadSuccess = true;
-//                return "File downloaded";
-//
-//            } catch (Exception e) {
-//                Log.e(InfDocumentActivity.class.getSimpleName(), "Error downloading file", e);
-//                return "Download failed: " + e.getMessage();
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(String result) {
-//            Toast.makeText(InfDocumentActivity.this, result, Toast.LENGTH_SHORT).show();
-//            if (downloadSuccess) {
-//                Toast.makeText(InfDocumentActivity.this, "File saved at: " + filePath, Toast.LENGTH_LONG).show();
-//                Log.i(InfDocumentActivity.class.getSimpleName(), "File saved at: " + filePath);
-//            }
-//        }
-//    }
 
     private void starDownload(String url,String fileName){
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
@@ -215,19 +156,19 @@ public class InfDocumentActivity extends AppCompatActivity {
         request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "" + System.currentTimeMillis());
         DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-        long dowloadId = manager.enqueue(request);
+        downloadId = manager.enqueue(request);
         Toast.makeText(this, "Tệp tin đang được tải xuống ", Toast.LENGTH_SHORT).show();
 
-        BroadcastReceiver onComplete = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
-                if (dowloadId == id) {
-                    Toast.makeText(InfDocumentActivity.this, "Tệp tin đã được tải xuống thành công", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
-        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//        onComplete = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                long id = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+//                if (downloadId == id) {
+//                    Toast.makeText(InfDocumentActivity.this, "Tệp tin đã được tải xuống thành công", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        };
+//        registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     private String getFileNameFromUrl(String fileUrl) {
