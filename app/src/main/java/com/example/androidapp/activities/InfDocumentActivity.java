@@ -270,10 +270,12 @@ public class InfDocumentActivity extends AppCompatActivity {
 
     private Bitmap getImageView(String encodeImage) {
         if (encodeImage == null || encodeImage.isEmpty()) {
+            // Trả về một hình ảnh mặc định hoặc null nếu encodeImage là null hoặc trống
             Log.e("DocumentAdapter", "encodeImage is null or empty");
             return null;
         }
         try {
+            Log.d("DocumentAdapter", "Base64 string: " + encodeImage);
             byte[] bytes = Base64.decode(encodeImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         } catch (IllegalArgumentException e) {
