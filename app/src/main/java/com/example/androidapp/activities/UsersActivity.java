@@ -3,6 +3,8 @@ package com.example.androidapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,12 +23,31 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class UsersActivity extends AppCompatActivity implements UserListener {
 
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
+    Spinner spinner;
+    ArrayList<String> universityCourses = new ArrayList<>(Arrays.asList(
+            "Giải tích",
+            "Đại số tuyến tính",
+            "Cơ sở dữ liệu",
+            "Lập trình hướng đối tượng",
+            "Mạng máy tính",
+            "Kỹ thuật lập trình",
+            "Hệ điều hành",
+            "Công nghệ phần mềm",
+            "Phân tích thiết kế hệ thống",
+            "Trí tuệ nhân tạo",
+            "Machine Learning",
+            "An toàn thông tin",
+            "Thị giác máy tính",
+            "Xử lý ngôn ngữ tự nhiên"
+    ));
+    ArrayAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +64,11 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        spinner = findViewById(R.id.spinner2_sub);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, universityCourses);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         getUsers();
     }
