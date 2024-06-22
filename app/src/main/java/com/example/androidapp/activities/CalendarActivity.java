@@ -52,7 +52,7 @@ public class CalendarActivity extends AppCompatActivity implements OnItemListene
 
     private void setMonthView() {
         month_year.setText(monthYearFromDate(CalendarUtils.selectedDate));
-        ArrayList<LocalDate> daysInmonth = daysInMonthArray(CalendarUtils.selectedDate);
+        ArrayList<LocalDate> daysInmonth = daysInMonthArray();
 
         CalendarAdapter calendarAdapter = new CalendarAdapter(daysInmonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);

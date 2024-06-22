@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context=".activities.CalendarWeekActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Ngày"
+        android:textColor="@color/colorTheme"
+        android:textStyle="bold"
+        android:onClick="dailyAction"
+        android:textSize="20sp"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

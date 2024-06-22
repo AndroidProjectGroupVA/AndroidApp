@@ -21,24 +21,44 @@ public class CalendarUtils {
         return time.format(formatter);
     }
 
+    public static String formattedShortTime(LocalTime time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm", new Locale("vi"));
+        return time.format(formatter);
+    }
+
     public static String monthYearFromDate(LocalDate date) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("vi"));
         return date.format(formatter);
     }
 
-    public static ArrayList<LocalDate> daysInMonthArray(LocalDate date) {
+    public static String monthDayFromDate(LocalDate date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d", new Locale("vi"));
+        return date.format(formatter);
+    }
+
+    public static ArrayList<LocalDate> daysInMonthArray() {
         ArrayList<LocalDate> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
+        YearMonth yearMonth = YearMonth.from(selectedDate);
         int daysInMonth = yearMonth.lengthOfMonth();
+
+        LocalDate prevMonth = selectedDate.minusMonths(1);
+        LocalDate nextMonth = selectedDate.plusMonths(1);
+
+        YearMonth prevYearMonth = YearMonth.from(prevMonth);
+        int prevDaysInMonth = prevYearMonth.lengthOfMonth();
+
         LocalDate firstOfMonth = CalendarUtils.selectedDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+        int startOfWeekOffset = dayOfWeek - 1;
 
-        for (int i = 1; i < dayOfWeek; i++) {
-            daysInMonthArray.add(null);
-        }
-
-        for (int i = 1; i <= daysInMonth; i++) {
-            daysInMonthArray.add(LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), i));
+        for (int i = 0; i < 42; i++) {
+            if (i < startOfWeekOffset) {
+                daysInMonthArray.add(LocalDate.of(prevMonth.getYear(), prevMonth.getMonth(), prevDaysInMonth - startOfWeekOffset + 1 + i));
+            } else if (i >= daysInMonth + startOfWeekOffset) {
+                daysInMonthArray.add(LocalDate.of(nextMonth.getYear(), nextMonth.getMonth(), i - startOfWeekOffset - daysInMonth + 1));
+            } else {
+                daysInMonthArray.add(LocalDate.of(selectedDate.getYear(), selectedDate.getMonth(), i - startOfWeekOffset + 1));
+            }
         }
 
         return daysInMonthArray;
