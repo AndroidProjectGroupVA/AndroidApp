@@ -18,5 +18,8 @@
 
     <string name="prevMonth"><![CDATA[<-]]></string>
     <string name="nextMonth"><![CDATA[->]]></string>
+    <string name="gia_su_name_txt">Gia su 1</string>
+    <string name="ten_mon_hoc">Tên môn học</string>
+    <string name="noidung_monhoc">Nội dung môn học</string>
 
 </resources>

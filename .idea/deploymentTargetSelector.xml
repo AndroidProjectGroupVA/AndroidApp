@@ -1,27 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-    <component name="deploymentTargetSelector">
-        <selectionStates>
-            <SelectionState runConfigName="Unnamed">
-                <option name="selectionMode" value="DROPDOWN" />
-
-                <DropdownSelection timestamp="2024-06-21T18:50:01.897773300Z">
-                <Target type="DEFAULT_BOOT">
-                <handle>
-                <DeviceId pluginId="PhysicalDevice" identifier="serial=RF8R724KWMT" />
-                </handle>
-                </Target>
-                </DropdownSelection>
-                <DropdownSelection timestamp="2024-06-21T04:32:25.048824600Z">
-                    <Target type="DEFAULT_BOOT">
-                        <handle>
-                            <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\GOOFFF\.android\avd\test.avd" />
-
-                        </handle>
-                    </Target>
-                </DropdownSelection>
-                <DialogSelection />
-            </SelectionState>
-        </selectionStates>
-    </component>
+  <component name="deploymentTargetSelector">
+    <selectionStates>
+      <SelectionState runConfigName="Unnamed">
+        <option name="selectionMode" value="DROPDOWN" />
+        <DropdownSelection timestamp="2024-06-21T04:32:25.048824600Z">
+          <Target type="DEFAULT_BOOT">
+            <handle>
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\GOOFFF\.android\avd\test.avd" />
+            </handle>
+          </Target>
+        </DropdownSelection>
+        <DialogSelection />
+      </SelectionState>
+    </selectionStates>
+  </component>
 </project>
