@@ -232,25 +232,27 @@
 
         <Button
             android:id="@+id/add_Document_btn_cancel"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
             android:backgroundTint="#A59292"
             android:text="Hủy"
             app:cornerRadius="5dp"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="16dp" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/add_Document_btn_add"
-            android:layout_width="150dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="30dp"
             android:backgroundTint="#74B9FF"
             android:text="Xong"
             app:cornerRadius="5dp"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:layout_editor_absoluteY="16dp" />
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

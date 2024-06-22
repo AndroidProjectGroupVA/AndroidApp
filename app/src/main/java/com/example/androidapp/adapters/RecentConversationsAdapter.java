@@ -61,7 +61,7 @@ public class RecentConversationsAdapter extends RecyclerView.Adapter<RecentConve
             binding.getRoot().setOnClickListener(v -> {
                 User user = new User();
                 user.id = chatMessage.conversationId;
-                user.name = chatMessage.conversationName;
+                user.nameDisplay = chatMessage.conversationName;
                 user.image = chatMessage.conversationImage;
                 conversationListener.onConversationClicked(user);
             });

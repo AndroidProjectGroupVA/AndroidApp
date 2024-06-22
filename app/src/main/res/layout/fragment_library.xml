@@ -37,6 +37,8 @@
                 android:background="@drawable/rectangle_8"/>
 
             <!-- EditText -->
+
+            <!-- ImageButton (btnSearch) -->
             <EditText
                 android:id="@+id/edt_lib_search"
                 android:layout_width="wrap_content"
@@ -46,9 +48,8 @@
                 android:background="@drawable/rectangle_8"
                 android:hint="Tìm kiếm"
                 android:padding="10dp"
-                android:textColor="@color/text"/>
+                android:textColor="@color/text" />
 
-            <!-- ImageButton (btnSearch) -->
             <ImageButton
                 android:id="@+id/btnSearch"
                 android:layout_width="45dp"
@@ -68,7 +69,7 @@
                 android:layout_height="50dp">
 
                 <ImageButton
-                    android:id="@+id/imv_manage_doc"
+                    android:id="@+id/img_button_manage_doc"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_marginEnd="10dp"
@@ -82,13 +83,14 @@
                     android:layout_height="50dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/ic_add"
-                    app:layout_constraintEnd_toStartOf="@+id/imv_manage_doc"
+                    app:layout_constraintEnd_toStartOf="@+id/img_button_manage_doc"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"

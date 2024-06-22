@@ -8,8 +8,8 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardview"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
@@ -17,13 +17,13 @@
         app:layout_constraintTop_toTopOf="parent"
         android:shape="ring"
         app:cardBackgroundColor="@android:color/transparent"
-        app:cardCornerRadius="17dp">
+        app:cardCornerRadius="25dp">
 
 
         <ImageView
             android:id="@+id/img_user_avatar"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:background="@color/input_background"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars"
@@ -47,7 +47,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/text"
-        android:textSize="13sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/view_Supporter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardview"/>
@@ -61,7 +61,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/text"
-        android:textSize="12sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardview"
         app:layout_constraintTop_toBottomOf="@+id/view_Supporter" />
