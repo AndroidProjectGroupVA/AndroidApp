@@ -18,5 +18,6 @@
 
     <string name="prevMonth"><![CDATA[<-]]></string>
     <string name="nextMonth"><![CDATA[->]]></string>
+    <string name="themsukien">Thêm sự kiện</string>
 
 </resources>
