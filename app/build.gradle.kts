@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.androidapp"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -78,5 +78,15 @@ dependencies {
 
     //pdfView
     implementation("com.github.barteksc:android-pdf-viewer:3.2.0-beta.1");
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
+
+    // Add the dependency for the Firebase Authentication library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation("com.google.firebase:firebase-auth")
+
+    // Also add the dependency for the Google Play services library and specify its version
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-scalars:2.11.0");
 
 }

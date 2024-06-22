@@ -127,7 +127,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@color/white"
-                        android:src="@drawable/ic_next"
+                        android:src="@drawable/ic_next1"
                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 </LinearLayout>
                 <LinearLayout
@@ -160,7 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@color/white"
-                        android:src="@drawable/ic_next"
+                        android:src="@drawable/ic_next1"
                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 </LinearLayout>
                 <LinearLayout
@@ -193,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@color/white"
-                        android:src="@drawable/ic_next"
+                        android:src="@drawable/ic_next1"
                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 </LinearLayout>
                 <LinearLayout
@@ -226,7 +226,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@color/white"
-                        android:src="@drawable/ic_next"
+                        android:src="@drawable/ic_next1"
                         tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
                 </LinearLayout>
                 <LinearLayout
@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@color/white"
-                        android:src="@drawable/ic_next"
+                        android:src="@drawable/ic_next1"
                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 </LinearLayout>
                 <LinearLayout
@@ -292,7 +292,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="15dp"
                         android:background="@color/white"
-                        android:src="@drawable/ic_next"
+                        android:src="@drawable/ic_next1"
                         tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 </LinearLayout>
                 <RelativeLayout

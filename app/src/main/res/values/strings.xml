@@ -13,4 +13,10 @@
     <string name="noi_dung_tailieu">Nội dung tài liệu</string>
     <string name="ten_tailieu">Tên tài liệu: </string>
     <string name="xem_tailieu">Xem tài liệu</string>
+
+    <string name="defaul_web_client_id">889375058104-tab09toiukujj7tnjr860ht4tlql3a2v.apps.googleusercontent.com</string>
+
+    <string name="prevMonth"><![CDATA[<-]]></string>
+    <string name="nextMonth"><![CDATA[->]]></string>
+
 </resources>

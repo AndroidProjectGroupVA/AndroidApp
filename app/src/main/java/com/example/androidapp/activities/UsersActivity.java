@@ -25,8 +25,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
-public class UsersActivity extends AppCompatActivity implements UserListener {
+public class UsersActivity extends BaseActivity implements UserListener {
 
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
@@ -85,10 +86,11 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                     if(task.isSuccessful() && task.getResult() != null){
                         List<User> users = new ArrayList<>();
                         for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
-                            if (currentUserId.equals(queryDocumentSnapshot.getId())){
+                            Map<String, Object> userMap = queryDocumentSnapshot.getData();
+                            //gia sư là đối tương có thuộc tính subjectID còn người dùng thì không
+                            if (currentUserId.equals(queryDocumentSnapshot.getId()) || queryDocumentSnapshot.get("subjectID") == null){
                                 continue;
                             }
-
                             //create user object
                             User user = new User();
                             //get data
@@ -110,7 +112,7 @@ public class UsersActivity extends AppCompatActivity implements UserListener {
                         }
                     }
                     else{
-                        showErrorMessage(task.getException().getMessage());
+                        showErrorMessage("Error: " + task.getException().getMessage());
                     }
                 });
     }
