@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/calendarDaily"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.CalendarDailyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/prevMonth"
+            android:textColor="@color/colorTheme"
+            android:textStyle="bold"
+            android:onClick="prevDay"
+            android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/month_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/_06_2024"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            android:textColor="@color/text"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/nextMonth"
+            android:textColor="@color/colorTheme"
+            android:background="@null"
+            android:textStyle="bold"
+            android:onClick="nextDay"
+            android:textSize="20sp"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/dayOfWeek"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/t2"
+        android:textSize="18sp"
+        android:textColor="@color/gray"
+        android:layout_marginBottom="20dp"
+        android:textAlignment="center"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/themsukien"
+        android:textColor="@color/colorTheme"
+        android:background="@null"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:onClick="newEvent"
+        android:textSize="20sp"/>
+
+    <ListView
+        android:id="@+id/hourListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"/>
+
+</LinearLayout>

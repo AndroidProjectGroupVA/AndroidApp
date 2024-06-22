@@ -95,4 +95,8 @@ public class CalendarWeekActivity extends AppCompatActivity implements OnItemLis
     public void newEvent(View view) {
         startActivity(new Intent(this, CalendarEventActivity.class));
     }
+
+    public void dailyAction(View view) {
+        startActivity(new Intent(this, CalendarDailyActivity.class));
+    }
 }
