@@ -22,19 +22,26 @@
             app:srcCompat="@drawable/ic_back"
             android:layout_gravity="center"/>
 
-        <ImageView
-            android:id="@+id/chat_Avatar"
-            android:layout_width="40dp"
-            android:layout_height="53dp"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/user_solid_240"
-            android:layout_gravity="center"/>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:cardCornerRadius="25dp"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/chat_Avatar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/user_solid_240"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -85,9 +92,9 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="679dp"
+        android:layout_height="678dp"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="20dp">
 
         <View
             android:id="@+id/viewSupporter"
@@ -101,18 +108,18 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="659dp"
+            android:layout_height="630dp"
             android:layout_weight="1"
             android:clipToPadding="false"
             android:orientation="vertical"
             android:overScrollMode="never"
-            app:stackFromEnd="true"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:stackFromEnd="true"
 
             />
 
@@ -130,14 +137,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="40dp"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/chat_btnPlus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             app:srcCompat="@drawable/ic_plus" />
@@ -146,7 +152,6 @@
             android:id="@+id/chat_btnCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             app:srcCompat="@drawable/ic_cam" />
@@ -155,7 +160,6 @@
             android:id="@+id/chat_btnPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             app:srcCompat="@drawable/ic_pic" />
@@ -164,7 +168,6 @@
             android:id="@+id/chat_Input"
             android:layout_width="wrap_content"
             android:layout_height="36dp"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:background="@drawable/chat_input"
             android:ems="10"
@@ -177,7 +180,6 @@
             android:id="@+id/chat_btnSend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:backgroundTint="@color/white"
             app:srcCompat="@drawable/ic_send" />

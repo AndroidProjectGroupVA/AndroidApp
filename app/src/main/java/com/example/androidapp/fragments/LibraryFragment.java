@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.InfDocumentActivity;
+import com.example.androidapp.activities.ManageDocment;
 import com.example.androidapp.activities.ViewRecentDocActivity;
 import com.example.androidapp.adapters.DocumentAdapter;
 import com.example.androidapp.models.Document;
@@ -79,7 +80,7 @@ public class LibraryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    ImageButton img_btn_viewadd, btnRecent;
+    ImageButton img_btn_viewadd, btnRecent, img_button_manage_doc;
     Button add_Document_clear_select;
     TextView tv_Document_name_select, tv_Format_fileformat, tv_Format_date;
     EditText edt_Document_name, edt_Format_description, edt_lib_search;
@@ -184,6 +185,7 @@ public class LibraryFragment extends Fragment {
         lv_Document_list = view.findViewById(R.id.lv_Document);
         documentAdapter = new DocumentAdapter(context, documents);
         lv_Document_list.setAdapter(documentAdapter);
+        img_button_manage_doc = view.findViewById(R.id.img_button_manage_doc);
         img_btn_viewadd = view.findViewById(R.id.imgbtn_viewadd);
         edt_lib_search =  view.findViewById(R.id.edt_lib_search);
         btnRecent = view.findViewById(R.id.btnRecent);
@@ -203,6 +205,11 @@ public class LibraryFragment extends Fragment {
 
         btnRecent.setOnClickListener(v -> {
             Intent intent = new Intent(LibraryFragment.this.getContext(), ViewRecentDocActivity.class);
+            startActivity(intent);
+        });
+        img_button_manage_doc.setOnClickListener(v -> {
+            Intent intent = new Intent(LibraryFragment.this.getContext(), ManageDocment.class);
+            intent.putExtra("documentManager", "Tài liệu đã tải lên");
             startActivity(intent);
         });
 
@@ -351,6 +358,7 @@ public class LibraryFragment extends Fragment {
                 contentValues.put("fileUrl", downloadUrl);
                 contentValues.put("fileDate", date);
                 contentValues.put("fileOwner", pref.getString(Constants.KEY_NAME_DISPLAY));
+                contentValues.put("fileUsernameOwner", pref.getString(Constants.KEY_NAME));
                 contentValues.put("fileDescription", fileDescription);
                 contentValues.put("fileIcon", fileIcon);
 
