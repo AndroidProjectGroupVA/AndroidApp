@@ -1,5 +1,6 @@
 package com.example.androidapp.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -18,6 +20,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -204,8 +207,44 @@ public class UserFragment extends Fragment {
 
     private void setListeners() {
 
-        binding.ibtnSignOut.setOnClickListener(v -> signOut());
-        binding.txtSignOut.setOnClickListener(v -> signOut());
+        binding.txtSignOut.setOnClickListener(v -> signOutDialog());
+        binding.ibtnSignOut.setOnClickListener(v -> signOutDialog());
+    }
+    private void signOutDialog () {
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.sign_out_dialog, null);
+
+        // Access the buttons from the dialog layout
+        Button abortButton = dialogView.findViewById(R.id.abortButton);
+        Button acceptButton = dialogView.findViewById(R.id.acceptButton);
+
+        // Create a AlertDialog with the custom layout
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .create();
+
+        // Set click listener for Abort button
+        abortButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Dismiss the dialog when Abort button is clicked
+                dialog.dismiss();
+            }
+        });
+
+        // Set click listener for Accept button
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Perform sign out action upon clicking "Accept" button
+                signOut();
+
+                // Dismiss the dialog
+                dialog.dismiss();
+            }
+        });
+
+        // Show the dialog
+        dialog.show();
     }
 
     private void loadUserDetail() {
@@ -244,7 +283,7 @@ public class UserFragment extends Fragment {
     }
 
     private void signOut() {
-        showToast("Signing out...");
+        showToast("Đăng xuất...");
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection(Constants.KEY_COLLECTION_USERS).document(
                 preferenceManager.getString(Constants.KEY_USER_ID));
@@ -252,12 +291,12 @@ public class UserFragment extends Fragment {
         updates.put(Constants.KEY_FCM_TOKEN, FieldValue.delete());
         docRef.update(updates)
                 .addOnSuccessListener(unused -> {
-                    showToast("Signed out successfully");
+//                    showToast("Signed out successfully");
                     preferenceManager.clear();
                     startActivity(new Intent(requireContext(), FirstMainActivity.class)); // Use requireContext()
                     getActivity().finish();
                 })
-                .addOnFailureListener(e -> showToast("Failed to sign out"));
+                .addOnFailureListener(e -> showToast("Đăng xuất thất bại"));
     }
     @Override
     public void onResume() {
