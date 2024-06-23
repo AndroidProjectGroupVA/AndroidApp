@@ -107,7 +107,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.update(Constants.KEY_FCM_TOKEN, token)
                 .addOnFailureListener(e ->
-                    showToast("Unable to update token"));
+                    showToast("Không thể cập nhật mã token")
+                );
     }
 
     public void replaceFragment(Fragment fragment) {
