@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -192,9 +193,55 @@ public class UserFragment extends Fragment {
                 }
             }
         });
+
+        binding.txtFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://docs.google.com/forms/d/e/1FAIpQLSeTpmshQYpXWM8XuSDrOFMqerZi2giqyxeX30fwiXzjnmvxDw/viewform?usp=sf_link";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
+
+        binding.txtGroup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAlertDialog();
+            }
+        });
+
+        binding.txtReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://docs.google.com/forms/d/e/1FAIpQLSeZ8cDoELZ2F8_oZu7VhzGu8zkg4WawYCWAjwDfnhKrgiW8wg/viewform?usp=sf_link";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
         return binding.getRoot();
     }
 
+    private void showAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Thông tin ứng dụng");
+        builder.setMessage("Ứng dụng hỗ trợ học tập - Gia sư TLU là nơi chia sẻ, trao đổi kiến thức giữa các sinh " +
+                "viên học tốt và các bạn sinh viên cần hỗ trợ trong học tập. Đây là công việc phi lợi nhuận, hoàn toàn vì mục đích chia " +
+                "sẻ kiến thức, hỗ trợ cộng đồng, đây cũng là cơ hội để các bạn trau dồi kiến thức, rèn luyện kỹ năng mềm hay kết được nhiều bạn mới. ");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Xử lý khi người dùng nhấn nút OK
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
 
 
     @Override

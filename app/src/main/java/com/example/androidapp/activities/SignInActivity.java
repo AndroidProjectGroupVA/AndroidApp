@@ -251,10 +251,10 @@ public class SignInActivity extends AppCompatActivity {
     }
     private Boolean isValidSigInDetails(){
         if (binding.signInEdtUsername.getText().toString().trim().isEmpty()) {
-            showToast("Enter username");
+            showToast("Nhập tên đăng nhập");
             return false;
         } else if (binding.signInEdtPassword.getText().toString().trim().isEmpty()) {
-            showToast("Enter password");
+            showToast("Nhập mật khẩu");
             return false;
         } else {
             return true;

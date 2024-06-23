@@ -70,7 +70,7 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity !=null){
-            activity.getSupportActionBar().setTitle("Home");
+            activity.getSupportActionBar().setTitle("Trang chủ");
         }
         return binding.getRoot();
     }
