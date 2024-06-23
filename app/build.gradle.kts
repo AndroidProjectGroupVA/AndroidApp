@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
@@ -38,6 +40,9 @@ android {
             excludes.add("META-INF/NOTICE.md")
             excludes.add("META-INF/LICENSE.md")
         }
+    }
+    packagingOptions {
+        exclude("META-INF/DEPENDENCIES")
     }
 }
 
@@ -87,6 +92,9 @@ dependencies {
     // Also add the dependency for the Google Play services library and specify its version
     implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    implementation("com.squareup.retrofit2:converter-scalars:2.11.0");
+    implementation("com.squareup.retrofit2:converter-scalars:2.11.0")
 
+//    implementation("com.squareup.retrofit2:retrofit:2.3.0")
+//    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
+    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
 }

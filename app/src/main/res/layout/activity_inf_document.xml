@@ -177,7 +177,7 @@
                         android:layout_marginEnd="35dp"
                         android:backgroundTint="@color/colorToolbar"
                         android:fontFamily="sans-serif-medium"
-                        android:text="Xem  tài liệu"
+                        android:text="Xem tài liệu"
                         android:textSize="13sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
