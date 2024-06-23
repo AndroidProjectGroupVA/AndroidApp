@@ -5,7 +5,7 @@
     <item>
         <shape android:shape="oval">
             <size android:width="100dp" android:height="100dp"/>
-            <solid android:color="#B6B6B6"/> <!-- Light gray shadow -->
+            <solid android:color="#FFFFFFFF"/> <!-- Light gray shadow -->
         </shape>
     </item>
 
@@ -13,7 +13,7 @@
     <item android:left="5dp" android:top="5dp" android:right="5dp" android:bottom="5dp">
         <shape android:shape="oval">
             <size android:width="90dp" android:height="90dp"/>
-            <solid android:color="#B6B6B6"/> <!-- Gray color -->
+            <solid android:color="#FFFFFFFF"/> <!-- Gray color -->
         </shape>
     </item>
 

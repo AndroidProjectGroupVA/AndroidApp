@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/frag_giasu"
-    tools:context=".activities.fragments.GiaSuFragment"
-    android:background="@color/colorTheme">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:orientation="vertical"
+    tools:context=".activities.InfGiasuActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorTheme"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,134 +42,150 @@
             </androidx.cardview.widget.CardView>
 
             <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/btn_viewchat"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/avt_giasu"
                 android:src="@drawable/ic_chat"
-                tools:layout_editor_absoluteX="331dp"
-                tools:layout_editor_absoluteY="24dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/tv_name_giasu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/gia_su_name_txt"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
             android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="@string/gia_su_name_txt"
             android:textAllCaps="true"
-            android:layout_marginTop="5dp"/>
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
         <LinearLayout
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:background="@drawable/layout_info_giasu"
             android:orientation="vertical"
-            android:padding="10dp"
-            >
+            android:padding="10dp">
+
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Mô tả về bản thân"
-                android:textSize="18dp"
-                android:textStyle="bold"
                 android:textColor="@color/text"
-                />
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
             <TextView
-                android:textSize="15.5sp"
-                android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
                 android:id="@+id/txtGiasuInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Sinh viên năm 4 đại học Bách Khoa Hà Nội, có 2 năm kinh nghiệm dạy gia sư"
                 android:textColor="@color/text"
-                />
+                android:textSize="15.5sp" />
+
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Email:"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
                     android:textColor="@color/text"
-                    />
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txtEmailGiasu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtEmailGiasu"
+                    android:layout_marginLeft="5dp"
                     android:text="giasu1@gmail.com"
-                    android:textSize="18dp"
                     android:textColor="@color/text"
-                    />
+                    android:textSize="18dp" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Số điên thoại:"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
                     android:textColor="@color/text"
-                    />
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txtPhoneGiasu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtPhoneGiasu"
+                    android:layout_marginLeft="5dp"
                     android:text="0123456789"
-                    android:textSize="18dp"
                     android:textColor="@color/text"
-                    />
+                    android:textSize="18dp" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="GPA kì gần nhất và toàn khóa:"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
                     android:textColor="@color/text"
-                    />
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
                 <TextView
-                    android:layout_marginLeft="5dp"
+                    android:id="@+id/txtGPAGiasu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/txtGPAGiasu"
+                    android:layout_marginLeft="5dp"
                     android:text="3.5 - 3.4"
-                    android:textSize="18dp"
                     android:textColor="@color/text"
-                    />
+                    android:textSize="18dp" />
             </LinearLayout>
+
             <TextView
-                android:layout_marginTop="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Môn dạy kèm"
+                android:textColor="@color/text"
                 android:textSize="18dp"
-                android:textStyle="bold"
-                android:textColor="@color/text"/>
+                android:textStyle="bold" />
 
-            <ListView
-                android:id="@+id/lv_giasu_subject"
+            <TextView
+                android:id="@+id/tv_giasu_subject"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp" />
+
+            <!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/lv_giasu_subject"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_marginTop="10dp" />-->
+
         </LinearLayout>
+
     </LinearLayout>
-
-
-</FrameLayout>
+</LinearLayout>
