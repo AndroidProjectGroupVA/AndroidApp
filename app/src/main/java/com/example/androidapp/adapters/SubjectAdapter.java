@@ -19,37 +19,35 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.androidapp.R;
 import com.example.androidapp.models.Document;
+import com.example.androidapp.models.Subject;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DocumentAdapter extends ArrayAdapter<Document> {
+public class SubjectAdapter extends ArrayAdapter<Subject> {
     private Context context;
-    private List<Document> itemList;
-    public DocumentAdapter(@NonNull Context context, ArrayList<Document> listDocument) {
-        super(context, R.layout.fragment_library, listDocument);
+    private List<Subject> itemList;
+    public SubjectAdapter(@NonNull Context context, List<Subject> listSubject) {
+        super(context, R.layout.fragment_subject1, listSubject);
         this.context = context;
-        this.itemList = listDocument;
+        this.itemList = listSubject;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView == null) {
-            convertView = LayoutInflater.from(context).inflate(R.layout.fragment_library_item, parent, false);
+            convertView = LayoutInflater.from(context).inflate(R.layout.fragment_subject_item, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.tv_name = convertView.findViewById(R.id.tv_Document_Name);
-            viewHolder.tv_date = convertView.findViewById(R.id.tv_Document_date);
-            viewHolder.tv_subject = convertView.findViewById(R.id.tv_Document_subject);
-            viewHolder.img_logo = convertView.findViewById(R.id.iv_Document_img);
+            viewHolder.tv_name = convertView.findViewById(R.id.tv_Subject_Name);
+            viewHolder.tv_date = convertView.findViewById(R.id.tv_Subject_date);
+            viewHolder.img_logo = convertView.findViewById(R.id.iv_Subject_img);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Document currentItem = itemList.get(position);
+        Subject currentItem = itemList.get(position);
         viewHolder.tv_name.setText(currentItem.getName());
-        viewHolder.tv_subject.setText(currentItem.getSubject());
         viewHolder.tv_date.setText(currentItem.getUpLoadTimeStamp());
         Bitmap imageBitmap = getImageView(currentItem.getLogo());
         if (imageBitmap != null) {
@@ -70,15 +68,15 @@ public class DocumentAdapter extends ArrayAdapter<Document> {
     private Bitmap getImageView(String encodeImage) {
         if (encodeImage == null || encodeImage.isEmpty()) {
             // Trả về một hình ảnh mặc định hoặc null nếu encodeImage là null hoặc trống
-            Log.e("DocumentAdapter", "encodeImage is null or empty");
+            Log.e("SubjectAdapter", "encodeImage is null or empty");
             return null;
         }
         try {
-            Log.d("DocumentAdapter", "Base64 string: " + encodeImage);
+            Log.d("SubjectAdapter", "Base64 string: " + encodeImage);
             byte[] bytes = Base64.decode(encodeImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         } catch (IllegalArgumentException e) {
-            Log.e("DocumentAdapter", "Invalid Base64 string", e);
+            Log.e("SubjectAdapter", "Invalid Base64 string", e);
             return null;
         }
     }
@@ -86,7 +84,6 @@ public class DocumentAdapter extends ArrayAdapter<Document> {
     static class ViewHolder{
         TextView tv_name;
         TextView tv_date;
-        TextView tv_subject;
         ImageView img_logo;
     }
 }
