@@ -23,6 +23,18 @@
         android:theme="@style/Theme.AndroidApp"
         tools:targetApi="31">
         <activity
+            android:name=".activities.InfSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ViewRecentSubActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ReadSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ManageSubject"
+            android:exported="false" />
+        <activity
             android:name=".activities.CalendarDailyActivity"
             android:exported="false" />
         <activity
