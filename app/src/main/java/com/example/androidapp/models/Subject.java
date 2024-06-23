@@ -1,13 +1,13 @@
 package com.example.androidapp.models;
 
 public class Subject {
-    private String id, name, upLoadTimeStamp,  logo;
+    private String id, name, description,  logo;
 
-    public Subject(String id, String name,String upLoadTimeStamp,String logo) {
+    public Subject(String id, String name,String description,String logo) {
         this.id = id;
         this.name = name;
 
-        this.upLoadTimeStamp = upLoadTimeStamp;
+        this.description = description;
 
         this.logo = logo;
     }
@@ -29,12 +29,12 @@ public class Subject {
     }
 
 
-    public String getUpLoadTimeStamp() {
-        return upLoadTimeStamp;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUpLoadTimeStamp(String upLoadTimeStamp) {
-        this.upLoadTimeStamp = upLoadTimeStamp;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 

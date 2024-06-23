@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.androidapp.R;
 
 public class InfSubjectActivity extends AppCompatActivity {
-    ImageView iv_inf_subject_avt;
-    TextView tv_subject_name,  tv_subject_date ;
-    BroadcastReceiver onComplete;
+    private ImageView ivInfSubjectAvt;
+    private TextView tvSubjectName, tvSubjectDescription;
+    private BroadcastReceiver onComplete;
 
     private static final int WRITE_EXTERNAL_STORAGE_PERMISSION_CODE = 1;
     private static final int PERMISSION_REQUEST_CODE = 100;
@@ -33,44 +32,54 @@ public class InfSubjectActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_inf_subject);
+
+        // Set window insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.inf_subject_layout), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        iv_inf_subject_avt = (ImageView) findViewById(R.id.iv_inf_subject_avt);
-        tv_subject_name = (TextView) findViewById(R.id.tv_subjectt_name);
-        tv_subject_date = (TextView) findViewById(R.id.tv_subject_date);
-        Intent getintent = getIntent();
-        Bundle bundle = getintent.getBundleExtra("document");
-        String nameDisplay = tv_subject_name.getText().toString() + bundle.getString("fileNameDisplay");
-        String fileIcon = bundle.getString("fileIcon");
-        String fileDate = tv_subject_date.getText().toString() + bundle.getString("fileDate");
-        tv_subject_name.setText(nameDisplay);
-        tv_subject_date.setText(fileDate);
 
-        Bitmap bitmap = getImageView(fileIcon);
-        if (bitmap != null) {
-            iv_inf_subject_avt.setImageBitmap(bitmap);
-        }
-        else{
-            iv_inf_subject_avt.setImageResource(R.drawable.file_default_ic);
-        }
+        // Initialize views
+        ivInfSubjectAvt = findViewById(R.id.iv_inf_subject_avt);
+        tvSubjectName = findViewById(R.id.tv_subjectt_name); // Corrected ID
+        tvSubjectDescription = findViewById(R.id.txt_descriptionSubject);
 
+        // Get data from intent
+        Intent getIntent = getIntent();
+        Bundle bundle = getIntent.getBundleExtra("subject");
+
+        if (bundle != null) {
+            // Set subject name and date
+            String nameDisplay = tvSubjectName.getText().toString() + " " + bundle.getString("fileNameDisplay");
+            String fileDescription = tvSubjectDescription.getText().toString() + " " + bundle.getString("fileDescription");
+            tvSubjectName.setText(nameDisplay);
+            tvSubjectDescription.setText(fileDescription);
+
+            // Decode and set image
+            String fileIcon = bundle.getString("fileIcon");
+            Bitmap bitmap = getImageView(fileIcon);
+            if (bitmap != null) {
+                ivInfSubjectAvt.setImageBitmap(bitmap);
+            } else {
+                ivInfSubjectAvt.setImageResource(R.drawable.file_default_ic);
+            }
+        } else {
+            Log.e("InfSubjectActivity", "Bundle is null");
+        }
     }
 
     private Bitmap getImageView(String encodeImage) {
         if (encodeImage == null || encodeImage.isEmpty()) {
-            // Trả về một hình ảnh mặc định hoặc null nếu encodeImage là null hoặc trống
-            Log.e("SubjectAdapter", "encodeImage is null or empty");
+            Log.e("InfSubjectActivity", "encodeImage is null or empty");
             return null;
         }
         try {
-            Log.d("SubjectAdapter", "Base64 string: " + encodeImage);
+            Log.d("InfSubjectActivity", "Base64 string: " + encodeImage);
             byte[] bytes = Base64.decode(encodeImage, Base64.DEFAULT);
             return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
         } catch (IllegalArgumentException e) {
-            Log.e("SubjectAdapter", "Invalid Base64 string", e);
+            Log.e("InfSubjectActivity", "Invalid Base64 string", e);
             return null;
         }
     }
