@@ -18,6 +18,11 @@
 
     <string name="prevMonth"><![CDATA[<-]]></string>
     <string name="nextMonth"><![CDATA[->]]></string>
+
+    <string name="gia_su_name_txt">Gia su 1</string>
+    <string name="ten_mon_hoc">Tên môn học</string>
+    <string name="noidung_monhoc">Nội dung môn học</string>
+
     <string name="themsukien">Thêm sự kiện</string>
     <string name="t2">T2</string>
     <string name="_06_2024">06/2024</string>
@@ -26,5 +31,6 @@
     <string name="s_ki_n_1">Sự kiện 1</string>
     <string name="s_ki_n_2">Sự kiện 2</string>
     <string name="s_ki_n_3">Sự kiện 3</string>
+    <string name="search">Tìm kiếm...</string>
 
 </resources>
