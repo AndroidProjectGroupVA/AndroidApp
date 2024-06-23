@@ -23,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.androidapp.FCM.AccessToken;
 import com.example.androidapp.R;
 import com.example.androidapp.fragments.ChatFragment;
 import com.example.androidapp.fragments.ForumFragment;
