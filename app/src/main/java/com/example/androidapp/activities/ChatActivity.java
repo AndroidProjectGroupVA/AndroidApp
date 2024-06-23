@@ -6,8 +6,10 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,6 +20,8 @@ import com.example.androidapp.adapters.ChatAdapter;
 import com.example.androidapp.databinding.ActivityChatBinding;
 import com.example.androidapp.models.ChatMessage;
 import com.example.androidapp.models.User;
+import com.example.androidapp.network.ApiClient;
+import com.example.androidapp.network.ApiService;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -27,6 +31,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -38,6 +46,9 @@ import java.util.Locale;
 import java.util.Objects;
 
 import kotlin.jvm.internal.PackageReference;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatActivity extends BaseActivity {
     private ActivityChatBinding binding;
@@ -103,7 +114,6 @@ public class ChatActivity extends BaseActivity {
         }
         binding.chatInput.setText(null);
     }
-
     private void listendAvailabilityOfReceivers(){
         database.collection(Constants.KEY_COLLECTION_USERS).document(
                 receiverUser.id

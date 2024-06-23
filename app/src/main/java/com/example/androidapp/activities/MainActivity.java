@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 
+import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -88,7 +89,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (getIntent().getBooleanExtra("openChatFragment", false)) {
             replaceFragment(new ChatFragment());
         }
-
     }
 
     private void showToast(String message) {
@@ -101,13 +101,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void updateToken(String token) {
+        preferenceManager.putString(Constants.KEY_FCM_TOKEN, token);
         FirebaseFirestore database = FirebaseFirestore.getInstance();
         DocumentReference docRef = database.collection(Constants.KEY_COLLECTION_USERS).document(
                 preferenceManager.getString(Constants.KEY_USER_ID));
         docRef.update(Constants.KEY_FCM_TOKEN, token)
-                .addOnFailureListener(e -> {
-                    showToast("Unable to update token");
-                });
+                .addOnFailureListener(e ->
+                    showToast("Unable to update token"));
     }
 
     public void replaceFragment(Fragment fragment) {
