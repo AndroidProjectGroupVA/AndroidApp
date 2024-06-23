@@ -6,6 +6,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.ChatFragment">
 
+    <EditText
+        android:id="@+id/edtSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingStart="26dp"
+        android:paddingEnd="26dp"
+        android:drawableStart="@drawable/ic_search"
+        android:hint="@string/search"
+        android:textColorHint="@color/gray"
+        android:textSize="20sp"/>
+
+
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/conversations_RecyclerView"
@@ -14,6 +27,7 @@
         android:clipToPadding="false"
         android:orientation="vertical"
         android:overScrollMode="never"
+        android:layout_marginTop="45dp"
         android:padding="10dp"
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
