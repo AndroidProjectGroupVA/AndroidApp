@@ -39,7 +39,6 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
             convertView = LayoutInflater.from(context).inflate(R.layout.fragment_subject_item, parent, false);
             viewHolder = new ViewHolder();
             viewHolder.tv_name = convertView.findViewById(R.id.tv_Subject_Name);
-            viewHolder.tv_date = convertView.findViewById(R.id.tv_Subject_date);
             viewHolder.img_logo = convertView.findViewById(R.id.iv_Subject_img);
             convertView.setTag(viewHolder);
         } else {
@@ -48,7 +47,6 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
 
         Subject currentItem = itemList.get(position);
         viewHolder.tv_name.setText(currentItem.getName());
-        viewHolder.tv_date.setText(currentItem.getUpLoadTimeStamp());
         Bitmap imageBitmap = getImageView(currentItem.getLogo());
         if (imageBitmap != null) {
             Glide.with(context)
@@ -83,7 +81,6 @@ public class SubjectAdapter extends ArrayAdapter<Subject> {
 
     static class ViewHolder{
         TextView tv_name;
-        TextView tv_date;
         ImageView img_logo;
     }
 }

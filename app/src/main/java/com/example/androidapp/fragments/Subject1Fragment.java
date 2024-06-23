@@ -79,7 +79,7 @@ public class Subject1Fragment extends Fragment {
         context = requireContext();
 
         Spinner dropdown = view.findViewById(R.id.spinnerSubject);
-        String[] items = new String[]{"Theo tên A-Z", "Theo tên Z-A", "Theo thời gian - tăng dần", "Theo thời gian - giảm dần"};
+        String[] items = new String[]{"Theo tên A-Z", "Theo tên Z-A"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -129,7 +129,7 @@ public class Subject1Fragment extends Fragment {
             bundle.putString("fileID", subject.getId());
             bundle.putString("fileNameDisplay", subject.getName());
             bundle.putString("fileIcon", subject.getLogo());
-            bundle.putString("fileDate", subject.getUpLoadTimeStamp());
+            bundle.putString("fileDescription", subject.getDescription());
             intent.putExtra("subject", bundle);
             startActivity(intent);
         });
@@ -145,9 +145,9 @@ public class Subject1Fragment extends Fragment {
                 for (DocumentSnapshot subjectSnapshot : task.getResult()) {
                     String fileID = subjectSnapshot.getId();
                     String fileNameDisplay = subjectSnapshot.getString("fileNameDisplay");
-                    String fileDate = subjectSnapshot.getString("fileDate");
+                    String fileDescription = subjectSnapshot.getString("fileDescription");
                     String fileIcon = subjectSnapshot.getString("fileIcon");
-                    Subject subject = new Subject(fileID, fileNameDisplay, fileDate, fileIcon);
+                    Subject subject = new Subject(fileID, fileNameDisplay, fileDescription, fileIcon);
                     subjects.add(subject);
                 }
                 sortSubjects(0);  // Default sort order
@@ -166,9 +166,9 @@ public class Subject1Fragment extends Fragment {
                     String fileNameDisplay = subjectSnapshot.getString("fileNameDisplay");
                     if (fileNameDisplay.contains(searchText)) {
                         String fileID = subjectSnapshot.getId();
-                        String fileDate = subjectSnapshot.getString("fileDate");
+                        String fileDescription = subjectSnapshot.getString("fileDescription");
                         String fileIcon = subjectSnapshot.getString("fileIcon");
-                        Subject subject = new Subject(fileID, fileNameDisplay, fileDate, fileIcon);
+                        Subject subject = new Subject(fileID, fileNameDisplay, fileDescription, fileIcon);
                         subjects.add(subject);
                     }
                 }
@@ -187,12 +187,12 @@ public class Subject1Fragment extends Fragment {
             case 1:
                 Collections.sort(subjects, (p1, p2) -> p2.getName().compareToIgnoreCase(p1.getName()));
                 break;
-            case 2:
-                Collections.sort(subjects, (p1, p2) -> p1.getUpLoadTimeStamp().compareTo(p2.getUpLoadTimeStamp()));
-                break;
-            case 3:
-                Collections.sort(subjects, (p1, p2) -> p2.getUpLoadTimeStamp().compareTo(p1.getUpLoadTimeStamp()));
-                break;
+//            case 2:
+//                Collections.sort(subjects, (p1, p2) -> p1.getUpLoadTimeStamp().compareTo(p2.getUpLoadTimeStamp()));
+//                break;
+//            case 3:
+//                Collections.sort(subjects, (p1, p2) -> p2.getUpLoadTimeStamp().compareTo(p1.getUpLoadTimeStamp()));
+//                break;
         }
         subjectAdapter.notifyDataSetChanged();
     }
