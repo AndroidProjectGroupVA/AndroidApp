@@ -1,7 +1,5 @@
 package com.example.androidapp.utilities;
 
-import com.example.androidapp.FCM.AccessToken;
-
 import java.util.HashMap;
 
 public class Constants {
