@@ -92,10 +92,10 @@ public class ChatActivity extends BaseActivity {
         else {
             HashMap<String, Object> conversation = new HashMap<>();
             conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-            conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME));
+            conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
             conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
             conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.name);
+            conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.nameDisplay);
             conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
             conversation.put(Constants.KEY_LAST_MESSAGE, binding.chatInput.getText().toString());
             conversation.put(Constants.KEY_TIMESTAMP, new Date());
@@ -178,11 +178,18 @@ public class ChatActivity extends BaseActivity {
 
     private void loadReceiverDetails() {
         receiverUser = (User) getIntent().getSerializableExtra(Constants.KEY_USER);
-        if (receiverUser.name == null){
+        if (receiverUser.nameDisplay == null){
             binding.chatName.setText("Nguoi dung");
         }
         else{
-            binding.chatName.setText(receiverUser.name);
+            binding.chatName.setText(receiverUser.nameDisplay);
+        }
+
+        if (receiverUser.image == null) {
+            binding.chatAvatar.setImageResource(R.drawable.user_solid_240);
+        }
+        else {
+            binding.chatAvatar.setImageBitmap(getBitmapFromEncodedString(receiverUser.image));
         }
     }
 

@@ -23,6 +23,15 @@
         android:theme="@style/Theme.AndroidApp"
         tools:targetApi="31">
         <activity
+            android:name=".activities.CalendarDailyActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CalendarEventActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CalendarWeekActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.ManageDocment"
             android:exported="false" />
         <activity
