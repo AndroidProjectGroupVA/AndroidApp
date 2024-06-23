@@ -19,9 +19,12 @@
             android:id="@+id/nav_menu_chat"
             android:title="Chat"/>
 
+<!--        <item-->
+<!--            android:id="@+id/nav_menu_tailieu"-->
+<!--            android:title="Tài liệu"/>-->
         <item
-            android:id="@+id/nav_menu_tailieu"
-            android:title="Tài liệu"/>
+            android:id="@+id/nav_menu_subject"
+            android:title="Môn học"/>
     </group>
     <item
         android:title="">
