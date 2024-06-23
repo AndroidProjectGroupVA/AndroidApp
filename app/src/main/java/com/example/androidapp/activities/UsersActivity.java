@@ -1,19 +1,24 @@
 package com.example.androidapp.activities;
 
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.androidapp.R;
 import com.example.androidapp.adapters.UsersAdapter;
+import com.example.androidapp.fragments.GiaSuFragment;
 import com.example.androidapp.listener.UserListener;
 import com.example.androidapp.models.User;
 import com.example.androidapp.utilities.Constants;
@@ -123,6 +128,11 @@ public class UsersActivity extends BaseActivity implements UserListener {
         binding.textErrorMessage.setVisibility(View.VISIBLE);
     }
 
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(UsersActivity.this, InfGiasuActivity.class);
+        intent.putExtra(Constants.KEY_USER, user);
+        startActivity(intent);
+    }
 
     //visible progress bar
     private void loading(Boolean isLoading){
@@ -133,11 +143,11 @@ public class UsersActivity extends BaseActivity implements UserListener {
         }
     }
 
-    @Override
-    public void onUserClicked(User user) {
-        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-        intent.putExtra(Constants.KEY_USER, user);
-        startActivity(intent);
-        finish();
-    }
+//    @Override
+//    public void onUserClicked(User user) {
+//        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+//        intent.putExtra(Constants.KEY_USER, user);
+//        startActivity(intent);
+//        finish();
+//    }
 }
