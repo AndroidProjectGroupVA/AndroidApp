@@ -29,6 +29,7 @@ import com.example.androidapp.fragments.GiaSuFragment;
 import com.example.androidapp.fragments.HomeFragment;
 import com.example.androidapp.fragments.LibraryFragment;
 import com.example.androidapp.fragments.NotifyFragment;
+import com.example.androidapp.fragments.Subject1Fragment;
 import com.example.androidapp.fragments.SupportFragment;
 import com.example.androidapp.fragments.UserFragment;
 import com.example.androidapp.utilities.Constants;
@@ -152,8 +153,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             replaceFragment(new ForumFragment());
         } else if (id == R.id.nav_menu_hotro) {
             replaceFragment(new SupportFragment());
-        } else if (id == R.id.nav_menu_tailieu) {
-            replaceFragment(new LibraryFragment());
+        } else if (id == R.id.nav_menu_subject) {
+            replaceFragment(new Subject1Fragment());
         } else {
             return false;
         }

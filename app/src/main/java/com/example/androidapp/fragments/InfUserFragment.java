@@ -1,5 +1,7 @@
 package com.example.androidapp.fragments;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -18,9 +20,12 @@ import android.widget.Toast;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.MainActivity;
+import com.example.androidapp.activities.SignInActivity;
 import com.example.androidapp.databinding.FragmentInfUserBinding;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import kotlin.jvm.internal.PackageReference;
 
@@ -55,6 +60,7 @@ public class InfUserFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     FragmentInfUserBinding binding;
     PreferenceManager pref;
+    FirebaseFirestore db;
     private FrameLayout drawerLayout;
     public static InfUserFragment newInstance(String param1, String param2) {
         InfUserFragment fragment = new InfUserFragment();
@@ -80,6 +86,7 @@ public class InfUserFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentInfUserBinding.inflate(inflater, container, false);
         pref = new PreferenceManager(getContext());
+        db = FirebaseFirestore.getInstance();
         drawerLayout = binding.fragmentInf;
         binding.btnViewChangePass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +96,29 @@ public class InfUserFragment extends Fragment {
                 }
             }
         });
+
+        binding.btnInfuserDelete.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+            builder.setTitle("Xác nhận xóa");
+            builder.setMessage("Bạn có chắc chắn muốn xóa tài khoản?");
+            builder.setPositiveButton("Có", (dialog, which) -> {
+                String userName = pref.getString(Constants.KEY_NAME);
+                deleteAccount(userName);
+            });
+            builder.setNegativeButton("Không", (dialog, which) -> {
+                // Do nothing
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+            // Ensure buttons are displayed correctly
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorToolbar));
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.gray));
+        });
+
+
+
+
         loadInf();
         return binding.getRoot(); // Return the root of the binding
     }
@@ -110,6 +140,26 @@ public class InfUserFragment extends Fragment {
 //            .addToBackStack(null)
 //            .commit();
 //}
+    private void deleteAccount(String userName) {
+        db.collection("users")
+                .whereEqualTo("name", userName)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            db.collection("users").document(document.getId()).delete();
+                            pref.clear();
+                            break;
+                        }
+                        Intent intent = new Intent(requireContext(), SignInActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(intent);
+                        Toast.makeText(requireContext(), "Xóa tài khoản thành công", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(requireContext(), "Xóa tài khoản thất bại", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     public void loadInf(){
         String name = pref.getString(Constants.KEY_NAME);
