@@ -236,12 +236,12 @@ public class SignInActivity extends AppCompatActivity {
                         preferenceManager.putString(Constants.KEY_NAME_DISPLAY, documentSnapshot.getString(Constants.KEY_NAME_DISPLAY));
 //                        sessionManager.setLoggedIn(true);
 //                        sessionManager.setUserId(documentSnapshot.getId());
-                        showToast("Login successfull");
+                        showToast("Đăng nhập thành công");
                         Intent i1 = new Intent(getApplicationContext(), MainActivity.class);
                         i1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(i1);
                     }else {
-                        showToast("Unable login");
+                        showToast("Đăng nhập thất bại");
                     }
                 });
 
@@ -251,10 +251,10 @@ public class SignInActivity extends AppCompatActivity {
     }
     private Boolean isValidSigInDetails(){
         if (binding.signInEdtUsername.getText().toString().trim().isEmpty()) {
-            showToast("Enter username");
+            showToast("Nhập tên đăng nhập");
             return false;
         } else if (binding.signInEdtPassword.getText().toString().trim().isEmpty()) {
-            showToast("Enter password");
+            showToast("Nhập mật khẩu");
             return false;
         } else {
             return true;
