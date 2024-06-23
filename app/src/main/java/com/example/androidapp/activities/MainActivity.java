@@ -3,6 +3,7 @@ package com.example.androidapp.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Bundle;
 
 import android.view.MenuItem;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -25,13 +25,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.androidapp.R;
 import com.example.androidapp.fragments.ChatFragment;
-import com.example.androidapp.fragments.ForumFragment;
-import com.example.androidapp.fragments.GiaSuFragment;
 import com.example.androidapp.fragments.HomeFragment;
 import com.example.androidapp.fragments.LibraryFragment;
 import com.example.androidapp.fragments.NotifyFragment;
 import com.example.androidapp.fragments.Subject1Fragment;
-import com.example.androidapp.fragments.SupportFragment;
 import com.example.androidapp.fragments.UserFragment;
 import com.example.androidapp.utilities.Constants;
 import com.example.androidapp.utilities.PreferenceManager;
@@ -151,10 +148,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_menu_giasu) {
             Intent intent = new Intent(this, UsersActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_menu_diendan) {
-            replaceFragment(new ForumFragment());
+        } else if (id == R.id.nav_menu_tailieu) {
+            replaceFragment(new LibraryFragment());
         } else if (id == R.id.nav_menu_hotro) {
-            replaceFragment(new SupportFragment());
+            String url = "https://docs.google.com/forms/d/e/1FAIpQLSd_NTTEoxH8v9mzKuMpzwydDOjmBwUg_2st7-waiXW7Ww-rrA/viewform?usp=sf_link";
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            startActivity(intent);
         } else if (id == R.id.nav_menu_subject) {
             replaceFragment(new Subject1Fragment());
         } else {

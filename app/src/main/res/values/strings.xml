@@ -32,5 +32,18 @@
     <string name="s_ki_n_2">Sự kiện 2</string>
     <string name="s_ki_n_3">Sự kiện 3</string>
     <string name="search">Tìm kiếm...</string>
+    <string name="tennguoidng">Tên người dùng</string>
+    <string name="gia_s">Gia sư</string>
+    <string name="di_n_n">Diễn đàn</string>
+    <string name="tin_nh_n">Tin nhắn</string>
+    <string name="m_n_h_c">Môn học</string>
+    <string name="h_tr">Hỗ trợ</string>
+    <string name="gia_s_tlu">Gia sư TLU</string>
+    <string name="t_i_li_u">Tài liệu</string>
+    <string name="ng_k_tr_th_nh_gia_s">Đăng ký trở thành gia sư</string>
+    <string name="th_ng_tin_t_i_kho_n">Thông tin tài khoản</string>
+    <string name="t_n_ng_i_d_ng">Tên người dùng</string>
+    <string name="th_ng_tin_ng_d_ng">Thông tin ứng dụng</string>
+    <string name="ng_xu_t">Đăng xuất</string>
 
 </resources>
