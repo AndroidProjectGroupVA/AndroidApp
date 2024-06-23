@@ -1,6 +1,7 @@
 package com.example.androidapp.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 
@@ -148,7 +149,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == R.id.nav_menu_chat) {
             replaceFragment(new ChatFragment());
         } else if (id == R.id.nav_menu_giasu) {
-            replaceFragment(new GiaSuFragment());
+            Intent intent = new Intent(this, UsersActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_menu_diendan) {
             replaceFragment(new ForumFragment());
         } else if (id == R.id.nav_menu_hotro) {

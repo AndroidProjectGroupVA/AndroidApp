@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.androidapp.activities.CalendarActivity;
+import com.example.androidapp.activities.MainActivity;
 import com.example.androidapp.activities.UsersActivity;
 import com.example.androidapp.databinding.FragmentHomeBinding;
 
@@ -82,6 +83,12 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 Intent intent = new Intent(requireActivity(), UsersActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        binding.btnMaterial.setOnClickListener(view1 -> {
+            if (getActivity() instanceof MainActivity) {
+                ((MainActivity) getActivity()).replaceFragment(new LibraryFragment());
             }
         });
 
