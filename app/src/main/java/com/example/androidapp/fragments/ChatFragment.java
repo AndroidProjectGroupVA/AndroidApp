@@ -8,9 +8,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.ChatActivity;
@@ -53,6 +56,8 @@ public class ChatFragment extends Fragment implements ConversationListener {
     private RecentConversationsAdapter conversationsAdapter;
     private FirebaseFirestore database;
     FragmentChatBinding binding;
+    private List<ChatMessage> allConversations;
+    private EditText edtSearch;
 
     public ChatFragment() {
         // Required empty public constructor
@@ -105,6 +110,7 @@ public class ChatFragment extends Fragment implements ConversationListener {
         }
         init();
         listenConversations();
+        setupSearch();
 //        FloatingActionButton fabNewChat = view.findViewById(R.id.fabNewChat);
 //        fabNewChat.setOnClickListener(v -> {
 //            Intent intent = new Intent(requireActivity(), UsersActivity.class);
@@ -113,9 +119,11 @@ public class ChatFragment extends Fragment implements ConversationListener {
     }
 
     private void init() {
+        allConversations = new ArrayList<>();
         conversations = new ArrayList<>();
         conversationsAdapter = new RecentConversationsAdapter(conversations, this);
         binding.conversationsRecyclerView.setAdapter(conversationsAdapter);
+        edtSearch = binding.edtSearch;
         database = FirebaseFirestore.getInstance();
     }
 
@@ -144,35 +152,71 @@ public class ChatFragment extends Fragment implements ConversationListener {
                         chatMessage.conversationImage = documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE);
                         chatMessage.conversationName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
                         chatMessage.conversationId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                    }
-                    else {
+                    } else {
                         chatMessage.conversationImage = documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE);
                         chatMessage.conversationName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
                         chatMessage.conversationId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     }
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
-                    conversations.add(chatMessage);
-                }
-                else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
-                    for (int i = 0; i < conversations.size(); i++) {
+//                    conversations.add(chatMessage);
+                    allConversations.add(chatMessage);
+                } else if (documentChange.getType() == DocumentChange.Type.MODIFIED) {
+                    for (int i = 0; i < allConversations.size(); i++) {
                         String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                         String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
-                        if (conversations.get(i).senderId.equals(senderId) && conversations.get(i).receiverId.equals(receiverId)) {
-                            conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
-                            conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                        if (allConversations.get(i).senderId.equals(senderId) && allConversations.get(i).receiverId.equals(receiverId)) {
+                            allConversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                            allConversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                             break;
                         }
                     }
                 }
             }
-            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
-            conversationsAdapter.notifyDataSetChanged();
-            binding.conversationsRecyclerView.smoothScrollToPosition(0);
-            binding.conversationsRecyclerView.setVisibility(View.VISIBLE);
-            binding.progressBar.setVisibility(View.GONE);
+            filterConversations(edtSearch.getText().toString());
+//            Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+//            conversationsAdapter.notifyDataSetChanged();
+//            binding.conversationsRecyclerView.smoothScrollToPosition(0);
+//            binding.conversationsRecyclerView.setVisibility(View.VISIBLE);
+//            binding.progressBar.setVisibility(View.GONE);
         }
     };
+
+    private void setupSearch() {
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterConversations(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private void filterConversations(String query) {
+        conversations.clear();
+        if (query.isEmpty()) {
+            conversations.addAll(allConversations);
+        } else {
+            for (ChatMessage chatMessage : allConversations) {
+                if (chatMessage.conversationName.toLowerCase().contains(query.toLowerCase()) ||
+                        chatMessage.message.toLowerCase().contains(query.toLowerCase())) {
+                    conversations.add(chatMessage);
+                }
+            }
+        }
+        Collections.sort(conversations, (obj1, obj2) -> obj2.dateObject.compareTo(obj1.dateObject));
+        conversationsAdapter.notifyDataSetChanged();
+        binding.conversationsRecyclerView.smoothScrollToPosition(0);
+        binding.conversationsRecyclerView.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.GONE);
+    }
 
     @Override
     public void onConversationClicked(User user) {
