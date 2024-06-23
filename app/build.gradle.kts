@@ -94,7 +94,4 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-scalars:2.11.0")
 
-//    implementation("com.squareup.retrofit2:retrofit:2.3.0")
-//    implementation("com.squareup.retrofit2:converter-gson:2.3.0")
-    implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
 }
