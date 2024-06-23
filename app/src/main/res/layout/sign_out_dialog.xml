@@ -12,7 +12,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Are you sure you want to sign out?"
+        android:text="Bạn có muốn đăng xuất?"
         android:textColor="#000000"
         android:textSize="18sp" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/abortButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Abort"
+            android:text="Hủy"
             android:textColor="#000000" />
 
         <Button
@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="Accept"
+            android:text="Đăng xuất"
             android:textColor="#000000" />
     </LinearLayout>
 

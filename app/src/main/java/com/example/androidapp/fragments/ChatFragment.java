@@ -17,6 +17,7 @@ import android.widget.EditText;
 
 import com.example.androidapp.R;
 import com.example.androidapp.activities.ChatActivity;
+import com.example.androidapp.activities.UsersActivity;
 import com.example.androidapp.adapters.RecentConversationsAdapter;
 import com.example.androidapp.databinding.FragmentChatBinding;
 import com.example.androidapp.listener.ConversationListener;
@@ -89,8 +90,6 @@ public class ChatFragment extends Fragment implements ConversationListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-//        fbtn = (FloatingActionButton) view.findViewById(R.id.fabNewChat);
-//        fbtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), UsersActivity.class)));
         preferenceManager = new PreferenceManager(requireContext());
     }
 
@@ -106,16 +105,18 @@ public class ChatFragment extends Fragment implements ConversationListener {
         super.onViewCreated(view, savedInstanceState);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         if(activity !=null) {
-            activity.getSupportActionBar().setTitle("Chat");
+            activity.getSupportActionBar().setTitle("Tin nhắn");
         }
         init();
         listenConversations();
         setupSearch();
-//        FloatingActionButton fabNewChat = view.findViewById(R.id.fabNewChat);
-//        fabNewChat.setOnClickListener(v -> {
-//            Intent intent = new Intent(requireActivity(), UsersActivity.class);
-//            startActivity(intent);
-//        });
+//        fbtn = (FloatingActionButton) view.findViewById(R.id.fabNewChat);
+//        fbtn.setOnClickListener(v -> startActivity(new Intent(getActivity(), UsersActivity.class)));
+        FloatingActionButton fabNewChat = view.findViewById(R.id.fabNewChat);
+        fabNewChat.setOnClickListener(v -> {
+            Intent intent = new Intent(requireActivity(), UsersActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void init() {

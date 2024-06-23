@@ -66,6 +66,6 @@ public class SupportFragment extends Fragment {
         if (activity != null && activity.getSupportActionBar() != null) {
             activity.getSupportActionBar().setTitle("Hỗ trợ");
         }
-        return inflater.inflate(R.layout.fragment_support, container, false);
+        return inflater.inflate(R.layout.fragment_gia_su, container, false);
     }
 }
