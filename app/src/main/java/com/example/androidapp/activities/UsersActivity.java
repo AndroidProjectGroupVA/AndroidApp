@@ -291,43 +291,39 @@ private List<String> getUniqueSubjectNames() {
                     }
                 });
     }
-//    private List<User> getAllUsersWithSubjectID() {
-//        final List<User> usersWithSubjectID = new ArrayList<>();
-//        loading(true); // Hiển thị progressBar
-//
-//        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-//        firestore.collection(Constants.KEY_COLLECTION_USERS)
-//                .get()
-//                .addOnCompleteListener(task -> {
-//                    loading(false); // Ẩn progressBar
-//                    if (task.isSuccessful() && task.getResult() != null) {
-//                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
-//                            // Kiểm tra sự tồn tại của trường subjectID
-//                            if (queryDocumentSnapshot.contains("subjectID")) {
-//                                // Tạo đối tượng User và lấy dữ liệu
-//                                User user = new User();
-//                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
-//                                user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
-//                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
-//                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
-//                                user.nameDisplay = queryDocumentSnapshot.getString(Constants.KEY_NAME_DISPLAY);
-//                                user.id = queryDocumentSnapshot.getId();
-//                                user.subjectID = queryDocumentSnapshot.getString(Constants.KEY_SUBJECT_ID);
-//
-//
-//                                // Thêm vào danh sách kết quả
-//                                usersWithSubjectID.add(user);
-//                            }
-//                        }
-//                    } else {
-//                        // Xử lý lỗi nếu có
-//                        showErrorMessage("Error: " + task.getException().getMessage());
-//                    }
-//                });
-//
-//        return usersWithSubjectID;
-//    }
+    private List<User> getAllUsersWithSubjectID() {
+        final List<User> usersWithSubjectID = new ArrayList<>();
+        loading(true); // Hiển thị progressBar
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+        firestore.collection(Constants.KEY_COLLECTION_USERS)
+                .get()
+                .addOnCompleteListener(task -> {
+                    loading(false); // Ẩn progressBar
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        for (QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()) {
+                            // Kiểm tra sự tồn tại của trường subjectID
+                            if (queryDocumentSnapshot.contains("subjectID")) {
+                                // Tạo đối tượng User và lấy dữ liệu
+                                User user = new User();
+                                user.name = queryDocumentSnapshot.getString(Constants.KEY_NAME);
+                                user.email = queryDocumentSnapshot.getString(Constants.KEY_EMAIL);
+                                user.image = queryDocumentSnapshot.getString(Constants.KEY_IMAGE);
+                                user.token = queryDocumentSnapshot.getString(Constants.KEY_FCM_TOKEN);
+                                user.nameDisplay = queryDocumentSnapshot.getString(Constants.KEY_NAME_DISPLAY);
+                                user.id = queryDocumentSnapshot.getId();
+                                user.subjectID = queryDocumentSnapshot.getString(Constants.KEY_SUBJECT_ID);
+                                // Thêm vào danh sách kết quả
+                                usersWithSubjectID.add(user);
+                            }
+                        }
+                    } else {
+                        // Xử lý lỗi nếu có
+                        showErrorMessage("Error: " + task.getException().getMessage());
+                    }
+                });
 
+        return usersWithSubjectID;
+    }
     //show error
     private void showErrorMessage(String message){
         binding.textErrorMessage.setText(String.format("%s", message));

@@ -82,6 +82,13 @@ public class InfGiasuActivity extends AppCompatActivity implements UserListener 
                             txtGiasuInfo.setText(document.getString("description"));
                             txtEmailGiasu.setText(document.getString("email"));
                             txtPhoneGiasu.setText(document.getString("phone"));
+                            String gpa = document.getString("GPA");
+                            if (gpa != null && !gpa.isEmpty()) {
+                                txtGPAGiasu.setText(gpa);
+                            }
+                            else{
+                                txtGPAGiasu.setText(" ");
+                            }
                             Bitmap userImage = getUserImage(document.getString("image"));
                             if (userImage != null) {
                                 img_avt_giasu.setImageBitmap(userImage);
