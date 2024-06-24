@@ -45,5 +45,8 @@
     <string name="t_n_ng_i_d_ng">Tên người dùng</string>
     <string name="th_ng_tin_ng_d_ng">Thông tin ứng dụng</string>
     <string name="ng_xu_t">Đăng xuất</string>
+    <string name="b_n_c_mu_n_ng_xu_t">Bạn có muốn đăng xuất?</string>
+    <string name="h_y">Hủy</string>
+    <string name="dangxuat">Đăng xuất</string>
 
 </resources>

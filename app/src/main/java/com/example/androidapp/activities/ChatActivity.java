@@ -220,7 +220,8 @@ public class ChatActivity extends BaseActivity {
     }
 
     private String getReadableDateTime(Date date) {
-        return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.forLanguageTag("vi-VN"));
+        return dateFormat.format(date);
     }
 
     private void addConversation(HashMap<String, Object> conversation) {
