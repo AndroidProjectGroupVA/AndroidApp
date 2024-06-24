@@ -76,7 +76,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
         });
 
         spinner = findViewById(R.id.spinner2_sub);
-        List<String> universityCourses = getUniqueSubjectIDs(); // Gọi hàm để lấy danh sách môn học
+        List<String> universityCourses = getUniqueSubjectNames(); // Gọi hàm để lấy danh sách môn học
         adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, universityCourses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
@@ -117,90 +117,133 @@ public class UsersActivity extends BaseActivity implements UserListener {
         });
 
     }
-    private List<String> getUniqueSubjectIDs() {
-        List<String> uniqueSubjectIDs = new ArrayList<>();
-        uniqueSubjectIDs.add("Toàn bộ"); // Thêm "Toàn bộ" vào đầu danh sách
+//    private List<String> getUniqueSubjectIDs() {
+//        List<String> uniqueSubjectIDs = new ArrayList<>();
+//        uniqueSubjectIDs.add("Toàn bộ"); // Thêm "Toàn bộ" vào đầu danh sách
+//
+//        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+//        firestore.collection(Constants.KEY_COLLECTION_USERS)
+//                .get()
+//                .addOnCompleteListener(task -> {
+//                    if (task.isSuccessful() && task.getResult() != null) {
+//                        for (QueryDocumentSnapshot document : task.getResult()) {
+//                            if (document.contains("subjectID")) {
+//                                String subjectID = document.getString("subjectID");
+//                                if (!uniqueSubjectIDs.contains(subjectID)) { // Tránh trùng lặp
+//                                    uniqueSubjectIDs.add(subjectID);
+//                                }
+//                            }
+//                        }
+//
+//                        // Cập nhật ArrayAdapter sau khi lấy được danh sách môn học
+//                        adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, uniqueSubjectIDs);
+//                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                        spinner.setAdapter(adapter);
+//                    } else {
+//                        showErrorMessage("Lỗi khi lấy danh sách môn học: " + task.getException().getMessage());
+//                    }
+//                });
+//
+//        return uniqueSubjectIDs;
+//    }
+private List<String> getUniqueSubjectNames() {
+    List<String> uniqueSubjectNames = new ArrayList<>();
+    uniqueSubjectNames.add("Toàn bộ");
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        firestore.collection(Constants.KEY_COLLECTION_USERS)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.contains("subjectID")) {
-                                String subjectID = document.getString("subjectID");
-                                if (!uniqueSubjectIDs.contains(subjectID)) { // Tránh trùng lặp
-                                    uniqueSubjectIDs.add(subjectID);
-                                }
-                            }
-                        }
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-                        // Cập nhật ArrayAdapter sau khi lấy được danh sách môn học
-                        adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, uniqueSubjectIDs);
-                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinner.setAdapter(adapter);
-                    } else {
-                        showErrorMessage("Lỗi khi lấy danh sách môn học: " + task.getException().getMessage());
+    // Lấy tất cả subject từ collection "subjects"
+    firestore.collection("subjects")
+            .get()
+            .addOnCompleteListener(subjectTask -> {
+                if (subjectTask.isSuccessful() && subjectTask.getResult() != null) {
+                    for (QueryDocumentSnapshot subjectDoc : subjectTask.getResult()) {
+                        String subjectName = subjectDoc.getString("fileNameDisplay");
+                        uniqueSubjectNames.add(subjectName);
                     }
-                });
 
-        return uniqueSubjectIDs;
-    }
+                    adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, uniqueSubjectNames);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinner.setAdapter(adapter);
+                } else {
+                    showErrorMessage("Lỗi khi lấy danh sách môn học: " + subjectTask.getException().getMessage());
+                }
+            });
 
-    private void filterUsers(String selectedCourse, String searchText) {
+    return uniqueSubjectNames;
+}
+
+
+    private void filterUsers(String selectedSubjectName, String searchText) {
         loading(true);
 
         List<User> filteredUsers = new ArrayList<>();
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(Constants.KEY_COLLECTION_USERS)
                 .get()
-                .addOnCompleteListener(task -> {
-                    loading(false);
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.contains("subjectID")) {
-                                String subjectID = document.getString("subjectID");
-                                String nameDisplay = document.getString(Constants.KEY_NAME_DISPLAY);
+                .addOnCompleteListener(userTask -> {
+                    if (userTask.isSuccessful() && userTask.getResult() != null) {
+                        for (QueryDocumentSnapshot userDoc : userTask.getResult()) {
+                            if (userDoc.contains("subjectID")) {
+                                String subjectID = userDoc.getString("subjectID");
 
-                                // Khai báo và gán giá trị cho courseMatch và textMatch
-                                boolean courseMatch = selectedCourse.equals("Toàn bộ") ||
-                                        subjectID.toLowerCase().contains(selectedCourse.toLowerCase());
-                                boolean textMatch = searchText.isEmpty() ||
-                                        nameDisplay.toLowerCase().contains(searchText.toLowerCase());
+                                firestore.collection("subjects").document(subjectID)
+                                        .get()
+                                        .addOnSuccessListener(subjectDoc -> {
+                                            if (subjectDoc.exists()) { // Kiểm tra xem môn học có tồn tại không
+                                                String subjectName = subjectDoc.getString("fileNameDisplay");
+                                                String nameDisplay = userDoc.getString(Constants.KEY_NAME_DISPLAY);
 
-                                if (courseMatch && textMatch) {
-                                    // ... (tạo đối tượng User và thêm vào filteredUsers)
-                                    User user = new User();
-                                    user.name = document.getString(Constants.KEY_NAME);
-                                    user.email = document.getString(Constants.KEY_EMAIL);
-                                    user.image = document.getString(Constants.KEY_IMAGE);
-                                    user.token = document.getString(Constants.KEY_FCM_TOKEN);
-                                    user.nameDisplay = document.getString(Constants.KEY_NAME_DISPLAY); // Đảm bảo lấy nameDisplay
-                                    user.id = document.getId();
-                                    user.subjectID = document.getString(Constants.KEY_SUBJECT_ID);
+                                                if (subjectName != null && nameDisplay != null) {
 
-                                    // Thêm user vào danh sách filteredUsers
-                                    filteredUsers.add(user);
-                                }
+                                                    boolean courseMatch = selectedSubjectName.equals("Toàn bộ") ||
+                                                            subjectName.toLowerCase().contains(selectedSubjectName.toLowerCase());
+                                                    boolean textMatch = searchText.isEmpty() ||
+                                                            nameDisplay.toLowerCase().contains(searchText.toLowerCase());
+
+                                                    if (courseMatch && textMatch) {
+                                                        User user = new User();
+                                                        user.name = userDoc.getString(Constants.KEY_NAME);
+                                                        user.email = userDoc.getString(Constants.KEY_EMAIL);
+                                                        user.image = userDoc.getString(Constants.KEY_IMAGE);
+                                                        user.token = userDoc.getString(Constants.KEY_FCM_TOKEN);
+                                                        user.nameDisplay = nameDisplay;
+                                                        user.id = userDoc.getId();
+                                                        user.subjectID = subjectID;
+                                                        user.subjectName = subjectName; // Lưu tên môn học
+
+                                                        filteredUsers.add(user);
+                                                    }
+                                                }
+                                            }
+
+                                            // Cập nhật UsersAdapter sau khi xử lý xong tất cả user
+                                            UsersAdapter userAdapter = new UsersAdapter(filteredUsers, this);
+                                            binding.usersRecycleView.setAdapter(userAdapter);
+                                            userAdapter.notifyDataSetChanged();
+
+                                            loading(false);
+
+                                            // Xử lý khi không có kết quả phù hợp
+                                            if (filteredUsers.isEmpty()) {
+                                                showErrorMessage("Không có người dùng nào phù hợp");
+                                            } else {
+                                                binding.textErrorMessage.setVisibility(View.GONE);
+                                            }
+                                        })
+                                        .addOnFailureListener(e -> {
+                                            loading(false);
+                                            showErrorMessage("Lỗi khi lấy tên môn học: " + e.getMessage());
+                                        });
                             }
                         }
-
-                        // ... (cập nhật UsersAdapter và xử lý kết quả)
-                        UsersAdapter userAdapter = new UsersAdapter(filteredUsers, this);
-                        binding.usersRecycleView.setAdapter(userAdapter);
-                        userAdapter.notifyDataSetChanged(); // Thông báo thay đổi dữ liệu
-
-                        // Xử lý kết quả
-                        if (filteredUsers.isEmpty()) {
-                            showErrorMessage("Không có người dùng nào phù hợp");
-                        } else {
-                            binding.textErrorMessage.setVisibility(View.GONE); // Ẩn thông báo lỗi nếu có kết quả
-                        }
                     } else {
-                        showErrorMessage("Lỗi khi lấy danh sách người dùng: " + task.getException().getMessage());
+                        loading(false);
+                        showErrorMessage("Lỗi khi lấy danh sách người dùng: " + userTask.getException().getMessage());
                     }
                 });
     }
+
 
 
 
@@ -281,7 +324,6 @@ public class UsersActivity extends BaseActivity implements UserListener {
 
         return usersWithSubjectID;
     }
-
     //show error
     private void showErrorMessage(String message){
         binding.textErrorMessage.setText(String.format("%s", message));

@@ -67,7 +67,7 @@
         <activity
             android:name=".activities.ChatActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|adjustResize" />
         <activity
             android:name=".activities.UsersActivity"
             android:exported="false"
