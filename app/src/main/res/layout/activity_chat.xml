@@ -1,40 +1,45 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/chat_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:fitsSystemWindows="true">
 
 
     <LinearLayout
+        android:id="@+id/userBar"
         android:layout_width="match_parent"
         android:layout_height="66dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
         android:background="@color/colorTheme"
+        android:foregroundGravity="top"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/chat_btnBack"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
             android:backgroundTint="@color/colorTheme"
-            app:srcCompat="@drawable/ic_back"
-            android:layout_gravity="center"/>
+            app:srcCompat="@drawable/ic_back" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            app:cardCornerRadius="25dp"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            app:cardCornerRadius="25dp">
 
             <ImageView
                 android:id="@+id/chat_Avatar"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/user_solid_240"
-                android:scaleType="centerCrop" />
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/user_solid_240" />
         </androidx.cardview.widget.CardView>
 
         <LinearLayout
@@ -49,19 +54,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/tennguoidng"
+                android:text="Tên người dùng"
                 android:textColor="#FFFFFF"
                 android:textSize="23sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
             <TextView
-                android:backgroundTint="#008000"
-                android:backgroundTintMode="add"
                 android:id="@+id/textAvailability"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/online_txt"
+                android:backgroundTint="#008000"
+                android:backgroundTintMode="add"
                 android:gravity="center"
                 android:padding="2sp"
                 android:text="Online"
@@ -75,25 +79,29 @@
             android:id="@+id/chat_Call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_phone"
-            android:layout_gravity="center"/>
+            app:srcCompat="@drawable/ic_phone" />
 
         <ImageView
             android:id="@+id/chat_Video"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_ft"
-            android:layout_gravity="center"/>
+            app:srcCompat="@drawable/ic_ft" />
 
 
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chatSpace"
         android:layout_width="match_parent"
-        android:layout_height="678dp"
-        android:orientation="vertical"
+        android:layout_height="100dp"
+        android:layout_above="@+id/chatBar"
+        android:layout_below="@+id/userBar"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
         android:padding="20dp">
 
         <View
@@ -108,7 +116,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chatRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="630dp"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:clipToPadding="false"
             android:orientation="vertical"
@@ -136,8 +144,11 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
+        android:id="@+id/chatBar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="0dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -184,4 +195,4 @@
             android:backgroundTint="@color/white"
             app:srcCompat="@drawable/ic_send" />
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>
