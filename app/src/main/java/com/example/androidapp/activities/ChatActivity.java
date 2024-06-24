@@ -1,15 +1,25 @@
 package com.example.androidapp.activities;
 
+import android.app.Activity;
+import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Base64;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -36,6 +46,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,6 +71,9 @@ public class ChatActivity extends BaseActivity {
     private String conversationId = null;
     private Boolean isReciverAvailable = false;
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private ActivityResultLauncher<Intent> cameraLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +86,7 @@ public class ChatActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        initCameraLauncher();
         setListeners();
         loadReceiverDetails();
         init();
@@ -91,28 +106,31 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sendMessage() {
-        HashMap<String, Object> message = new HashMap<>();
-        message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-        message.put(Constants.KEY_MESSAGE, binding.chatInput.getText().toString());
-        message.put(Constants.KEY_TIMESTAMP, new Date());
-        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
-        if (conversationId != null) {
-            updateConversation(binding.chatInput.getText().toString());
+        String messageText = binding.chatInput.getText().toString().trim();
+        if (!messageText.isEmpty()) {
+            HashMap<String, Object> message = new HashMap<>();
+            message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+            message.put(Constants.KEY_MESSAGE, messageText);
+            message.put(Constants.KEY_MESSAGE_TYPE, "text");
+            message.put(Constants.KEY_TIMESTAMP, new Date());
+            database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+            if (conversationId != null) {
+                updateConversation(binding.chatInput.getText().toString());
+            } else {
+                HashMap<String, Object> conversation = new HashMap<>();
+                conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+                conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
+                conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+                conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+                conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.nameDisplay);
+                conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
+                conversation.put(Constants.KEY_LAST_MESSAGE, binding.chatInput.getText().toString());
+                conversation.put(Constants.KEY_TIMESTAMP, new Date());
+                addConversation(conversation);
+            }
+            binding.chatInput.setText(null);
         }
-        else {
-            HashMap<String, Object> conversation = new HashMap<>();
-            conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
-            conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
-            conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
-            conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
-            conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.nameDisplay);
-            conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
-            conversation.put(Constants.KEY_LAST_MESSAGE, binding.chatInput.getText().toString());
-            conversation.put(Constants.KEY_TIMESTAMP, new Date());
-            addConversation(conversation);
-        }
-        binding.chatInput.setText(null);
     }
     private void listendAvailabilityOfReceivers(){
         database.collection(Constants.KEY_COLLECTION_USERS).document(
@@ -160,6 +178,8 @@ public class ChatActivity extends BaseActivity {
                     chatMessage.senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
                     chatMessage.receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
                     chatMessage.message = documentChange.getDocument().getString(Constants.KEY_MESSAGE);
+                    chatMessage.messageIMG = documentChange.getDocument().getString(Constants.KEY_MESSAGE_IMAGE);
+                    chatMessage.messageType = documentChange.getDocument().getString(Constants.KEY_MESSAGE_TYPE);
                     chatMessage.dateTime = getReadableDateTime(documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP));
                     chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
                     chatMessages.add(chatMessage);
@@ -210,6 +230,8 @@ public class ChatActivity extends BaseActivity {
     private void setListeners() {
         binding.chatBtnBack.setOnClickListener(v -> navigateToChatFragment());
         binding.chatBtnSend.setOnClickListener(v -> sendMessage());
+
+        binding.chatBtnCamera.setOnClickListener(v -> openCamera());
     }
 
     private void navigateToChatFragment() {
@@ -220,7 +242,8 @@ public class ChatActivity extends BaseActivity {
     }
 
     private String getReadableDateTime(Date date) {
-        return new SimpleDateFormat("MMMM dd, yyyy - hh:mm a", Locale.getDefault()).format(date);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy - HH:mm", Locale.forLanguageTag("vi-VN"));
+        return dateFormat.format(date);
     }
 
     private void addConversation(HashMap<String, Object> conversation) {
@@ -271,4 +294,101 @@ public class ChatActivity extends BaseActivity {
         super.onResume();
         listendAvailabilityOfReceivers();
     }
+
+    private void initCameraLauncher() {
+        cameraLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null && data.getExtras() != null) {
+                            Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                            showImagePreviewDialog(imageBitmap);
+                        }
+                    }
+                });
+    }
+
+    private void showImagePreviewDialog(Bitmap imageBitmap) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogView = inflater.inflate(R.layout.dialog_image_preview, null);
+
+        ImageView imageView = dialogView.findViewById(R.id.imageView_preview);
+        imageView.setImageBitmap(imageBitmap);
+
+        builder.setView(dialogView)
+                .setTitle("")
+                .setCancelable(false); //Dialog không tắt khi bấm ra ngoài
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        Button buttonSend = dialogView.findViewById(R.id.button_send);
+        Button buttonRetake = dialogView.findViewById(R.id.button_retake);
+
+        buttonRetake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle retake action if needed
+                alertDialog.dismiss();
+            }
+        });
+
+        buttonSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendImageMessage(imageBitmap);
+                alertDialog.dismiss();
+            }
+        });
+    }
+
+
+    private void sendImageMessage(Bitmap imageBitmap) {
+        String encodedImage = encodeImageToBase64(imageBitmap);
+        HashMap<String, Object> message = new HashMap<>();
+        message.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+        message.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+
+        message.put(Constants.KEY_MESSAGE, "Đã gửi một ảnh");
+        message.put(Constants.KEY_MESSAGE_IMAGE, encodedImage);
+
+        message.put(Constants.KEY_MESSAGE_TYPE, "image");
+        message.put(Constants.KEY_TIMESTAMP, new Date());
+        database.collection(Constants.KEY_COLLECTION_CHAT).add(message);
+
+        if (conversationId != null) {
+            updateConversation("Đã gửi một ảnh");
+        } else {
+            HashMap<String, Object> conversation = new HashMap<>();
+            conversation.put(Constants.KEY_SENDER_ID, preferenceManager.getString(Constants.KEY_USER_ID));
+            conversation.put(Constants.KEY_SENDER_NAME, preferenceManager.getString(Constants.KEY_NAME_DISPLAY));
+            conversation.put(Constants.KEY_SENDER_IMAGE, preferenceManager.getString(Constants.KEY_IMAGE));
+            conversation.put(Constants.KEY_RECEIVER_ID, receiverUser.id);
+            conversation.put(Constants.KEY_RECEIVER_NAME, receiverUser.nameDisplay);
+            conversation.put(Constants.KEY_RECEIVER_IMAGE, receiverUser.image);
+            conversation.put(Constants.KEY_LAST_MESSAGE, "Đã gửi một ảnh");
+            conversation.put(Constants.KEY_TIMESTAMP, new Date());
+            addConversation(conversation);
+        }
+        binding.chatInput.setText(null);
+    }
+
+    private String encodeImageToBase64(Bitmap imageBitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        byte[] imageBytes = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT);
+    }
+
+    private void openCamera() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        try {
+            cameraLauncher.launch(takePictureIntent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(this, "Camera không hoạt động", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }

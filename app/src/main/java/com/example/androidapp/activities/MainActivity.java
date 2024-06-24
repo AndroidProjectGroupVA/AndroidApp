@@ -6,7 +6,6 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 
-import android.os.StrictMode;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +27,6 @@ import com.example.androidapp.R;
 import com.example.androidapp.fragments.ChatFragment;
 import com.example.androidapp.fragments.HomeFragment;
 import com.example.androidapp.fragments.LibraryFragment;
-import com.example.androidapp.fragments.NotifyFragment;
 import com.example.androidapp.fragments.Subject1Fragment;
 import com.example.androidapp.fragments.UserFragment;
 import com.example.androidapp.utilities.Constants;
@@ -73,8 +71,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 replaceFragment(new UserFragment());
             } else if (itemId == R.id.bottom_menu_chat) {
                 replaceFragment(new ChatFragment());
-            } else if (itemId == R.id.bottom_menu_notify) {
-                replaceFragment(new NotifyFragment());
+            } else if (itemId == R.id.bottom_menu_subject) {
+                replaceFragment(new Subject1Fragment());
             } else if (itemId == R.id.bottom_menu_library) {
                 replaceFragment(new LibraryFragment());
             } else if (itemId == R.id.bottom_menu_home) {
