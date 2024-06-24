@@ -251,7 +251,6 @@ public class UsersActivity extends BaseActivity implements UserListener {
     private List<User> getAllUsersWithSubjectID() {
         final List<User> usersWithSubjectID = new ArrayList<>();
         loading(true); // Hiển thị progressBar
-
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         firestore.collection(Constants.KEY_COLLECTION_USERS)
                 .get()
@@ -270,8 +269,6 @@ public class UsersActivity extends BaseActivity implements UserListener {
                                 user.nameDisplay = queryDocumentSnapshot.getString(Constants.KEY_NAME_DISPLAY);
                                 user.id = queryDocumentSnapshot.getId();
                                 user.subjectID = queryDocumentSnapshot.getString(Constants.KEY_SUBJECT_ID);
-
-
                                 // Thêm vào danh sách kết quả
                                 usersWithSubjectID.add(user);
                             }
