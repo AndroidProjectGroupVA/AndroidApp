@@ -107,7 +107,7 @@
                         android:overScrollMode="never"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
                 </androidx.core.widget.NestedScrollView>
-                
+
             </LinearLayout>
 
         </LinearLayout>

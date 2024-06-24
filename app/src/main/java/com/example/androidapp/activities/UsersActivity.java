@@ -58,6 +58,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
 //            "Xử lý ngôn ngữ tự nhiên"
 //    ));
     ArrayAdapter adapter;
+    String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -184,7 +185,7 @@ private List<String> getUniqueSubjectNames() {
                 .addOnCompleteListener(userTask -> {
                     if (userTask.isSuccessful() && userTask.getResult() != null) {
                         for (QueryDocumentSnapshot userDoc : userTask.getResult()) {
-                            if (userDoc.contains("subjectID")) {
+                            if (userDoc.contains("subjectID") && !currentUserId.equals(userDoc.getString("name"))) {
                                 String subjectID = userDoc.getString("subjectID");
 
                                 firestore.collection("subjects").document(subjectID)
@@ -256,13 +257,13 @@ private List<String> getUniqueSubjectNames() {
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
-                    String currentUserId = preferenceManager.getString(Constants.KEY_USER_ID);
+                    currentUserId = preferenceManager.getString(Constants.KEY_NAME);
                     if(task.isSuccessful() && task.getResult() != null){
                         List<User> users = new ArrayList<>();
                         for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
                             Map<String, Object> userMap = queryDocumentSnapshot.getData();
                             //gia sư là đối tương có thuộc tính subjectID còn người dùng thì không
-                            if (currentUserId.equals(queryDocumentSnapshot.getId()) || queryDocumentSnapshot.get("subjectID") == null){
+                            if (currentUserId.equals(queryDocumentSnapshot.getString("name")) || queryDocumentSnapshot.get("subjectID") == null){
                                 continue;
                             }
                             //create user object
