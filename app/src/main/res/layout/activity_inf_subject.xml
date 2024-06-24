@@ -93,10 +93,21 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rcvGiasuDay"
+                <androidx.core.widget.NestedScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/giasuRecycleView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </androidx.core.widget.NestedScrollView>
+                
             </LinearLayout>
 
         </LinearLayout>
