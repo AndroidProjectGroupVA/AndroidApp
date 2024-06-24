@@ -12,8 +12,8 @@
         android:layout_height="35dp"
         app:cardCornerRadius="17.5dp"
         android:layout_gravity="center"
-        app:layout_constraintBottom_toBottomOf="@id/text_Message"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/text_Message"
         android:backgroundTint="@color/colorTheme">
 
         <ImageView
@@ -23,7 +23,7 @@
             app:srcCompat="@drawable/user_solid_240"
             android:scaleType="centerCrop" />
     </androidx.cardview.widget.CardView>
-    
+
     <TextView
         android:id="@+id/text_Message"
         android:layout_width="0dp"
@@ -50,5 +50,49 @@
         android:textColor="@color/colorTheme"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="@id/text_Message"
-        app:layout_constraintTop_toBottomOf="@id/text_Message" />
+        app:layout_constraintTop_toBottomOf="@id/text_Message"/>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardViewImg"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:cardCornerRadius="17.5dp"
+        android:layout_gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/imageMessage"
+        android:backgroundTint="@color/colorTheme">
+
+        <ImageView
+            android:id="@+id/image_AvatarImg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            app:srcCompat="@drawable/user_solid_240"
+            android:scaleType="centerCrop" />
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/imageMessage"
+        android:layout_width="250dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        app:layout_constraintWidth_max="wrap"
+        app:layout_constraintStart_toEndOf="@+id/cardViewImg"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.75"
+        app:srcCompat="@drawable/logo"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/text_DateTimeImg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorTheme"
+        android:textSize="11sp"
+        app:layout_constraintStart_toStartOf="@id/imageMessage"
+        app:layout_constraintTop_toBottomOf="@id/imageMessage"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

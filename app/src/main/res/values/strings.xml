@@ -48,5 +48,7 @@
     <string name="b_n_c_mu_n_ng_xu_t">Bạn có muốn đăng xuất?</string>
     <string name="h_y">Hủy</string>
     <string name="dangxuat">Đăng xuất</string>
+    <string name="g_i">Gửi</string>
+    <string name="hu">Huỷ</string>
 
 </resources>
