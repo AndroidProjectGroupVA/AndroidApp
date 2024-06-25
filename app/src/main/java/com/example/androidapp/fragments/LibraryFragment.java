@@ -2,20 +2,25 @@ package com.example.androidapp.fragments;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.provider.MediaStore;
@@ -128,6 +133,7 @@ public class LibraryFragment extends Fragment {
 
     private String encodedImage;
     private static final int PICK_FILE_REQUEST = 1;
+    private static final int PERMISSION_REQUEST_CODE = 100;
 
     public LibraryFragment() {
         // Required empty public constructor
@@ -317,10 +323,36 @@ public class LibraryFragment extends Fragment {
         });
 
         // chon file tu thiet bi
+//        btn_select_file.setOnClickListener(v -> {
+//            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+//            intent.setType("*/*");
+//            startActivityForResult(intent, PICK_FILE_REQUEST);
+//        });
         btn_select_file.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("*/*");
-            startActivityForResult(intent, PICK_FILE_REQUEST);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                // For Android 13 and above
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_VIDEO) != PackageManager.PERMISSION_GRANTED
+                        || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{
+                            Manifest.permission.READ_MEDIA_IMAGES,
+                            Manifest.permission.READ_MEDIA_VIDEO,
+                            Manifest.permission.READ_MEDIA_AUDIO}, PERMISSION_REQUEST_CODE);
+                } else {
+                    // Permission already granted
+                    openFilePicker();
+                }
+            } else {
+                // For Android 12 and below
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+                } else {
+                    // Permission already granted
+                    openFilePicker();
+                }
+            }
         });
 
         //clear file select
@@ -483,6 +515,29 @@ public class LibraryFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            boolean allPermissionsGranted = true;
+            for (int result : grantResults) {
+                if (result != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (allPermissionsGranted) {
+                // All permissions granted
+                openFilePicker();
+            } else {
+                // Permission denied
+                Toast.makeText(getActivity(), "Quyền truy cập bị từ chối.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     private void loadDocuments() {
         db.collection("documents").get().addOnCompleteListener(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
@@ -542,6 +597,12 @@ public class LibraryFragment extends Fragment {
                 Toast.makeText(LibraryFragment.this.getContext(), "Lỗi truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void openFilePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        startActivityForResult(intent, PICK_FILE_REQUEST);
     }
 
     private String getFileName(Uri uri) {
