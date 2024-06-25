@@ -99,6 +99,13 @@ public class HomeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        binding.btnNews.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity) getActivity()).replaceFragment(new Subject1Fragment());
+            }
+        });
     }
 
 }

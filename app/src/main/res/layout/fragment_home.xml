@@ -48,7 +48,7 @@
         android:backgroundTint="@color/first_button_color"
         android:insetTop="0dp"
         android:insetBottom="0dp"
-        android:text="Diễn đàn tin tức"
+        android:text="Môn học"
         android:textSize="16dp"
         android:textStyle="bold"
         app:cornerRadius="30dp" />
