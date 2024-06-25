@@ -131,11 +131,11 @@ public class UserFragment extends Fragment {
                     }
                 });
         Glide.with(this)
-                .load(R.drawable.two_people) // Đường dẫn đến hình ảnh của bạn
+                .load(R.drawable.tutor_icon) // Đường dẫn đến hình ảnh của bạn
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        binding.ibtnFriends.setImageDrawable(resource);
+                        binding.ibtnTutorReq.setImageDrawable(resource);
                     }
 
                     @Override
@@ -144,11 +144,11 @@ public class UserFragment extends Fragment {
                     }
                 });
         Glide.with(this)
-                .load(R.drawable.group_icon) // Đường dẫn đến hình ảnh của bạn
+                .load(R.drawable.info_app) // Đường dẫn đến hình ảnh của bạn
                 .into(new CustomTarget<Drawable>() {
                     @Override
                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                        binding.ibtnGroup.setImageDrawable(resource);
+                        binding.ibtnAppInfo.setImageDrawable(resource);
                     }
 
                     @Override
@@ -194,7 +194,7 @@ public class UserFragment extends Fragment {
             }
         });
 
-        binding.txtFriends.setOnClickListener(new View.OnClickListener() {
+        binding.txtTutorReq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = "https://docs.google.com/forms/d/e/1FAIpQLSeTpmshQYpXWM8XuSDrOFMqerZi2giqyxeX30fwiXzjnmvxDw/viewform?usp=sf_link";
@@ -204,7 +204,7 @@ public class UserFragment extends Fragment {
             }
         });
 
-        binding.txtGroup.setOnClickListener(new View.OnClickListener() {
+        binding.txtAppInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAlertDialog();
