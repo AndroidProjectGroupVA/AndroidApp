@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -82,12 +83,13 @@ public class LibraryFragment extends Fragment {
 
     ImageButton img_btn_viewadd, btnRecent, img_button_manage_doc;
     Button add_Document_clear_select;
-    TextView tv_Document_name_select, tv_Format_fileformat, tv_Format_date;
+    TextView tv_Document_name_select, tv_Format_fileformat, tv_Format_date, tv_message_load_doc;
     EditText edt_Document_name, edt_Format_description, edt_lib_search;
     AutoCompleteTextView acv_subject;
     ImageView add_Document_ilogo_file, add_Document_img;
     CardView add_Document_card, add_Document_card_img;
     ListView lv_Document_list;
+    ProgressBar prB_loading_updoc, prgress_load_doc;
     DocumentAdapter documentAdapter;
     ArrayAdapter adapterSubject;
     ArrayList<Document> documents = new ArrayList<>();
@@ -188,12 +190,15 @@ public class LibraryFragment extends Fragment {
         img_button_manage_doc = view.findViewById(R.id.img_button_manage_doc);
         img_btn_viewadd = view.findViewById(R.id.imgbtn_viewadd);
         edt_lib_search =  view.findViewById(R.id.edt_lib_search);
+        tv_message_load_doc = view.findViewById(R.id.tv_message_load_doc);
+        prgress_load_doc = view.findViewById(R.id.prgress_load_doc);
+        prgress_load_doc.setVisibility(View.VISIBLE);
         btnRecent = view.findViewById(R.id.btnRecent);
 
 
         // Set up the spinner
         Spinner dropdown = view.findViewById(R.id.spinner);
-        String[] items = new String[]{"Theo tên A-Z", "Theo tên Z-A", "Theo thời gian - tăng dần", "Theo thời gian - giảm dần"};
+        String[] items = new String[]{"Theo tên A-Z", "Theo tên Z-A", "Theo thời gian - mới nhất", "Theo thời gian - cũ nhất"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, items);
         dropdown.setAdapter(adapter);
 
@@ -230,7 +235,9 @@ public class LibraryFragment extends Fragment {
             }
         });
 
-//        LayoutInflater inflater = getLayoutInflater();
+
+        //custom dialog add document
+//       LayoutInflater inflater = getLayoutInflater();
         View customLayout = inflater.inflate(R.layout.diaglog_add_document, null);
         add_Document_ilogo_file = customLayout.findViewById(R.id.add_Document_ilogo_file);
         add_Document_img = customLayout.findViewById(R.id.add_Document_img);
@@ -243,6 +250,7 @@ public class LibraryFragment extends Fragment {
         edt_Document_name = customLayout.findViewById(R.id.edt_Document_name);
         edt_Format_description = customLayout.findViewById(R.id.edt_Format_description);
         acv_subject = customLayout.findViewById(R.id.acv_subject);
+        prB_loading_updoc = customLayout.findViewById(R.id.prb_loading_doc);
 
         Button btn_select_file = customLayout.findViewById(R.id.add_Document_btn_select_file);
         Button btn_cancel = customLayout.findViewById(R.id.add_Document_btn_cancel);
@@ -264,11 +272,11 @@ public class LibraryFragment extends Fragment {
                         break;
                     }
                     case 2:{
-                        Collections.sort(documents, (p1, p2) -> p1.getUpLoadTimeStamp().compareToIgnoreCase(p2.getUpLoadTimeStamp()));
+                        Collections.sort(documents, (p1, p2) -> p2.getUpLoadTimeStamp().compareToIgnoreCase(p1.getUpLoadTimeStamp()));
                         break;
                     }
                     case 3:{
-                        Collections.sort(documents, (p1, p2) -> p2.getUpLoadTimeStamp().compareToIgnoreCase(p1.getUpLoadTimeStamp()));
+                        Collections.sort(documents, (p1, p2) -> p1.getUpLoadTimeStamp().compareToIgnoreCase(p2.getUpLoadTimeStamp()));
                         break;
                     }
                 }
@@ -335,6 +343,7 @@ public class LibraryFragment extends Fragment {
             String subject = acv_subject.getText().toString().trim();
             StorageReference fileRef = storageRef.child("files/" + fileName);
             UploadTask uploadTask = fileRef.putFile(fileUri);
+            prB_loading_updoc.setVisibility(View.VISIBLE);
 
             uploadTask.addOnSuccessListener(taskSnapshot -> fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 String downloadUrl = uri.toString();
@@ -376,6 +385,7 @@ public class LibraryFragment extends Fragment {
                             acv_subject.setText("");
                             add_Document_img.setImageResource(R.drawable.avt_library);
                             loadDocuments();
+                            prB_loading_updoc.setVisibility(View.GONE);
                         })
                         .addOnFailureListener(e -> Toast.makeText(LibraryFragment.this.getContext(), "Upload failed", Toast.LENGTH_SHORT).show());
             })).addOnFailureListener(exception -> Toast.makeText(LibraryFragment.this.getContext(), "Upload failed", Toast.LENGTH_SHORT).show());
@@ -490,8 +500,14 @@ public class LibraryFragment extends Fragment {
                     Document document = new Document(fileID, fileNameDisplay,fileSubject, fileType, fileUrl, fileDate, fileOwner, fileDescription, fileIcon);
                     documents.add(document);
                 }
-                Collections.sort(documents, (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
-                documentAdapter.notifyDataSetChanged();
+                if(!documents.isEmpty()){
+                    Collections.sort(documents, (p1, p2) -> p1.getName().compareToIgnoreCase(p2.getName()));
+                    documentAdapter.notifyDataSetChanged();
+                }
+                else{
+                    tv_message_load_doc.setVisibility(View.VISIBLE);
+                }
+                prgress_load_doc.setVisibility(View.GONE);
                 //Toast.makeText(LibraryFragment.this.getContext(), "Đã lấy dữ liệu " + documents.size(), Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(LibraryFragment.this.getContext(), "Lỗi truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
