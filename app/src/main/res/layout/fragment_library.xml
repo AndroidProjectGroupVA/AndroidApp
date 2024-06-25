@@ -92,16 +92,33 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp">
 
-                <LinearLayout
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content">
 
                     <ListView
                         android:id="@+id/lv_Document"
                         android:layout_width="match_parent"
                         android:layout_height="600dp" />
-                </LinearLayout>
+
+                    <ProgressBar
+                        android:id="@+id/prgress_load_doc"
+                        style="?android:attr/progressBarStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_message_load_doc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Không có tài liệu nào!"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </FrameLayout>
             </ScrollView>
         </LinearLayout>
 
