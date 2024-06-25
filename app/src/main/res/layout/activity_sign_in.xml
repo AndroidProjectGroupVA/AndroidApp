@@ -37,12 +37,13 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="386dp"
             android:orientation="vertical"
             android:layout_marginStart="45dp"
-            android:layout_marginEnd="45dp"
             android:layout_marginTop="40dp"
-            android:background="@drawable/rectangle_7">
+            android:layout_marginEnd="45dp"
+            android:background="@drawable/rectangle_7"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/signIn_textView"
@@ -67,33 +68,33 @@
                 android:background="@drawable/rectangle_6"
                 android:ems="10"
                 android:hint="Tên đăng nhập"
-                android:textColor="@color/text"
                 android:imeOptions="actionNext"
                 android:inputType="text"
                 android:paddingStart="10dp"
                 android:paddingLeft="10dp"
-                android:textSize="15sp"
-                />
+                android:textColor="@color/text"
+                android:textSize="15sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <EditText
                     android:id="@+id/signIn_edtPassword"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginStart="15dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_gravity="center"
-                    android:paddingStart="10dp"
-                    android:paddingLeft="10dp"
                     android:background="@drawable/rectangle_6"
                     android:hint="Mật khẩu"
                     android:imeOptions="actionDone"
                     android:inputType="textPassword"
+                    android:paddingStart="10dp"
+                    android:paddingLeft="10dp"
                     android:textColor="@color/text"
                     android:textSize="15sp" />
 
@@ -107,9 +108,9 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="29dp"
                     android:layout_marginEnd="24dp"
-                    android:src="@drawable/eyesolid"
                     android:background="@null"
-                    android:contentDescription="Show/Hide Password"/>
+                    android:contentDescription="Show/Hide Password"
+                    android:src="@drawable/eyesolid" />
             </RelativeLayout>
 
             <Button
@@ -156,17 +157,12 @@
                 android:textColor="#74B9FF"
                 android:textStyle="bold"
                 app:iconPadding="-20dp" />
-<!--            <com.facebook.login.widget.LoginButton-->
-<!--                android:id="@+id/login_button"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_gravity="center_horizontal" />-->
 
             <TextView
                 android:id="@+id/signIn_txtForgotPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="Quên mật khẩu?"
                 android:textAlignment="center"
                 android:textColor="#FFFFFF"
