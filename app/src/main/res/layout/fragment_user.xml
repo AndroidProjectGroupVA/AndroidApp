@@ -99,7 +99,7 @@
             android:paddingStart="50dp">
 
             <ImageButton
-                android:id="@+id/ibtnFriends"
+                android:id="@+id/ibtnTutorReq"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@android:color/transparent"
@@ -109,7 +109,7 @@
 <!--            app:srcCompat="@drawable/two_people"-->
 
             <TextView
-                android:id="@+id/txtFriends"
+                android:id="@+id/txtTutorReq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/ng_k_tr_th_nh_gia_s"
@@ -127,17 +127,16 @@
             android:paddingStart="50dp">
 
             <ImageButton
-                android:id="@+id/ibtnGroup"
+                android:id="@+id/ibtnAppInfo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@android:color/transparent"
-                android:padding="5dp"
-                android:scaleType="fitCenter"
-                 />
+                android:padding="8dp"
+                android:scaleType="fitCenter" />
 <!--            app:srcCompat="@drawable/group_icon"-->
 
             <TextView
-                android:id="@+id/txtGroup"
+                android:id="@+id/txtAppInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/th_ng_tin_ng_d_ng"
