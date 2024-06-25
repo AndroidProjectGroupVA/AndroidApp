@@ -9,7 +9,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -41,6 +43,8 @@ public class ViewRecentDocActivity extends AppCompatActivity {
     ListView lv_recent_document;
     Spinner sp_sort_recent;
     EditText edt_search_recentDoc;
+    ProgressBar progess_view_Recent;
+    TextView tv_message_recentDoc;
     ArrayList<Document> documents = new ArrayList<>();
     ArrayAdapter adapter;
     DocumentRecentAdapter recentDocumentAdapter;
@@ -66,7 +70,10 @@ public class ViewRecentDocActivity extends AppCompatActivity {
         sp_sort_recent.setAdapter(adapter);
 
         edt_search_recentDoc = findViewById(R.id.edt_search_recentDoc);
+        progess_view_Recent = findViewById(R.id.progess_view_Recent);
+        progess_view_Recent.setVisibility(View.VISIBLE);
         lv_recent_document = findViewById(R.id.lv_recent_document);
+        tv_message_recentDoc = findViewById(R.id.tv_message_recentDoc);
 
         recentDocumentAdapter = new DocumentRecentAdapter(this, documents);
         lv_recent_document.setAdapter(recentDocumentAdapter);
@@ -207,6 +214,11 @@ public class ViewRecentDocActivity extends AppCompatActivity {
                             // All documents have been processed
                             Collections.sort(documents, (p1, p2) -> p2.getUpLoadTimeStamp().compareToIgnoreCase(p1.getUpLoadTimeStamp()));
                             recentDocumentAdapter.notifyDataSetChanged();
+                            progess_view_Recent.setVisibility(View.GONE);
+                        }
+                        else if(totalDocuments == 0){
+                            tv_message_recentDoc.setVisibility(View.VISIBLE);
+                            progess_view_Recent.setVisibility(View.GONE);
                         }
                     });
         }

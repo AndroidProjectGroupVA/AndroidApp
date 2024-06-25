@@ -81,7 +81,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
         adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, universityCourses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
-
+        currentUserId = preferenceManager.getString(Constants.KEY_NAME);
         getUsers();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -257,7 +257,6 @@ private List<String> getUniqueSubjectNames() {
                 .get()
                 .addOnCompleteListener(task -> {
                     loading(false);
-                    currentUserId = preferenceManager.getString(Constants.KEY_NAME);
                     if(task.isSuccessful() && task.getResult() != null){
                         List<User> users = new ArrayList<>();
                         for(QueryDocumentSnapshot queryDocumentSnapshot : task.getResult()){
