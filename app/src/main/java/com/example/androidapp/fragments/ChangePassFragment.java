@@ -228,7 +228,7 @@ public class ChangePassFragment extends Fragment {
                                                 }
                                             } else {
                                                 // Xảy ra lỗi khi tìm kiếm
-                                                Log.d(TAG, "Error getting documents: ", task.getException());
+                                                Log.d(TAG, "Có lỗi xảy ra: ", task.getException());
                                             }
                                         }
                                     });
