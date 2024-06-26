@@ -72,7 +72,7 @@ public class InfDocumentActivity extends AppCompatActivity {
 
         iv_inf_document_avt = (ImageView) findViewById(R.id.iv_inf_document_avt);
         tv_documentt_name = (TextView) findViewById(R.id.tv_documentt_name);
-        tv_document_subject = (TextView) findViewById(R.id.tv_document_subject);
+        tv_document_subject = (TextView) findViewById(R.id.tv_document_Subject);
         tv_document_date = (TextView) findViewById(R.id.tv_document_date);
         tv_document_owner = (TextView) findViewById(R.id.tv_document_owner);
         tv_inf_document_content = (TextView) findViewById(R.id.tv_inf_document_content);
