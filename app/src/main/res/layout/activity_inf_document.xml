@@ -51,6 +51,8 @@
                         android:id="@+id/tv_documentt_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
                         android:text="Tên tài liệu: "
                         android:textColor="@color/white"
                         android:textSize="20sp"
@@ -62,10 +64,12 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/textView8"
+                            android:id="@+id/tv_document_Subject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
+                            android:ellipsize="end"
+                            android:maxLines="2"
                             android:text="Thuộc môn học: "
                             android:textColor="#FFFFFF"
                             android:textSize="16sp"
@@ -76,6 +80,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:textColor="@color/primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
@@ -91,6 +97,8 @@
                             android:id="@+id/tv_document_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="1"
                             android:text="Ngày đăng: "
                             android:textColor="@color/primary"
                             android:textSize="14sp" />
@@ -101,6 +109,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
                         android:text="Người đăng: "
                         android:textColor="@color/primary"
                         android:textSize="15dp"

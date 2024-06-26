@@ -167,13 +167,13 @@ public class SignInActivity extends AppCompatActivity {
                                         int smtpPort = 587; // Or "587" if using TLS
 
                                         //String toMail = "hdquy2003@gmail.com";
-                                        String subject = "Password Reset Request";
-                                        String body = "Dear " + name + ",\n\n"
-                                                + "We have received a request to reset your password for our Gia sư TLU app.\n"
-                                                + "Your password is: " + password + "\n\n"
-                                                + "If you didn't request this change, please contact us immediately.\n\n"
-                                                + "Best regards,\n"
-                                                + "Gia sư TLU team";
+                                        String subject = "Yêu cầu đặt lại mật khẩu";
+                                        String body = "Kính gửi " + name + ",\n\n"
+                                                + "Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu cho ứng dụng Gia sư TLU của bạn.\n"
+                                                + "Mật khẩu của bạn là: " + password + "\n\n"
+                                                + "Nếu bạn không yêu cầu thay đổi này, vui lòng liên hệ với chúng tôi ngay lập tức.\n\n"
+                                                + "Trân trọng,\n"
+                                                + "Đội ngũ Gia sư TLU";
                                         new SendEmailTask(SignInActivity.this, toMail, subject, body, username, passwordMail, smtpHost, smtpPort).execute();
                                         dialog.dismiss();
                                         Toast.makeText(getApplicationContext(), "Mật khẩu của bạn đã được gửi đến email của bạn", Toast.LENGTH_SHORT).show();

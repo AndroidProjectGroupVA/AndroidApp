@@ -182,45 +182,45 @@ public class ViewRecentDocActivity extends AppCompatActivity {
     private void loadData(Map<String, Object> data) {
         // lấy kich thước data
         int totalDocuments = data.size();
-        // tạo biến đếm số lượng documents đã lấy
-        AtomicInteger completedDocuments = new AtomicInteger(0);
+        if(totalDocuments == 0){
+            tv_message_recentDoc.setVisibility(View.VISIBLE);
+            progess_view_Recent.setVisibility(View.GONE);
+        }else{
+            // tạo biến đếm số lượng documents đã lấy
+            AtomicInteger completedDocuments = new AtomicInteger(0);
+            // Lấy dữ liệu từ Firebase Firestore
+            for (Map.Entry<String, Object> entry : data.entrySet()) {
+                String fileID = entry.getKey();
+                String recentDate = entry.getValue().toString();
+                // lấy doc có uid = fileId từ collection "documents"
+                FirebaseFirestore ft = FirebaseFirestore.getInstance();
+                ft.collection("documents").document(fileID)
+                        .get().addOnCompleteListener(task -> {
+                            if (task.isSuccessful() && task.getResult() != null) {
+                                String id = task.getResult().getId();
+                                String name = task.getResult().getString("fileNameDisplay");
+                                String subject = task.getResult().getString("fileSubject");
+                                String type = task.getResult().getString("fileType");
+                                String url = task.getResult().getString("fileUrl");
+                                String owner = task.getResult().getString("fileOwner");
+                                String description = task.getResult().getString("fileDescription");
+                                String icon = task.getResult().getString("fileIcon");
+                                Document document = new Document(id, name, subject, type, url, recentDate, owner, description, icon);
+                                documents.add(document);
 
-        // Lấy dữ liệu từ Firebase Firestore
-        for (Map.Entry<String, Object> entry : data.entrySet()) {
-            String fileID = entry.getKey();
-            String recentDate = entry.getValue().toString();
-            // lấy doc có uid = fileId từ collection "documents"
-            FirebaseFirestore ft = FirebaseFirestore.getInstance();
-            ft.collection("documents").document(fileID)
-                    .get().addOnCompleteListener(task -> {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            String id = task.getResult().getId();
-                            String name = task.getResult().getString("fileNameDisplay");
-                            String subject = task.getResult().getString("fileSubject");
-                            String type = task.getResult().getString("fileType");
-                            String url = task.getResult().getString("fileUrl");
-                            String owner = task.getResult().getString("fileOwner");
-                            String description = task.getResult().getString("fileDescription");
-                            String icon = task.getResult().getString("fileIcon");
-                            Document document = new Document(id, name, subject, type, url, recentDate, owner, description, icon);
-                            documents.add(document);
+                            } else {
+                                Toast.makeText(ViewRecentDocActivity.this, "Lỗi truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
+                            }
 
-                        } else {
-                            Toast.makeText(ViewRecentDocActivity.this, "Lỗi truy vấn dữ liệu", Toast.LENGTH_SHORT).show();
-                        }
-
-                        // Increment the completed documents counter
-                        if (completedDocuments.incrementAndGet() == totalDocuments) {
-                            // All documents have been processed
-                            Collections.sort(documents, (p1, p2) -> p2.getUpLoadTimeStamp().compareToIgnoreCase(p1.getUpLoadTimeStamp()));
-                            recentDocumentAdapter.notifyDataSetChanged();
-                            progess_view_Recent.setVisibility(View.GONE);
-                        }
-                        else if(totalDocuments == 0){
-                            tv_message_recentDoc.setVisibility(View.VISIBLE);
-                            progess_view_Recent.setVisibility(View.GONE);
-                        }
-                    });
+                            // Increment the completed documents counter
+                            if (completedDocuments.incrementAndGet() == totalDocuments) {
+                                // All documents have been processed
+                                Collections.sort(documents, (p1, p2) -> p2.getUpLoadTimeStamp().compareToIgnoreCase(p1.getUpLoadTimeStamp()));
+                                recentDocumentAdapter.notifyDataSetChanged();
+                                progess_view_Recent.setVisibility(View.GONE);
+                            }
+                        });
+            }
         }
     }
 

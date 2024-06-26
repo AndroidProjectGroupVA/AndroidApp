@@ -216,6 +216,7 @@ public class ChangePassFragment extends Fragment {
                                                                 public void onSuccess(Void aVoid) {
                                                                     // Thành công
                                                                     ((MainActivity) getActivity()).replaceFragment(new InfUserFragment());
+                                                                    Toast.makeText(getContext(), "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
                                                                 }
                                                             })
                                                             .addOnFailureListener(new OnFailureListener() {
