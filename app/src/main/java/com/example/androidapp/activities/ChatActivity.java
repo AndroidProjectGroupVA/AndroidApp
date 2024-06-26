@@ -211,7 +211,7 @@ public class ChatActivity extends BaseActivity {
             }
             else {
                 chatAdapter.notifyItemRangeInserted(chatMessages.size(), chatMessages.size());
-                binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size() - 1);
+                binding.chatRecyclerView.smoothScrollToPosition(chatMessages.size());
             }
             binding.chatRecyclerView.setVisibility(View.VISIBLE);
         }
