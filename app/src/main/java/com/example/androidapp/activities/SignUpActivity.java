@@ -13,6 +13,7 @@ import android.util.Base64;
 import android.util.Patterns;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -101,8 +102,12 @@ public class SignUpActivity extends AppCompatActivity {
                 passwordVisible = !passwordVisible;
             }
         });
+        setAdjustScreen();
     }
-
+    protected void setAdjustScreen() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
     //set event btn signup
     private void setListener(){
         //binding tham chieu toi btn signup

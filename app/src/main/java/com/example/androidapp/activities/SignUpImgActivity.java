@@ -17,6 +17,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -86,6 +87,12 @@ public class SignUpImgActivity extends AppCompatActivity {
             pickImage.launch(intent);
         });
         setListener();
+        setAdjustScreen();
+    }
+
+    protected void setAdjustScreen() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     private Boolean isValidate(){
