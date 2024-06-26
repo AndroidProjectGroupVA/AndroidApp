@@ -405,7 +405,7 @@ public class LibraryFragment extends Fragment {
 
                 db.collection("documents").add(contentValues)
                         .addOnSuccessListener(documentReference -> {
-                            Toast.makeText(LibraryFragment.this.getContext(), "Upload successful", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LibraryFragment.this.getContext(), "Tải tài liệu lên thành công", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                             add_Document_card.setVisibility(View.GONE);
                             add_Document_ilogo_file.setVisibility(View.GONE);
@@ -419,8 +419,8 @@ public class LibraryFragment extends Fragment {
                             loadDocuments();
                             prB_loading_updoc.setVisibility(View.GONE);
                         })
-                        .addOnFailureListener(e -> Toast.makeText(LibraryFragment.this.getContext(), "Upload failed", Toast.LENGTH_SHORT).show());
-            })).addOnFailureListener(exception -> Toast.makeText(LibraryFragment.this.getContext(), "Upload failed", Toast.LENGTH_SHORT).show());
+                        .addOnFailureListener(e -> Toast.makeText(LibraryFragment.this.getContext(), "Tải tài liệu lên thất bại", Toast.LENGTH_SHORT).show());
+            })).addOnFailureListener(exception -> Toast.makeText(LibraryFragment.this.getContext(), "Tải tài liệu lên thất bại", Toast.LENGTH_SHORT).show());
         });
 
         lv_Document_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {

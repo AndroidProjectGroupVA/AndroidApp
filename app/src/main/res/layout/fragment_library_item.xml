@@ -34,10 +34,12 @@
 
         <TextView
             android:id="@+id/tv_Document_Name"
-            android:layout_width="wrap_content"
+            android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="Tên tài liệu"
             android:textColor="#FFFFFF"
             android:textSize="22sp"
@@ -62,6 +64,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="80dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:text="dd/mm/yyyy"
             android:textColor="#FFFFFF"
             app:layout_constraintStart_toEndOf="@+id/textView2"
@@ -69,10 +73,12 @@
 
         <TextView
             android:id="@+id/tv_Document_subject"
-            android:layout_width="wrap_content"
+            android:layout_width="143dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_marginTop="7dp"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="#FFFFFF"
             android:textSize="16dp"
             android:textStyle="bold"
