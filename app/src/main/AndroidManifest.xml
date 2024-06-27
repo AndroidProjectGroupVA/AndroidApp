@@ -76,15 +76,15 @@
         <activity
             android:name=".activities.SignUpActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|adjustResize|stateHidden" />
         <activity
             android:name=".activities.SignUpImgActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|adjustResize|stateHidden" />
         <activity
             android:name=".activities.SignInActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustPan|adjustResize|stateHidden" />
         <activity
             android:name=".activities.FirstMainActivity"
             android:exported="true">

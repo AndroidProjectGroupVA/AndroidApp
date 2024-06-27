@@ -9,6 +9,7 @@
     android:overScrollMode="never"
     android:padding="24dp"
     android:scrollbars="none"
+    android:fitsSystemWindows="true"
     tools:context=".activities.SignUpImgActivity">
 
     <LinearLayout
